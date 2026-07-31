@@ -24,17 +24,17 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew || true
+        with:
+          gradle-version: '8.11.1'
 
       - name: Build Debug APK
         run: |
           if [ -f gradlew ]; then
+            chmod +x gradlew
             ./gradlew assembleDebug --stacktrace
           else
-            echo "gradlew not found yet - project still in early setup"
-            exit 0
+            echo "gradlew not found – using system Gradle"
+            gradle assembleDebug --stacktrace
           fi
 
       - name: Upload APK artifact
@@ -44,3 +44,4 @@ jobs:
           name: kafokokab-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           retention-days: 7
+          if-no-files-found: warn

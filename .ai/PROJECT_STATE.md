@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 1 - Multi-module Skeleton + Design System + Navigation + Hilt + CI ✅
+Phase 1 - Foundation Complete + Gradle Wrapper properties ✅
 
 ## مرحله فعلی
-فاز ۱ - اسکلت چندماژوله + سیستم طراحی + ناوبری + Hilt + CI ✅
+فاز ۱ - فونداسیون کامل + تنظیمات Gradle Wrapper ✅
 
 ---
 
@@ -15,12 +15,11 @@ Phase 1 - Multi-module Skeleton + Design System + Navigation + Hilt + CI ✅
 - Application + MainActivity + Navigation
 - Color palette (Dark Galaxy)
 - Typography system (ready for Vazirmatn)
-- GlassCard composable
-- PremiumBlurBox composable
-- Type-safe AppRoute + AppNavHost
-- HomeScreen placeholder
+- GlassCard + PremiumBlurBox
+- Type-safe Navigation + HomeScreen
 - Basic Hilt setup (AppModule)
-- GitHub Actions workflow for building Debug APK (critical for phone development)
+- GitHub Actions workflow for Debug APK
+- gradle-wrapper.properties (Gradle 8.11.1)
 
 ## انجام شده
 - ساختار کامل چندماژوله
@@ -29,20 +28,19 @@ Phase 1 - Multi-module Skeleton + Design System + Navigation + Hilt + CI ✅
 - Application + MainActivity + Navigation
 - پالت رنگی (کهکشان تاریک)
 - سیستم تایپوگرافی
-- کامپوننت GlassCard
-- کامپوننت PremiumBlurBox
-- مسیرهای type-safe + AppNavHost
-- صفحه اصلی موقت
-- راه‌اندازی پایه Hilt (AppModule)
-- Workflow گیت‌هاب اکشنز برای بیلد APK دیباگ (حیاتی برای توسعه از گوشی)
+- GlassCard + PremiumBlurBox
+- ناوبری type-safe + صفحه اصلی
+- راه‌اندازی پایه Hilt
+- Workflow گیت‌هاب اکشنز برای بیلد APK
+- gradle-wrapper.properties (نسخه ۸.۱۱.۱)
 
 ---
 
 ## In Progress
-None (Phase 1 foundation is complete)
+None
 
 ## در حال انجام
-هیچ (فونداسیون فاز ۱ کامل شد)
+هیچ
 
 ---
 
@@ -55,38 +53,40 @@ None
 ---
 
 ## Not Done
+- Full Gradle Wrapper binaries (gradlew + jar) – ideally generated once on a machine with Gradle
 - Real Vazirmatn font file
-- Gradle Wrapper (gradlew) – still missing (needed for reliable CI builds)
 - Feature modules
-- Authentication
-- Birth Chart engine
+- Authentication & Profile (Phase 2)
 
 ## انجام نشده
+- باینری‌های کامل Gradle Wrapper (gradlew + jar) – بهتر است یک‌بار روی دستگاهی که Gradle دارد ساخته شود
 - فایل واقعی فونت وزیرمتن
-- Gradle Wrapper (gradlew) – هنوز وجود ندارد (برای بیلد مطمئن CI لازم است)
 - ماژول‌های feature
-- احراز هویت
-- موتور چارت تولد
+- احراز هویت و پروفایل (فاز ۲)
 
 ---
 
 ## Next Step
-Add Gradle Wrapper so GitHub Actions can actually build the project, then move to Phase 2 (Authentication & Profile) or polish the Home screen.
+Phase 2 – Authentication & Profile (Google Sign-In + User Profile + Birth data input)
+
+Or optionally polish HomeScreen / add more visual polish.
 
 ## مرحله بعد
-اضافه کردن Gradle Wrapper تا گیت‌هاب اکشنز واقعاً بتواند پروژه را بیلد کند، سپس رفتن به فاز ۲ (احراز هویت و پروفایل) یا بهبود صفحه اصلی.
+فاز ۲ – احراز هویت و پروفایل (ورود با گوگل + پروفایل کاربر + ورود اطلاعات تولد)
+
+یا به صورت اختیاری زیباتر کردن صفحه اصلی.
 
 ---
 
 ## Architecture Notes
-- Hilt is ready for future Repository and UseCase injection
-- GitHub Actions is set up for phone-first workflow (workflow_dispatch allows manual runs)
-- Design System + Navigation + DI foundation is solid
+- CI can now attempt builds using the setup-gradle action even without local gradlew
+- Project is ready to start real feature development
+- Clean Architecture layers are in place and ready to receive UseCases and Repositories
 
 ## یادداشت‌های معماری
-- Hilt آماده تزریق Repository و UseCase در آینده است
-- گیت‌هاب اکشنز برای گردش‌کار موبایل‌محور تنظیم شده (امکان اجرای دستی وجود دارد)
-- فونداسیون Design System + Navigation + DI محکم است
+- CI حالا حتی بدون gradlew محلی هم می‌تواند با setup-gradle تلاش به بیلد کند
+- پروژه آماده شروع توسعه واقعی قابلیت‌هاست
+- لایه‌های Clean Architecture آماده دریافت UseCase و Repository هستند
 
 ---
 
