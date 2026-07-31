@@ -12,7 +12,7 @@
 - [x] Add .gitignore
 - [x] Add proper README
 
-## Phase 1 - Project Skeleton + Design System
+## Phase 1 - Project Skeleton + Design System + Navigation + CI
 - [x] Create version catalog (`gradle/libs.versions.toml`)
 - [x] Create multi-module structure (settings.gradle.kts)
 - [x] Create `app` module
@@ -21,9 +21,10 @@
 - [x] Typography system
 - [x] GlassCard composable
 - [x] PremiumBlurBox composable
-- [ ] Navigation Host (type-safe)
-- [ ] Hilt basic setup (AppModule)
-- [ ] GitHub Actions workflow for building APK
+- [x] Navigation Host (type-safe)
+- [x] Hilt basic setup (AppModule)
+- [x] GitHub Actions workflow for building APK
+- [ ] Gradle Wrapper (gradlew) – still needed for reliable CI
 
 ## Phase 2 - Authentication & Profile
 - [ ] Google Sign-In
