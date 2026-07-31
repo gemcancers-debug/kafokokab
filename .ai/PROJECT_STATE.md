@@ -1,42 +1,48 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 1 - Multi-module Clean Architecture Skeleton + Design System
+Phase 1 - Multi-module Clean Architecture Skeleton + Design System + Navigation ✅ (almost complete)
 
 ## مرحله فعلی
-فاز ۱ - اسکلت Clean Architecture چندماژوله + سیستم طراحی
+فاز ۱ - اسکلت Clean Architecture + سیستم طراحی + ناوبری ✅ (تقریباً کامل)
 
 ---
 
 ## Completed
 - Full multi-module structure (app + 4 core modules)
-- Version Catalog
+- Version Catalog + material-icons-extended
 - Root Gradle configuration
-- Basic Application + MainActivity
+- Application + MainActivity
 - Color palette (Dark Galaxy)
 - Typography system (ready for Vazirmatn)
-- GlassCard composable (Glassmorphism)
-- PremiumBlurBox composable (critical Premium component)
-- KafokokabTheme updated with Typography
+- GlassCard composable
+- PremiumBlurBox composable
+- Type-safe AppRoute
+- AppNavHost
+- HomeScreen placeholder (with GlassCard demo)
+- Navigation wired into MainActivity
 
 ## انجام شده
 - ساختار کامل چندماژوله
-- Version Catalog
+- Version Catalog + آیکون‌های متریال
 - پیکربندی ریشه Gradle
-- Application + MainActivity پایه
+- Application + MainActivity
 - پالت رنگی (کهکشان تاریک)
-- سیستم تایپوگرافی (آماده برای وزیرمتن)
-- کامپوننت GlassCard (گلاسمورفیسم)
-- کامپوننت PremiumBlurBox (کامپوننت حیاتی Premium)
-- تم به‌روز شده با Typography
+- سیستم تایپوگرافی
+- کامپوننت GlassCard
+- کامپوننت PremiumBlurBox
+- مسیرهای type-safe
+- AppNavHost
+- صفحه اصلی موقت (با نمایش GlassCard)
+- اتصال Navigation به MainActivity
 
 ---
 
 ## In Progress
-- Preparing Navigation and finishing Phase 1
+- Finalizing Phase 1 (Hilt basic module + GitHub Actions)
 
 ## در حال انجام
-- آماده‌سازی Navigation و اتمام فاز ۱
+- اتمام نهایی فاز ۱ (ماژول پایه Hilt + GitHub Actions)
 
 ---
 
@@ -49,40 +55,38 @@ None
 ---
 
 ## Not Done
-- Real Vazirmatn font file integration
-- Navigation Host + type-safe routes
-- Hilt modules (AppModule, etc.)
-- GitHub Actions workflow for APK build
+- Real Vazirmatn font file
+- Hilt AppModule / basic DI setup
+- GitHub Actions workflow for APK build from phone
 - Feature modules
 
 ## انجام نشده
-- یکپارچه‌سازی فایل واقعی فونت وزیرمتن
-- Navigation Host + مسیرهای type-safe
-- ماژول‌های Hilt
-- Workflow گیت‌هاب اکشنز برای بیلد APK
+- فایل واقعی فونت وزیرمتن
+- ماژول پایه Hilt / DI
+- Workflow گیت‌هاب اکشنز برای بیلد APK از گوشی
 - ماژول‌های feature
 
 ---
 
 ## Next Step
-Create basic Navigation Host and finish Phase 1 foundation
+Add basic Hilt setup + GitHub Actions workflow for building APK (critical for phone development)
 
 ## مرحله بعد
-ایجاد Navigation Host پایه و اتمام فونداسیون فاز ۱
+اضافه کردن راه‌اندازی پایه Hilt + Workflow گیت‌هاب اکشنز برای بیلد APK (حیاتی برای توسعه از گوشی)
 
 ---
 
 ## Architecture Notes
-- Design System now lives cleanly inside `core-ui`
-- PremiumBlurBox is ready to be used by any feature module
-- GlassCard provides consistent glassmorphism look
-- Typography is large and readable as required
+- Navigation is now centralized and type-safe
+- HomeScreen demonstrates GlassCard usage
+- Ready to expand routes when feature modules are added
+- Design System is fully usable from any screen
 
 ## یادداشت‌های معماری
-- Design System الان تمیز داخل `core-ui` قرار دارد
-- PremiumBlurBox آماده استفاده توسط هر ماژول feature است
-- GlassCard ظاهر گلاسمورفیسم یکپارچه می‌دهد
-- تایپوگرافی بزرگ و خوانا طبق نیاز پروژه است
+- ناوبری الان متمرکز و type-safe است
+- HomeScreen نحوه استفاده از GlassCard را نشان می‌دهد
+- آماده گسترش مسیرها هنگام اضافه شدن featureها
+- Design System کاملاً قابل استفاده از هر صفحه‌ای است
 
 ---
 
