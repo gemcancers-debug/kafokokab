@@ -1,38 +1,40 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 0 - Project Bootstrap & Documentation Foundation ✅
+Phase 1 - Multi-module Clean Architecture Skeleton (In Progress)
 
 ## مرحله فعلی
-فاز ۰ - راه‌اندازی پروژه و پایه‌گذاری مستندات ✅
+فاز ۱ - اسکلت Clean Architecture چندماژوله (در حال انجام)
 
 ---
 
 ## Completed
-- Repository is accessible with write permission
-- Professional documentation system (`.ai/` folder) established
-- Source of Truth (PROJECT_STATE.md) created (bilingual)
-- Architecture decision log initialized
-- Task management system initialized
-- UI Guidelines defined
-- Changelog started
+- Repository write access confirmed
+- Full `.ai/` documentation system
+- Root project configuration (settings.gradle.kts, build.gradle.kts, gradle.properties)
+- Version Catalog (libs.versions.toml)
+- Module structure declared: app + core-common + core-domain + core-data + core-ui
+- Basic app module (Application + MainActivity)
+- Initial Theme colors (Dark Galaxy palette)
+- KafokokabTheme composable
 
 ## انجام شده
-- دسترسی نوشتن به ریپازیتوری برقرار شد
-- سیستم مستندسازی حرفه‌ای (پوشه `.ai/`) ایجاد شد
-- منبع حقیقت (PROJECT_STATE.md) به صورت دو زبانه ایجاد شد
-- لاگ تصمیمات معماری راه‌اندازی شد
-- سیستم مدیریت تسک راه‌اندازی شد
-- راهنمای UI تعریف شد
-- Changelog شروع شد
+- دسترسی نوشتن تأیید شد
+- سیستم مستندات `.ai/` کامل
+- پیکربندی ریشه پروژه
+- Version Catalog
+- ساختار ماژول‌ها تعریف شد
+- ماژول app پایه (Application + MainActivity)
+- رنگ‌های اولیه تم (پالت کهکشان تاریک)
+- کامپوزبل KafokokabTheme
 
 ---
 
 ## In Progress
-None (Phase 0 finished)
+- Completing core modules placeholders and Theme system
 
 ## در حال انجام
-هیچ (فاز ۰ تمام شد)
+- تکمیل placeholderهای ماژول‌های core و سیستم تم
 
 ---
 
@@ -45,50 +47,42 @@ None
 ---
 
 ## Not Done
-- Multi-module Gradle structure (settings.gradle.kts, version catalog)
-- core-ui / core-domain / core-data / core-common modules
-- Theme & Design System (Glassmorphism + Dark Galaxy)
-- Navigation setup
-- Authentication module
-- Birth Chart Engine
-- All feature modules
+- Full Typography (Vazirmatn)
+- Glassmorphism components (GlassCard, PremiumBlurBox)
+- Navigation Host
+- Hilt modules setup
+- Feature modules
+- GitHub Actions workflow for APK build
 
 ## انجام نشده
-- ساختار چندماژوله Gradle
-- ماژول‌های core
-- تم و سیستم طراحی (گلاسمورفیسم + کهکشان تاریک)
-- راه‌اندازی ناوبری
-- ماژول احراز هویت
-- موتور چارت تولد
-- تمام ماژول‌های ویژگی
+- تایپوگرافی کامل (وزیرمتن)
+- کامپوننت‌های گلاسمورفیسم (GlassCard, PremiumBlurBox)
+- Navigation Host
+- راه‌اندازی ماژول‌های Hilt
+- ماژول‌های feature
+- Workflow گیت‌هاب اکشنز برای بیلد APK
 
 ---
 
 ## Next Step
-Phase 1 - Create multi-module Clean Architecture skeleton
+Finish Theme system (Typography + GlassCard + PremiumBlurBox) and basic Navigation
 
 ## مرحله بعد
-فاز ۱ - ایجاد اسکلت Clean Architecture چندماژوله
+تکمیل سیستم تم (تایپوگرافی + GlassCard + PremiumBlurBox) و ناوبری پایه
 
 ---
 
 ## Architecture Notes
-- Target: Jetpack Compose Multiplatform (Android first → iOS later)
-- Pattern: Clean Architecture + MVVM + Repository + UseCase
-- Database: Room (offline planetary data) + Firebase (Auth & IAP)
-- UI: Glassmorphism, Dark Galaxy (#0B0014), Neon Pink (#FF4081), Mystic Purple (#9370DB), Gold (#FFD700)
-- Typography: Vazirmatn, large & highly readable, full RTL
-- Premium: Reusable `PremiumBlurBox` with gold lock overlay
-- Development: 100% from Android phone (Termux + Acode + GitHub Actions for builds)
+- Clean Architecture layers are now physically separated into modules
+- Domain has no Android UI dependencies (good)
+- core-ui holds the Design System
+- All modules use Version Catalog for dependency management
 
 ## یادداشت‌های معماری
-- هدف: Jetpack Compose Multiplatform (اندروید اول → بعد iOS)
-- الگو: Clean Architecture + MVVM + Repository + UseCase
-- دیتابیس: Room (داده‌های آفلاین سیارات) + Firebase (احراز هویت و خرید درون‌برنامه‌ای)
-- UI: گلاسمورفیسم، کهکشان تاریک، صورتی نئون، بنفش عرفانی، طلایی
-- تایپوگرافی: وزیرمتن، بزرگ و خوانا، RTL کامل
-- Premium: کامپوننت قابل استفاده مجدد PremiumBlurBox با قفل طلایی
-- محیط توسعه: ۱۰۰٪ از گوشی اندروید (Termux + Acode + GitHub Actions برای بیلد)
+- لایه‌های Clean Architecture الان به صورت فیزیکی در ماژول‌ها جدا شده‌اند
+- Domain هیچ وابستگی UI اندرویدی ندارد (خوب است)
+- core-ui مسئول Design System است
+- همه ماژول‌ها از Version Catalog استفاده می‌کنند
 
 ---
 
