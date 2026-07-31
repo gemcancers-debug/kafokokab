@@ -12,16 +12,18 @@
 - [x] Add .gitignore
 - [x] Add proper README
 
-## Phase 1 - Project Skeleton (NEXT)
-- [ ] Create version catalog (`gradle/libs.versions.toml`)
-- [ ] Create multi-module structure (settings.gradle.kts)
-- [ ] Create `app` module
-- [ ] Create `core-ui`, `core-domain`, `core-data`, `core-common`
-- [ ] Setup Hilt
-- [ ] Setup basic Theme (Dark Galaxy + Glassmorphism colors + Vazirmatn)
-- [ ] Setup type-safe Navigation
-- [ ] Create empty feature module placeholders
-- [ ] GitHub Actions workflow for building APK from phone
+## Phase 1 - Project Skeleton + Design System
+- [x] Create version catalog (`gradle/libs.versions.toml`)
+- [x] Create multi-module structure (settings.gradle.kts)
+- [x] Create `app` module
+- [x] Create `core-ui`, `core-domain`, `core-data`, `core-common`
+- [x] Setup basic Theme (Dark Galaxy colors)
+- [x] Typography system
+- [x] GlassCard composable
+- [x] PremiumBlurBox composable
+- [ ] Navigation Host (type-safe)
+- [ ] Hilt basic setup (AppModule)
+- [ ] GitHub Actions workflow for building APK
 
 ## Phase 2 - Authentication & Profile
 - [ ] Google Sign-In
@@ -37,7 +39,6 @@
 - [ ] Chart UI (Glassmorphism)
 
 ## Phase 4 - Premium & Monetization
-- [ ] PremiumBlurBox composable (reusable)
 - [ ] Google Play Billing integration
 - [ ] Feature gating logic
 

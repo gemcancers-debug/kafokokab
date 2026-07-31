@@ -1,6 +1,6 @@
 /*
 نام فایل: Theme.kt
-وظیفه: تم اصلی پروژه با پشتیبانی از Material 3 و رنگ‌های اختصاصی
+وظیفه: تم اصلی پروژه با پشتیبانی از Material 3، رنگ‌های اختصاصی و تایپوگرافی
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
 */
@@ -28,7 +28,7 @@ private val KafokokabDarkColorScheme = darkColorScheme(
 
 /**
  * تم اصلی اپلیکیشن کف و کوکب.
- * فعلاً فقط حالت تاریک (Dark Galaxy) پشتیبانی می‌شود چون با هویت برند هماهنگ است.
+ * فقط حالت تاریک (Dark Galaxy) پشتیبانی می‌شود چون با هویت برند هماهنگ است.
  */
 @Composable
 fun KafokokabTheme(
@@ -36,6 +36,7 @@ fun KafokokabTheme(
 ) {
     MaterialTheme(
         colorScheme = KafokokabDarkColorScheme,
+        typography = KafokokabTypography,
         content = content
     )
 }
