@@ -1,46 +1,34 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 1 - Foundation Complete + Gradle Wrapper properties ✅
+Phase 2 - Authentication & Onboarding UI (Started)
 
 ## مرحله فعلی
-فاز ۱ - فونداسیون کامل + تنظیمات Gradle Wrapper ✅
+فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر (شروع شده)
 
 ---
 
 ## Completed
-- Full multi-module structure (app + 4 core modules)
-- Version Catalog + material-icons-extended
-- Root Gradle configuration
-- Application + MainActivity + Navigation
-- Color palette (Dark Galaxy)
-- Typography system (ready for Vazirmatn)
-- GlassCard + PremiumBlurBox
-- Type-safe Navigation + HomeScreen
-- Basic Hilt setup (AppModule)
-- GitHub Actions workflow for Debug APK
-- gradle-wrapper.properties (Gradle 8.11.1)
+- Phase 1 foundation (modules, theme, navigation, Hilt, CI)
+- User uploaded 6 high-quality UI designs for Login + Onboarding flow + Home
+- Fixed GitHub Actions (Android SDK + icon resources)
+- Added adaptive launcher icons and required res files
 
 ## انجام شده
-- ساختار کامل چندماژوله
-- Version Catalog + آیکون‌های متریال
-- پیکربندی ریشه Gradle
-- Application + MainActivity + Navigation
-- پالت رنگی (کهکشان تاریک)
-- سیستم تایپوگرافی
-- GlassCard + PremiumBlurBox
-- ناوبری type-safe + صفحه اصلی
-- راه‌اندازی پایه Hilt
-- Workflow گیت‌هاب اکشنز برای بیلد APK
-- gradle-wrapper.properties (نسخه ۸.۱۱.۱)
+- فونداسیون فاز ۱
+- کاربر ۶ طراحی باکیفیت UI برای ورود + آنبوردینگ + خانه آپلود کرد
+- رفع مشکل GitHub Actions (Android SDK + منابع آیکون)
+- اضافه شدن آیکون لانچر و فایل‌های res ضروری
 
 ---
 
 ## In Progress
-None
+- Implementing Login Screen + Onboarding steps based on uploaded designs
+- Making CI green
 
 ## در حال انجام
-هیچ
+- پیاده‌سازی صفحه ورود + مراحل آنبوردینگ بر اساس طراحی‌های آپلود شده
+- سبز کردن CI
 
 ---
 
@@ -53,40 +41,38 @@ None
 ---
 
 ## Not Done
-- Full Gradle Wrapper binaries (gradlew + jar) – ideally generated once on a machine with Gradle
-- Real Vazirmatn font file
+- Full Login + 4-step Onboarding screens
+- Real Google Sign-In / Phone OTP logic
+- Home Dashboard UI
 - Feature modules
-- Authentication & Profile (Phase 2)
 
 ## انجام نشده
-- باینری‌های کامل Gradle Wrapper (gradlew + jar) – بهتر است یک‌بار روی دستگاهی که Gradle دارد ساخته شود
-- فایل واقعی فونت وزیرمتن
+- صفحات کامل ورود + ۴ مرحله آنبوردینگ
+- منطق واقعی ورود با گوگل / شماره تلفن
+- UI داشبورد خانه
 - ماژول‌های feature
-- احراز هویت و پروفایل (فاز ۲)
 
 ---
 
 ## Next Step
-Phase 2 – Authentication & Profile (Google Sign-In + User Profile + Birth data input)
-
-Or optionally polish HomeScreen / add more visual polish.
+Implement LoginScreen + BirthInfoScreen matching the uploaded designs exactly
 
 ## مرحله بعد
-فاز ۲ – احراز هویت و پروفایل (ورود با گوگل + پروفایل کاربر + ورود اطلاعات تولد)
-
-یا به صورت اختیاری زیباتر کردن صفحه اصلی.
+پیاده‌سازی LoginScreen + BirthInfoScreen دقیقاً مطابق طراحی‌های آپلود شده
 
 ---
 
-## Architecture Notes
-- CI can now attempt builds using the setup-gradle action even without local gradlew
-- Project is ready to start real feature development
-- Clean Architecture layers are in place and ready to receive UseCases and Repositories
+## UI Designs Received (from user)
+1. Login (Google + Phone)
+2. Birth Info (Step 1/4)
+3. Personal Info + Palm photos (Step 2/4)
+4. Face / Mole / Optional fields (Step 3/4)
+5. Final Review (Step 4/4)
+6. Home Dashboard
 
-## یادداشت‌های معماری
-- CI حالا حتی بدون gradlew محلی هم می‌تواند با setup-gradle تلاش به بیلد کند
-- پروژه آماده شروع توسعه واقعی قابلیت‌هاست
-- لایه‌های Clean Architecture آماده دریافت UseCase و Repository هستند
+## Architecture Notes
+- Onboarding will live under app/ui/onboarding for now
+- Later can be extracted to feature-auth / feature-profile if needed
 
 ---
 
