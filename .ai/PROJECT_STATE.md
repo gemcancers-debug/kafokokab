@@ -1,76 +1,73 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Authentication & Onboarding UI + Home Dashboard ✅
+Phase 2 - Onboarding UI complete + basic data layer started
 
 ## مرحله فعلی
-فاز ۲ - رابط کاربری ورود و آنبوردینگ + داشبورد خانه ✅
+فاز ۲ - UI آنبوردینگ کامل + شروع لایه داده
 
 ---
 
 ## Completed
-- Full Onboarding flow (Login → Birth → Personal → Extra → Review)
-- Privacy-friendly mole menu (no body photos)
-- HomeScreen redesigned to match uploaded dashboard
-- Greeting header, Birth Chart card, main categories
-- Analysis tools with Premium locks
-- Advanced tools grid
-- Premium banner + Bottom Navigation
-- Clean modular components with full Persian comments
+- Full Onboarding UI (5 screens)
+- Home Dashboard matching design
+- UserProfile domain model (core-domain)
+- OnboardingViewModel with StateFlow
+- Clean separation: Domain model has no Android dependencies
 
 ## انجام شده
-- جریان کامل آنبوردینگ
-- منوی خال‌شناسی بدون عکس
-- بازطراحی HomeScreen مطابق طراحی داشبورد
-- هدر خوش‌آمدگویی، کارت چارت تولد، دسته‌بندی اصلی
-- ابزارهای تحلیل با قفل Premium
-- شبکه ابزارهای پیشرفته
-- بنر Premium + نوار پایین
-- کامپوننت‌های تمیز با کامنت فارسی کامل
+- UI کامل آنبوردینگ (۵ صفحه)
+- داشبورد خانه مطابق طراحی
+- مدل دامنه UserProfile
+- OnboardingViewModel با StateFlow
+- جداسازی تمیز: مدل دامنه وابستگی Android ندارد
 
 ---
 
 ## In Progress
-None
+- Binding ViewModel to the actual screens (next small step)
 
 ## در حال انجام
-هیچ
+- اتصال ViewModel به صفحات واقعی آنبوردینگ
 
 ---
 
 ## Blocked
-None
+- Real Google Sign-In → needs Firebase project + google-services.json from user
 
 ## مسدود شده
-هیچ
+- ورود واقعی با گوگل → نیاز به پروژه Firebase و فایل google-services.json از طرف کاربر
 
 ---
 
 ## Not Done
-- Real Google Sign-In / Phone OTP
-- ViewModel + real data for onboarding & home
-- Persist user profile (DataStore / Room)
-- Actual chart calculation engine
+- Connect ViewModel to BirthInfo / PersonalInfo / ExtraInfo / Review screens
+- Persist profile with DataStore
+- Real Google Sign-In
+- Phase 3 Astrology Engine
 
 ## انجام نشده
-- منطق واقعی ورود با گوگل / شماره تلفن
-- ViewModel و داده واقعی
-- ذخیره پروفایل کاربر
-- موتور محاسبه چارت واقعی
+- اتصال ViewModel به صفحات
+- ذخیره پایدار با DataStore
+- ورود واقعی گوگل
+- فاز ۳ موتور آسترولوژی
 
 ---
 
 ## Next Step
-Recommended:
-1. Add basic ViewModel for user profile / onboarding data
-2. Or start Google Sign-In integration
-3. Or begin Phase 3 (Astrology Core Engine)
+Connect OnboardingViewModel to the existing screens (one screen at a time)
+OR ask user for Firebase setup to start Google Sign-In
 
 ## مرحله بعد
-پیشنهادی:
-۱. اضافه کردن ViewModel پایه برای پروفایل و داده‌های آنبوردینگ
-۲. یا شروع یکپارچه‌سازی Google Sign-In
-۳. یا شروع فاز ۳ (موتور اصلی آسترولوژی)
+اتصال OnboardingViewModel به صفحات موجود (صفحه به صفحه)
+یا درخواست راه‌اندازی Firebase از کاربر برای شروع Google Sign-In
+
+---
+
+## Architecture Notes
+- UserProfile lives in core-domain (pure Kotlin)
+- OnboardingViewModel is in app module and uses Hilt
+- Ready for Repository + DataStore later
 
 ---
 
