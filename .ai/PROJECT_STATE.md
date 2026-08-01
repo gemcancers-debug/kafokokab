@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Authentication & Onboarding UI
+Phase 2 - Authentication & Onboarding UI ✅ (UI complete)
 
 ## مرحله فعلی
-فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر
+فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر ✅ (UI کامل شد)
 
 ---
 
@@ -13,26 +13,26 @@ Phase 2 - Authentication & Onboarding UI
 - BirthInfoScreen (Step 1/4)
 - PersonalInfoScreen (Step 2/4)
 - ExtraInfoScreen (Step 3/4) with privacy-friendly mole menu
-- Body-part menu: no photos, full coverage, left/right
-- Removed sensitive areas (نشیمنگاه، آلت جنسی)
-- Neutral wording for chest (قفسه سینه)
+- ReviewScreen (Step 4/4) – final confirmation
+- Full onboarding navigation flow connected
+- All screens have full Persian comments and clean modular structure
 
 ## انجام شده
 - صفحه ورود
 - اطلاعات تولد (مرحله ۱)
 - اطلاعات شخصی + کف دست (مرحله ۲)
-- اطلاعات تکمیلی (مرحله ۳) با منوی خال‌شناسی بدون عکس
-- منوی موقعیت بدن: بدون عکس، پوشش کامل، چپ/راست
-- حذف قسمت‌های حساس
-- لحن خنثی برای قفسه سینه
+- اطلاعات تکمیلی + منوی خال‌شناسی بدون عکس (مرحله ۳)
+- بررسی نهایی (مرحله ۴)
+- جریان کامل ناوبری آنبوردینگ متصل شد
+- تمام صفحات دارای کامنت فارسی کامل و ساختار تمیز هستند
 
 ---
 
 ## In Progress
-- ReviewScreen (Step 4/4)
+None (Onboarding UI finished)
 
 ## در حال انجام
-- صفحه بررسی نهایی (مرحله ۴ از ۴)
+هیچ (UI آنبوردینگ تمام شد)
 
 ---
 
@@ -45,31 +45,36 @@ None
 ---
 
 ## Not Done
-- ReviewScreen
-- Real Google / Phone auth
-- Home Dashboard matching design
+- Real Google Sign-In / Phone OTP logic
+- ViewModel + State management for onboarding data
+- Home Dashboard matching the uploaded design
+- Persist user data (Room / DataStore)
 
 ## انجام نشده
-- صفحه بررسی نهایی
-- منطق واقعی احراز هویت
-- داشبورد خانه مطابق طراحی
+- منطق واقعی ورود با گوگل / شماره تلفن
+- ViewModel و مدیریت State برای داده‌های آنبوردینگ
+- داشبورد خانه مطابق طراحی آپلود شده
+- ذخیره پایدار اطلاعات کاربر
 
 ---
 
 ## Next Step
-Implement ReviewScreen (Step 4/4) – final confirmation of all entered data
+Option A: Polish HomeScreen to match the uploaded dashboard design
+Option B: Add basic ViewModel for onboarding data
+Option C: Start real Google Sign-In integration
 
 ## مرحله بعد
-پیاده‌سازی ReviewScreen (مرحله ۴ از ۴) – تأیید نهایی تمام اطلاعات وارد شده
+گزینه الف: زیباتر کردن HomeScreen مطابق طراحی داشبورد
+گزینه ب: اضافه کردن ViewModel پایه برای داده‌های آنبوردینگ
+گزینه ج: شروع یکپارچه‌سازی واقعی Google Sign-In
 
 ---
 
-## Mole Menu Design Notes
-- No body photos at all
-- Categories: صورت و سر، گردن، بالاتنه، دست‌ها، پایین تنه و پاها
-- «قفسه سینه» used instead of feminine wording
-- Completely free of sensitive body parts
-- Glassmorphism chips, multi-select
+## Architecture Notes
+- Onboarding flow is complete at UI level
+- Data is still sample/hardcoded – ready for ViewModel injection
+- Edit buttons in ReviewScreen navigate back to previous steps
+- Privacy-friendly mole menu is fully implemented
 
 ---
 
