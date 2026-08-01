@@ -1,38 +1,40 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Authentication & Onboarding UI ✅ (UI complete)
+Phase 2 - Authentication & Onboarding UI + Home Dashboard ✅
 
 ## مرحله فعلی
-فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر ✅ (UI کامل شد)
+فاز ۲ - رابط کاربری ورود و آنبوردینگ + داشبورد خانه ✅
 
 ---
 
 ## Completed
-- LoginScreen
-- BirthInfoScreen (Step 1/4)
-- PersonalInfoScreen (Step 2/4)
-- ExtraInfoScreen (Step 3/4) with privacy-friendly mole menu
-- ReviewScreen (Step 4/4) – final confirmation
-- Full onboarding navigation flow connected
-- All screens have full Persian comments and clean modular structure
+- Full Onboarding flow (Login → Birth → Personal → Extra → Review)
+- Privacy-friendly mole menu (no body photos)
+- HomeScreen redesigned to match uploaded dashboard
+- Greeting header, Birth Chart card, main categories
+- Analysis tools with Premium locks
+- Advanced tools grid
+- Premium banner + Bottom Navigation
+- Clean modular components with full Persian comments
 
 ## انجام شده
-- صفحه ورود
-- اطلاعات تولد (مرحله ۱)
-- اطلاعات شخصی + کف دست (مرحله ۲)
-- اطلاعات تکمیلی + منوی خال‌شناسی بدون عکس (مرحله ۳)
-- بررسی نهایی (مرحله ۴)
-- جریان کامل ناوبری آنبوردینگ متصل شد
-- تمام صفحات دارای کامنت فارسی کامل و ساختار تمیز هستند
+- جریان کامل آنبوردینگ
+- منوی خال‌شناسی بدون عکس
+- بازطراحی HomeScreen مطابق طراحی داشبورد
+- هدر خوش‌آمدگویی، کارت چارت تولد، دسته‌بندی اصلی
+- ابزارهای تحلیل با قفل Premium
+- شبکه ابزارهای پیشرفته
+- بنر Premium + نوار پایین
+- کامپوننت‌های تمیز با کامنت فارسی کامل
 
 ---
 
 ## In Progress
-None (Onboarding UI finished)
+None
 
 ## در حال انجام
-هیچ (UI آنبوردینگ تمام شد)
+هیچ
 
 ---
 
@@ -45,36 +47,30 @@ None
 ---
 
 ## Not Done
-- Real Google Sign-In / Phone OTP logic
-- ViewModel + State management for onboarding data
-- Home Dashboard matching the uploaded design
-- Persist user data (Room / DataStore)
+- Real Google Sign-In / Phone OTP
+- ViewModel + real data for onboarding & home
+- Persist user profile (DataStore / Room)
+- Actual chart calculation engine
 
 ## انجام نشده
 - منطق واقعی ورود با گوگل / شماره تلفن
-- ViewModel و مدیریت State برای داده‌های آنبوردینگ
-- داشبورد خانه مطابق طراحی آپلود شده
-- ذخیره پایدار اطلاعات کاربر
+- ViewModel و داده واقعی
+- ذخیره پروفایل کاربر
+- موتور محاسبه چارت واقعی
 
 ---
 
 ## Next Step
-Option A: Polish HomeScreen to match the uploaded dashboard design
-Option B: Add basic ViewModel for onboarding data
-Option C: Start real Google Sign-In integration
+Recommended:
+1. Add basic ViewModel for user profile / onboarding data
+2. Or start Google Sign-In integration
+3. Or begin Phase 3 (Astrology Core Engine)
 
 ## مرحله بعد
-گزینه الف: زیباتر کردن HomeScreen مطابق طراحی داشبورد
-گزینه ب: اضافه کردن ViewModel پایه برای داده‌های آنبوردینگ
-گزینه ج: شروع یکپارچه‌سازی واقعی Google Sign-In
-
----
-
-## Architecture Notes
-- Onboarding flow is complete at UI level
-- Data is still sample/hardcoded – ready for ViewModel injection
-- Edit buttons in ReviewScreen navigate back to previous steps
-- Privacy-friendly mole menu is fully implemented
+پیشنهادی:
+۱. اضافه کردن ViewModel پایه برای پروفایل و داده‌های آنبوردینگ
+۲. یا شروع یکپارچه‌سازی Google Sign-In
+۳. یا شروع فاز ۳ (موتور اصلی آسترولوژی)
 
 ---
 
