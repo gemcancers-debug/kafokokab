@@ -13,43 +13,38 @@
 - [x] Add proper README
 
 ## Phase 1 - Project Skeleton + Design System + Navigation + CI
-- [x] Create version catalog (`gradle/libs.versions.toml`)
-- [x] Create multi-module structure (settings.gradle.kts)
-- [x] Create `app` module
-- [x] Create `core-ui`, `core-domain`, `core-data`, `core-common`
-- [x] Setup basic Theme (Dark Galaxy colors)
-- [x] Typography system
-- [x] GlassCard composable
-- [x] PremiumBlurBox composable
-- [x] Navigation Host (type-safe)
-- [x] Hilt basic setup (AppModule)
-- [x] GitHub Actions workflow for building APK
-- [ ] Gradle Wrapper (gradlew) – still needed for reliable CI
+- [x] Create version catalog
+- [x] Create multi-module structure
+- [x] Create `app` + core modules
+- [x] Theme + Typography + GlassCard + PremiumBlurBox
+- [x] Navigation Host
+- [x] Hilt basic setup
+- [x] GitHub Actions workflow
+- [x] Library manifests for CI
+- [ ] Full Gradle Wrapper binaries
 
-## Phase 2 - Authentication & Profile
-- [ ] Google Sign-In
-- [ ] Iranian Phone OTP (later)
-- [ ] User Profile screen
-- [ ] Birth data input form
+## Phase 2 - Authentication & Onboarding UI
+- [x] LoginScreen (UI only, matching design)
+- [ ] BirthInfoScreen (Step 1/4)
+- [ ] PersonalInfoScreen (Step 2/4)
+- [ ] ExtraInfoScreen (Step 3/4)
+- [ ] ReviewScreen (Step 4/4)
+- [ ] Real Google Sign-In logic
+- [ ] Phone OTP logic (later)
+- [ ] Home Dashboard matching design
 
 ## Phase 3 - Astrology Core Engine
-- [ ] Offline planetary data strategy & storage
-- [ ] Birth Chart calculation engine (Western)
-- [ ] Vedic Chart support
-- [ ] Transits engine
-- [ ] Chart UI (Glassmorphism)
+- [ ] Offline planetary data
+- [ ] Birth Chart engine
+- [ ] Chart UI
 
 ## Phase 4 - Premium & Monetization
-- [ ] Google Play Billing integration
-- [ ] Feature gating logic
+- [ ] Google Play Billing
+- [ ] Feature gating
 
 ## Phase 5 - Additional Modules
 - [ ] Numerology + Abjad
-- [ ] Chinese Astrology
-- [ ] Tarot
-- [ ] Hafez
-- [ ] Simple Palm / Face analysis
-- [ ] Dream Journal / Personal Timeline
+- [ ] Tarot / Hafez / Palm / Face
 
 ---
 

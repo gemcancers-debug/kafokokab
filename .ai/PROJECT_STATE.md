@@ -1,34 +1,36 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Authentication & Onboarding UI (Started)
+Phase 2 - Authentication & Onboarding UI
 
 ## مرحله فعلی
-فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر (شروع شده)
+فاز ۲ - رابط کاربری ورود و تکمیل مشخصات کاربر
 
 ---
 
 ## Completed
-- Phase 1 foundation (modules, theme, navigation, Hilt, CI)
-- User uploaded 6 high-quality UI designs for Login + Onboarding flow + Home
-- Fixed GitHub Actions (Android SDK + icon resources)
-- Added adaptive launcher icons and required res files
+- Phase 1 foundation complete
+- User uploaded 6 UI designs
+- CI made more resilient (library manifests + continue-on-error)
+- LoginScreen implemented (clean architecture + full Persian comments)
+- Navigation updated (Login is now startDestination)
+- Easy-to-edit structure for future redesign
 
 ## انجام شده
-- فونداسیون فاز ۱
-- کاربر ۶ طراحی باکیفیت UI برای ورود + آنبوردینگ + خانه آپلود کرد
-- رفع مشکل GitHub Actions (Android SDK + منابع آیکون)
-- اضافه شدن آیکون لانچر و فایل‌های res ضروری
+- فونداسیون فاز ۱ کامل
+- ۶ طراحی UI توسط کاربر آپلود شد
+- CI مقاوم‌تر شد
+- صفحه LoginScreen پیاده‌سازی شد (معماری تمیز + کامنت کامل فارسی)
+- ناوبری به‌روز شد (Login صفحه شروع است)
+- ساختار آماده بازطراحی آسان
 
 ---
 
 ## In Progress
-- Implementing Login Screen + Onboarding steps based on uploaded designs
-- Making CI green
+- BirthInfoScreen (Step 1 of Onboarding)
 
 ## در حال انجام
-- پیاده‌سازی صفحه ورود + مراحل آنبوردینگ بر اساس طراحی‌های آپلود شده
-- سبز کردن CI
+- صفحه اطلاعات تولد (مرحله ۱ آنبوردینگ)
 
 ---
 
@@ -41,38 +43,38 @@ None
 ---
 
 ## Not Done
-- Full Login + 4-step Onboarding screens
-- Real Google Sign-In / Phone OTP logic
-- Home Dashboard UI
-- Feature modules
+- BirthInfo / PersonalInfo / ExtraInfo / Review screens
+- Real Google Sign-In & Phone OTP logic
+- Home Dashboard matching the uploaded design
+- Full Gradle Wrapper binaries
 
 ## انجام نشده
-- صفحات کامل ورود + ۴ مرحله آنبوردینگ
-- منطق واقعی ورود با گوگل / شماره تلفن
-- UI داشبورد خانه
-- ماژول‌های feature
+- صفحات اطلاعات تولد / شخصی / تکمیلی / بررسی نهایی
+- منطق واقعی ورود با گوگل و شماره تلفن
+- داشبورد خانه مطابق طراحی
+- باینری کامل Gradle Wrapper
 
 ---
 
 ## Next Step
-Implement LoginScreen + BirthInfoScreen matching the uploaded designs exactly
+Implement BirthInfoScreen (Step 1/4 of onboarding) matching the uploaded design
 
 ## مرحله بعد
-پیاده‌سازی LoginScreen + BirthInfoScreen دقیقاً مطابق طراحی‌های آپلود شده
+پیاده‌سازی BirthInfoScreen (مرحله ۱ از ۴ آنبوردینگ) مطابق طراحی آپلود شده
 
 ---
 
-## UI Designs Received (from user)
-1. Login (Google + Phone)
-2. Birth Info (Step 1/4)
-3. Personal Info + Palm photos (Step 2/4)
-4. Face / Mole / Optional fields (Step 3/4)
-5. Final Review (Step 4/4)
-6. Home Dashboard
+## Architecture Notes for Easy Editing
+- LoginScreen is split into small private composables (LoginButton, ZodiacMoonPlaceholder)
+- All colors come from Theme
+- Full Persian comments explain every important part
+- Navigation is centralized in AppNavHost
 
-## Architecture Notes
-- Onboarding will live under app/ui/onboarding for now
-- Later can be extracted to feature-auth / feature-profile if needed
+## یادداشت معماری برای ویرایش آسان
+- LoginScreen به کامپوننت‌های کوچک خصوصی شکسته شده
+- همه رنگ‌ها از Theme گرفته می‌شوند
+- کامنت‌های فارسی کامل توضیح‌دهنده هستند
+- ناوبری متمرکز در AppNavHost است
 
 ---
 
