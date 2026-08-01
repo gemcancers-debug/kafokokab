@@ -11,26 +11,28 @@ Phase 2 - Authentication & Onboarding UI
 ## Completed
 - Phase 1 foundation complete
 - LoginScreen implemented
-- BirthInfoScreen (Step 1/4) implemented with clean modular components
-- Shared Onboarding components (Header, SectionCard, SelectorBox, GenderChip, ContinueButton)
-- Mole-analysis privacy decision recorded (no body photos – body-part menu instead)
-- Navigation updated for onboarding flow
+- BirthInfoScreen (Step 1/4) implemented
+- PersonalInfoScreen (Step 2/4) implemented
+- Shared onboarding components reused
+- Palm photo placeholders (camera logic later)
+- Mole-analysis privacy decision recorded
 
 ## انجام شده
 - فونداسیون فاز ۱ کامل
-- صفحه LoginScreen پیاده‌سازی شد
-- صفحه BirthInfoScreen (مرحله ۱ از ۴) با کامپوننت‌های تمیز پیاده‌سازی شد
-- کامپوننت‌های مشترک آنبوردینگ ساخته شد
-- تصمیم حریم خصوصی خال‌شناسی ثبت شد (بدون عکس بدن – منوی موقعیت بدن)
-- ناوبری برای جریان آنبوردینگ به‌روز شد
+- صفحه LoginScreen
+- صفحه BirthInfoScreen (مرحله ۱ از ۴)
+- صفحه PersonalInfoScreen (مرحله ۲ از ۴)
+- استفاده مجدد از کامپوننت‌های مشترک آنبوردینگ
+- جای عکس کف دست (منطق دوربین بعداً)
+- تصمیم حریم خصوصی خال‌شناسی ثبت شده
 
 ---
 
 ## In Progress
-- PersonalInfoScreen (Step 2/4)
+- ExtraInfoScreen (Step 3/4) – Face + Mole body-part menu (no photos)
 
 ## در حال انجام
-- صفحه اطلاعات شخصی (مرحله ۲ از ۴)
+- صفحه اطلاعات تکمیلی (مرحله ۳ از ۴) – چهره + منوی موقعیت خال بدون عکس
 
 ---
 
@@ -43,15 +45,13 @@ None
 ---
 
 ## Not Done
-- PersonalInfoScreen (نام + کف دست)
-- ExtraInfoScreen (چهره + منوی خال‌شناسی بدون عکس)
-- ReviewScreen
+- ExtraInfoScreen (با منوی خال‌شناسی بدون عکس بدن)
+- ReviewScreen (Step 4/4)
 - Real Google / Phone auth logic
 - Home Dashboard matching design
 
 ## انجام نشده
-- صفحه اطلاعات شخصی
-- صفحه اطلاعات تکمیلی (با منوی خال‌شناسی)
+- صفحه اطلاعات تکمیلی (منوی خال‌شناسی)
 - صفحه بررسی نهایی
 - منطق واقعی احراز هویت
 - داشبورد خانه مطابق طراحی
@@ -59,17 +59,22 @@ None
 ---
 
 ## Next Step
-Implement PersonalInfoScreen (Step 2/4) – Name fields + Palm photo placeholders
+Implement ExtraInfoScreen (Step 3/4) with:
+- Face scan placeholder
+- Beautiful glassmorphism body-part menu for moles (no photos, full body coverage, left/right, privacy-friendly)
 
 ## مرحله بعد
-پیاده‌سازی PersonalInfoScreen (مرحله ۲ از ۴) – فیلدهای نام + محل عکس کف دست
+پیاده‌سازی ExtraInfoScreen (مرحله ۳ از ۴) شامل:
+- جای اسکن چهره
+- منوی شیشه‌ای زیبای موقعیت خال‌ها (بدون عکس، پوشش کامل بدن، چپ/راست، مناسب حریم خصوصی)
 
 ---
 
 ## Architecture Notes for Easy Editing
-- Onboarding components are shared and live in BirthInfoScreen.kt (can be moved to a common file later)
-- All selectors are placeholder clickable boxes (real pickers will be added later)
+- PersonalInfoScreen uses shared components from BirthInfoScreen
+- OnboardingTextField and PalmPhotoBox are new reusable pieces
 - Full Persian comments everywhere
+- Camera logic is intentionally left as TODO for later
 
 ---
 

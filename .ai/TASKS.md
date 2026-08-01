@@ -9,8 +9,8 @@
 ## Phase 2 - Authentication & Onboarding UI
 - [x] LoginScreen (UI only)
 - [x] BirthInfoScreen (Step 1/4)
-- [ ] PersonalInfoScreen (Step 2/4)
-- [ ] ExtraInfoScreen (Step 3/4) – includes body-part menu for moles (no photos)
+- [x] PersonalInfoScreen (Step 2/4)
+- [ ] ExtraInfoScreen (Step 3/4) – Face + body-part mole menu (no photos)
 - [ ] ReviewScreen (Step 4/4)
 - [ ] Real Google Sign-In logic
 - [ ] Phone OTP logic (later)

@@ -3,7 +3,7 @@
 وظیفه: میزبان اصلی Navigation و مدیریت جابه‌جایی بین صفحات
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-01 - اضافه شدن BirthInfoScreen به جریان آنبوردینگ
+آخرین تغییر: 2026-08-01 - اضافه شدن PersonalInfoScreen به جریان آنبوردینگ
 */
 
 package com.kafokokab.app.navigation
@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import com.kafokokab.app.ui.auth.LoginScreen
 import com.kafokokab.app.ui.home.HomeScreen
 import com.kafokokab.app.ui.onboarding.BirthInfoScreen
+import com.kafokokab.app.ui.onboarding.PersonalInfoScreen
 
 /**
  * NavHost اصلی اپلیکیشن.
@@ -35,7 +36,6 @@ fun AppNavHost(
         composable(AppRoute.Login.route) {
             LoginScreen(
                 onGoogleClick = {
-                    // فعلاً به مرحله اطلاعات تولد می‌رویم
                     navController.navigate(AppRoute.BirthInfo.route)
                 },
                 onPhoneClick = {
@@ -44,13 +44,29 @@ fun AppNavHost(
             )
         }
 
-        // مرحله ۱ آنبوردینگ: اطلاعات تولد
+        // مرحله ۱: اطلاعات تولد
         composable(AppRoute.BirthInfo.route) {
             BirthInfoScreen(
                 onBack = { navController.popBackStack() },
                 onContinue = {
-                    // بعداً به PersonalInfo می‌رود
-                    // فعلاً مستقیم به Home (تا صفحات بعدی ساخته شوند)
+                    navController.navigate(AppRoute.PersonalInfo.route)
+                }
+            )
+        }
+
+        // مرحله ۲: اطلاعات شخصی + کف دست
+        composable(AppRoute.PersonalInfo.route) {
+            PersonalInfoScreen(
+                onBack = { navController.popBackStack() },
+                onContinue = {
+                    // فعلاً به Home می‌رویم تا صفحات بعدی ساخته شوند
+                    // بعداً به ExtraInfo تغییر می‌کند
+                    navController.navigate(AppRoute.Home.route) {
+                        popUpTo(AppRoute.Login.route) { inclusive = true }
+                    }
+                },
+                onSkipPalm = {
+                    // رد کردن موقت عکس کف دست و رفتن به مرحله بعد
                     navController.navigate(AppRoute.Home.route) {
                         popUpTo(AppRoute.Login.route) { inclusive = true }
                     }
@@ -63,6 +79,6 @@ fun AppNavHost(
             HomeScreen()
         }
 
-        // صفحات بعدی آنبوردینگ در مراحل بعد اضافه می‌شوند
+        // صفحات ExtraInfo و Review در مراحل بعدی اضافه می‌شوند
     }
 }
