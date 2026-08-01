@@ -4,13 +4,13 @@
 - [x] All documentation and repository setup
 
 ## Phase 1 - Project Skeleton + Design System + Navigation + CI
-- [x] Multi-module structure, Theme, GlassCard, PremiumBlurBox, Navigation, Hilt, CI
+- [x] Multi-module, Theme, GlassCard, PremiumBlurBox, Navigation, Hilt, CI
 
 ## Phase 2 - Authentication & Onboarding UI
-- [x] LoginScreen (UI only)
+- [x] LoginScreen
 - [x] BirthInfoScreen (Step 1/4)
 - [x] PersonalInfoScreen (Step 2/4)
-- [ ] ExtraInfoScreen (Step 3/4) – Face + body-part mole menu (no photos)
+- [x] ExtraInfoScreen (Step 3/4) – Face + privacy-friendly mole body-part menu
 - [ ] ReviewScreen (Step 4/4)
 - [ ] Real Google Sign-In logic
 - [ ] Phone OTP logic (later)
