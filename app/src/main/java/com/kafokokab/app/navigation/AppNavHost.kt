@@ -3,7 +3,7 @@
 وظیفه: میزبان اصلی Navigation و مدیریت جابه‌جایی بین صفحات
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-01 - اضافه شدن LoginScreen به عنوان صفحه شروع
+آخرین تغییر: 2026-08-01 - اضافه شدن BirthInfoScreen به جریان آنبوردینگ
 */
 
 package com.kafokokab.app.navigation
@@ -15,14 +15,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.kafokokab.app.ui.auth.LoginScreen
 import com.kafokokab.app.ui.home.HomeScreen
+import com.kafokokab.app.ui.onboarding.BirthInfoScreen
 
 /**
  * NavHost اصلی اپلیکیشن.
  * تمام صفحات از اینجا مدیریت می‌شوند.
- *
- * نکته: فعلاً Login به عنوان startDestination تنظیم شده است.
- * بعد از پیاده‌سازی منطق احراز هویت، می‌توان بر اساس وضعیت ورود کاربر
- * بین Login و Home تصمیم گرفت.
  */
 @Composable
 fun AppNavHost(
@@ -38,13 +35,22 @@ fun AppNavHost(
         composable(AppRoute.Login.route) {
             LoginScreen(
                 onGoogleClick = {
-                    // فعلاً مستقیم به Home می‌رویم (منطق واقعی بعداً اضافه می‌شود)
-                    navController.navigate(AppRoute.Home.route) {
-                        popUpTo(AppRoute.Login.route) { inclusive = true }
-                    }
+                    // فعلاً به مرحله اطلاعات تولد می‌رویم
+                    navController.navigate(AppRoute.BirthInfo.route)
                 },
                 onPhoneClick = {
-                    // فعلاً مستقیم به Home می‌رویم
+                    navController.navigate(AppRoute.BirthInfo.route)
+                }
+            )
+        }
+
+        // مرحله ۱ آنبوردینگ: اطلاعات تولد
+        composable(AppRoute.BirthInfo.route) {
+            BirthInfoScreen(
+                onBack = { navController.popBackStack() },
+                onContinue = {
+                    // بعداً به PersonalInfo می‌رود
+                    // فعلاً مستقیم به Home (تا صفحات بعدی ساخته شوند)
                     navController.navigate(AppRoute.Home.route) {
                         popUpTo(AppRoute.Login.route) { inclusive = true }
                     }
@@ -57,6 +63,6 @@ fun AppNavHost(
             HomeScreen()
         }
 
-        // صفحات آنبوردینگ در مراحل بعدی اینجا اضافه می‌شوند
+        // صفحات بعدی آنبوردینگ در مراحل بعد اضافه می‌شوند
     }
 }

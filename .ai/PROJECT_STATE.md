@@ -10,27 +10,27 @@ Phase 2 - Authentication & Onboarding UI
 
 ## Completed
 - Phase 1 foundation complete
-- User uploaded 6 UI designs
-- CI made more resilient (library manifests + continue-on-error)
-- LoginScreen implemented (clean architecture + full Persian comments)
-- Navigation updated (Login is now startDestination)
-- Easy-to-edit structure for future redesign
+- LoginScreen implemented
+- BirthInfoScreen (Step 1/4) implemented with clean modular components
+- Shared Onboarding components (Header, SectionCard, SelectorBox, GenderChip, ContinueButton)
+- Mole-analysis privacy decision recorded (no body photos – body-part menu instead)
+- Navigation updated for onboarding flow
 
 ## انجام شده
 - فونداسیون فاز ۱ کامل
-- ۶ طراحی UI توسط کاربر آپلود شد
-- CI مقاوم‌تر شد
-- صفحه LoginScreen پیاده‌سازی شد (معماری تمیز + کامنت کامل فارسی)
-- ناوبری به‌روز شد (Login صفحه شروع است)
-- ساختار آماده بازطراحی آسان
+- صفحه LoginScreen پیاده‌سازی شد
+- صفحه BirthInfoScreen (مرحله ۱ از ۴) با کامپوننت‌های تمیز پیاده‌سازی شد
+- کامپوننت‌های مشترک آنبوردینگ ساخته شد
+- تصمیم حریم خصوصی خال‌شناسی ثبت شد (بدون عکس بدن – منوی موقعیت بدن)
+- ناوبری برای جریان آنبوردینگ به‌روز شد
 
 ---
 
 ## In Progress
-- BirthInfoScreen (Step 1 of Onboarding)
+- PersonalInfoScreen (Step 2/4)
 
 ## در حال انجام
-- صفحه اطلاعات تولد (مرحله ۱ آنبوردینگ)
+- صفحه اطلاعات شخصی (مرحله ۲ از ۴)
 
 ---
 
@@ -43,38 +43,33 @@ None
 ---
 
 ## Not Done
-- BirthInfo / PersonalInfo / ExtraInfo / Review screens
-- Real Google Sign-In & Phone OTP logic
-- Home Dashboard matching the uploaded design
-- Full Gradle Wrapper binaries
+- PersonalInfoScreen (نام + کف دست)
+- ExtraInfoScreen (چهره + منوی خال‌شناسی بدون عکس)
+- ReviewScreen
+- Real Google / Phone auth logic
+- Home Dashboard matching design
 
 ## انجام نشده
-- صفحات اطلاعات تولد / شخصی / تکمیلی / بررسی نهایی
-- منطق واقعی ورود با گوگل و شماره تلفن
+- صفحه اطلاعات شخصی
+- صفحه اطلاعات تکمیلی (با منوی خال‌شناسی)
+- صفحه بررسی نهایی
+- منطق واقعی احراز هویت
 - داشبورد خانه مطابق طراحی
-- باینری کامل Gradle Wrapper
 
 ---
 
 ## Next Step
-Implement BirthInfoScreen (Step 1/4 of onboarding) matching the uploaded design
+Implement PersonalInfoScreen (Step 2/4) – Name fields + Palm photo placeholders
 
 ## مرحله بعد
-پیاده‌سازی BirthInfoScreen (مرحله ۱ از ۴ آنبوردینگ) مطابق طراحی آپلود شده
+پیاده‌سازی PersonalInfoScreen (مرحله ۲ از ۴) – فیلدهای نام + محل عکس کف دست
 
 ---
 
 ## Architecture Notes for Easy Editing
-- LoginScreen is split into small private composables (LoginButton, ZodiacMoonPlaceholder)
-- All colors come from Theme
-- Full Persian comments explain every important part
-- Navigation is centralized in AppNavHost
-
-## یادداشت معماری برای ویرایش آسان
-- LoginScreen به کامپوننت‌های کوچک خصوصی شکسته شده
-- همه رنگ‌ها از Theme گرفته می‌شوند
-- کامنت‌های فارسی کامل توضیح‌دهنده هستند
-- ناوبری متمرکز در AppNavHost است
+- Onboarding components are shared and live in BirthInfoScreen.kt (can be moved to a common file later)
+- All selectors are placeholder clickable boxes (real pickers will be added later)
+- Full Persian comments everywhere
 
 ---
 

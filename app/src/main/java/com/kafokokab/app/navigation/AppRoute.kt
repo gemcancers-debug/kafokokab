@@ -3,7 +3,7 @@
 وظیفه: تعریف مسیرهای type-safe ناوبری اپلیکیشن
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-01 - اضافه شدن مسیر Login و Onboarding
+آخرین تغییر: 2026-08-01 - اضافه شدن مسیرهای آنبوردینگ
 */
 
 package com.kafokokab.app.navigation
@@ -16,12 +16,19 @@ sealed class AppRoute(val route: String) {
     /** صفحه ورود */
     data object Login : AppRoute("login")
 
-    /** صفحه اصلی بعد از ورود */
+    /** صفحه اصلی بعد از ورود کامل */
     data object Home : AppRoute("home")
 
-    // مسیرهای آنبوردینگ (در مراحل بعدی اضافه می‌شوند)
-    // data object BirthInfo : AppRoute("onboarding/birth_info")
-    // data object PersonalInfo : AppRoute("onboarding/personal_info")
-    // data object ExtraInfo : AppRoute("onboarding/extra_info")
-    // data object Review : AppRoute("onboarding/review")
+    // ---------- آنبوردینگ (۴ مرحله) ----------
+    /** مرحله ۱: اطلاعات تولد */
+    data object BirthInfo : AppRoute("onboarding/birth_info")
+
+    /** مرحله ۲: اطلاعات شخصی + کف دست */
+    data object PersonalInfo : AppRoute("onboarding/personal_info")
+
+    /** مرحله ۳: اطلاعات تکمیلی (چهره + خال‌شناسی بدون عکس) */
+    data object ExtraInfo : AppRoute("onboarding/extra_info")
+
+    /** مرحله ۴: بررسی نهایی */
+    data object Review : AppRoute("onboarding/review")
 }

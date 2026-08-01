@@ -13,11 +13,20 @@
 - Premium features must always use the reusable `PremiumBlurBox` pattern.
 - Offline-first is mandatory for all planetary and transit data.
 
-## Current Priority
-Phase 0 is complete.  
-Next: Phase 1 — Multi-module Clean Architecture skeleton + Theme + Navigation.
+## Important Design Decision – Mole Analysis (خال‌شناسی)
 
-## Development Constraints
-- Code must be editable in a simple text editor (Acode).
-- Dependencies must be kept as light as possible for mobile GitHub Actions builds.
-- No mock data in production code paths.
+**Date:** 2026-08-01  
+**Decision by:** User + AI Principal Engineer
+
+چون اپلیکیشن قرار است در بازار ایران (مایکت / کافه‌بازار) منتشر شود و گرفتن عکس از بدن برای خال‌شناسی از نظر حریم خصوصی و فرهنگ عمومی مناسب نیست:
+
+- **هیچ عکسی از بدن گرفته نمی‌شود.**
+- به جای عکس: یک منوی شیشه‌ای (Glassmorphism) زیبا با لیست کامل موقعیت‌های بدن.
+- پوشش کامل بدن با تفکیک چپ و راست (ابرو، گونه، گردن، شانه، کمر، زانو، پاشنه پا و ...).
+- بدون استفاده از اصطلاحات نامناسب یا حساس.
+- توضیح کوتاه آموزشی + انتخاب موقعیت‌ها + ادامه.
+
+این تصمیم باید در صفحه ExtraInfo (مرحله ۳ آنبوردینگ) رعایت شود.
+
+## Current Priority
+Continue Onboarding screens (BirthInfo → PersonalInfo → ExtraInfo → Review).
