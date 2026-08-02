@@ -1,9 +1,7 @@
 /*
 نام فایل: AppNavHost.kt
-وظیفه: میزبان اصلی Navigation و مدیریت جابه‌جایی بین صفحات
-نویسنده: AI Principal Engineer
-تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-01 - تکمیل جریان آنبوردینگ با ReviewScreen
+وظیفه: میزبان اصلی Navigation
+آخرین تغییر: 2026-08-02 - اتصال ورود موفق به جریان آنبوردینگ
 */
 
 package com.kafokokab.app.navigation
@@ -20,10 +18,6 @@ import com.kafokokab.app.ui.onboarding.ExtraInfoScreen
 import com.kafokokab.app.ui.onboarding.PersonalInfoScreen
 import com.kafokokab.app.ui.onboarding.ReviewScreen
 
-/**
- * NavHost اصلی اپلیکیشن.
- * جریان کامل آنبوردینگ: Login → BirthInfo → PersonalInfo → ExtraInfo → Review → Home
- */
 @Composable
 fun AppNavHost(
     navController: NavHostController,
@@ -36,8 +30,16 @@ fun AppNavHost(
     ) {
         composable(AppRoute.Login.route) {
             LoginScreen(
-                onGoogleClick = { navController.navigate(AppRoute.BirthInfo.route) },
-                onPhoneClick = { navController.navigate(AppRoute.BirthInfo.route) }
+                onLoginSuccess = {
+                    // بعد از ورود موفق به مرحله اطلاعات تولد می‌رویم
+                    navController.navigate(AppRoute.BirthInfo.route) {
+                        popUpTo(AppRoute.Login.route) { inclusive = true }
+                    }
+                },
+                onPhoneClick = {
+                    // فعلاً همان مسیر آنبوردینگ (بعداً OTP اضافه می‌شود)
+                    navController.navigate(AppRoute.BirthInfo.route)
+                }
             )
         }
 
@@ -68,31 +70,21 @@ fun AppNavHost(
             ReviewScreen(
                 onBack = { navController.popBackStack() },
                 onConfirm = {
-                    // تأیید نهایی و ورود به برنامه
                     navController.navigate(AppRoute.Home.route) {
                         popUpTo(AppRoute.Login.route) { inclusive = true }
                     }
                 },
                 onEditBirth = {
-                    navController.navigate(AppRoute.BirthInfo.route) {
-                        // نگه داشتن Review در back stack تا کاربر بتواند برگردد
-                        launchSingleTop = true
-                    }
+                    navController.navigate(AppRoute.BirthInfo.route) { launchSingleTop = true }
                 },
                 onEditPersonal = {
-                    navController.navigate(AppRoute.PersonalInfo.route) {
-                        launchSingleTop = true
-                    }
+                    navController.navigate(AppRoute.PersonalInfo.route) { launchSingleTop = true }
                 },
                 onEditPhotos = {
-                    navController.navigate(AppRoute.ExtraInfo.route) {
-                        launchSingleTop = true
-                    }
+                    navController.navigate(AppRoute.ExtraInfo.route) { launchSingleTop = true }
                 },
                 onEditOptional = {
-                    navController.navigate(AppRoute.ExtraInfo.route) {
-                        launchSingleTop = true
-                    }
+                    navController.navigate(AppRoute.ExtraInfo.route) { launchSingleTop = true }
                 }
             )
         }

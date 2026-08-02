@@ -1,4 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">کف و کوکب</string>
+
+    <!--
+    این مقدار باید با Web Client ID موجود در google-services.json یکی باشد.
+    بعد از فعال کردن Google Sign-In در Firebase و دانلود مجدد فایل،
+    مقدار client_id از نوع client_type: 3 را اینجا قرار دهید.
+
+    فعلاً یک مقدار موقت گذاشته شده. اگر ورود کار نکرد،
+    فایل google-services.json را دوباره دانلود کنید و این مقدار را عوض کنید.
+    -->
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID.apps.googleusercontent.com</string>
 </resources>

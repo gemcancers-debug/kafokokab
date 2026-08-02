@@ -1,18 +1,17 @@
 /*
 نام فایل: LoginScreen.kt
-وظیفه: صفحه ورود اصلی اپلیکیشن (ورود با گوگل + ورود با شماره تلفن)
-طراحی: بر اساس فایل UI آپلود شده توسط کاربر
+وظیفه: صفحه ورود اصلی + اتصال واقعی به Google Sign-In
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته مهم برای ویرایش بعدی:
-- تمام بخش‌های بصری به کامپوننت‌های کوچک جدا شده‌اند
-- رنگ‌ها و فاصله‌ها از Theme گرفته می‌شوند تا بازطراحی آسان باشد
-- منطق واقعی احراز هویت هنوز پیاده نشده (فقط UI)
+آخرین تغییر: 2026-08-02 - اضافه شدن منطق واقعی ورود با گوگل
 */
 
 package com.kafokokab.app.ui.auth
 
+import android.app.Activity
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,19 +27,26 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier.modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
 import com.kafokokab.core.ui.theme.MysticPurple
@@ -50,15 +56,48 @@ import com.kafokokab.core.ui.theme.SoftWhite
 /**
  * صفحه ورود اصلی.
  *
- * @param onGoogleClick کلیک روی دکمه ورود با گوگل
- * @param onPhoneClick کلیک روی دکمه ورود با شماره تلفن
+ * @param onLoginSuccess بعد از ورود موفق صدا زده می‌شود
+ * @param onPhoneClick کلیک روی ورود با شماره تلفن (فعلاً فقط UI)
  */
 @Composable
 fun LoginScreen(
-    onGoogleClick: () -> Unit = {},
-    onPhoneClick: () -> Unit = {}
+    onLoginSuccess: () -> Unit = {},
+    onPhoneClick: () -> Unit = {},
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
-    // پس‌زمینه کهکشانی تاریک
+    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsState()
+    val googleSignInHelper = remember { GoogleSignInHelper(context) }
+
+    // لانچر برای دریافت نتیجه صفحه انتخاب اکانت گوگل
+    val signInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val idToken = googleSignInHelper.extractIdToken(result.data)
+            if (idToken != null) {
+                viewModel.signInWithGoogle(idToken)
+            } else {
+                Toast.makeText(context, "ورود با گوگل ناموفق بود", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // واکنش به تغییر وضعیت ورود
+    LaunchedEffect(uiState) {
+        when (val state = uiState) {
+            is AuthUiState.Success -> {
+                onLoginSuccess()
+                viewModel.resetState()
+            }
+            is AuthUiState.Error -> {
+                Toast.makeText(context, state.message, Toast.LENGTH_LONG).show()
+                viewModel.resetState()
+            }
+            else -> Unit
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -79,12 +118,11 @@ fun LoginScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // بخش بالایی: لوگو و عنوان
+            // عنوان
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.padding(top = 80.dp)
             ) {
-                // عنوان اصلی
                 Text(
                     text = "کف و کوکب",
                     style = MaterialTheme.typography.displayMedium.copy(
@@ -94,10 +132,7 @@ fun LoginScreen(
                     color = SoftWhite,
                     textAlign = TextAlign.Center
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
-                // شعار
                 Text(
                     text = "آسترولوژی، زبان نمادین آسمان است.",
                     style = MaterialTheme.typography.bodyLarge,
@@ -106,11 +141,10 @@ fun LoginScreen(
                 )
             }
 
-            // بخش میانی: نماد ماه و دایره بروج (فعلاً ساده)
-            // بعداً می‌توانید این بخش را با تصویر یا Canvas زیباتر کنید
+            // نماد ماه
             ZodiacMoonPlaceholder()
 
-            // بخش پایینی: دکمه‌های ورود
+            // دکمه‌ها
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,8 +154,8 @@ fun LoginScreen(
                 // دکمه ورود با گوگل
                 LoginButton(
                     text = "ورود با جیمیل",
+                    enabled = uiState !is AuthUiState.Loading,
                     trailingContent = {
-                        // حرف G رنگی به جای آیکون واقعی گوگل
                         Text(
                             text = "G",
                             color = Color(0xFF4285F4),
@@ -129,12 +163,15 @@ fun LoginScreen(
                             fontSize = 20.sp
                         )
                     },
-                    onClick = onGoogleClick
+                    onClick = {
+                        signInLauncher.launch(googleSignInHelper.getSignInIntent())
+                    }
                 )
 
-                // دکمه ورود با شماره تلفن
+                // دکمه ورود با شماره تلفن (فعلاً فقط UI)
                 LoginButton(
                     text = "ورود با شماره تلفن",
+                    enabled = uiState !is AuthUiState.Loading,
                     trailingContent = {
                         Icon(
                             imageVector = Icons.Default.Phone,
@@ -147,16 +184,25 @@ fun LoginScreen(
                 )
             }
         }
+
+        // نمایش لودینگ
+        if (uiState is AuthUiState.Loading) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.45f)),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = NeonPink)
+            }
+        }
     }
 }
 
-/**
- * دکمه ورود قابل استفاده مجدد.
- * برای تغییر ظاهر دکمه‌ها فقط این کامپوننت را ویرایش کنید.
- */
 @Composable
 private fun LoginButton(
     text: String,
+    enabled: Boolean = true,
     trailingContent: @Composable () -> Unit,
     onClick: () -> Unit
 ) {
@@ -168,8 +214,8 @@ private fun LoginButton(
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
-                        MysticPurple.copy(alpha = 0.35f),
-                        NeonPink.copy(alpha = 0.25f)
+                        MysticPurple.copy(alpha = if (enabled) 0.35f else 0.15f),
+                        NeonPink.copy(alpha = if (enabled) 0.25f else 0.1f)
                     )
                 )
             )
@@ -183,31 +229,22 @@ private fun LoginButton(
                 ),
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable(onClick = onClick)
+            .clickable(enabled = enabled, onClick = onClick)
             .padding(horizontal = 20.dp),
         contentAlignment = Alignment.Center
     ) {
-        // متن دکمه
         Text(
             text = text,
             style = MaterialTheme.typography.titleMedium,
-            color = SoftWhite,
+            color = SoftWhite.copy(alpha = if (enabled) 1f else 0.5f),
             modifier = Modifier.align(Alignment.Center)
         )
-
-        // آیکون سمت راست (در RTL سمت چپ دیده می‌شود)
-        Box(
-            modifier = Modifier.align(Alignment.CenterEnd)
-        ) {
+        Box(modifier = Modifier.align(Alignment.CenterEnd)) {
             trailingContent()
         }
     }
 }
 
-/**
- * نماد ماه و دایره بروج (نسخه ساده).
- * بعداً می‌توانید این را با تصویر واقعی یا Canvas جایگزین کنید.
- */
 @Composable
 private fun ZodiacMoonPlaceholder() {
     Box(
@@ -224,7 +261,6 @@ private fun ZodiacMoonPlaceholder() {
             ),
         contentAlignment = Alignment.Center
     ) {
-        // ماه ساده با رنگ طلایی
         Text(
             text = "☽",
             fontSize = 96.sp,

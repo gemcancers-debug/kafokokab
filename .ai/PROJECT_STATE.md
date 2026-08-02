@@ -1,78 +1,62 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Firebase foundation added
+Phase 2 - Google Sign-In implemented (needs Web Client ID check)
 
 ## مرحله فعلی
-فاز ۲ - پایه Firebase اضافه شد
+فاز ۲ - ورود با گوگل پیاده‌سازی شد (نیاز به بررسی Web Client ID)
 
 ---
 
 ## Completed
 - Full Onboarding UI + Home Dashboard
 - UserProfile + OnboardingViewModel
-- google-services.json added (contains com.kafokokab.app)
-- Google Services plugin + Firebase Auth + Play Services Auth dependencies
+- Firebase foundation (google-services.json)
+- AuthRepository + AuthRepositoryImpl
+- AuthViewModel
+- GoogleSignInHelper
+- LoginScreen connected to real Google Sign-In flow
 
 ## انجام شده
-- UI کامل آنبوردینگ + داشبورد
-- UserProfile + OnboardingViewModel
-- فایل google-services.json اضافه شد
-- پلاگین Google Services + وابستگی‌های Firebase Auth
+- UI کامل + داشبورد
+- مدل و ViewModel آنبوردینگ
+- پایه Firebase
+- لایه احراز هویت کامل
+- اتصال دکمه ورود با گوگل به منطق واقعی
 
 ---
 
 ## In Progress
-- Waiting for user to finish Firebase setup (SHA-1 + enable Google provider)
+- Verifying Web Client ID (default_web_client_id in strings.xml)
 
 ## در حال انجام
-- منتظر تکمیل تنظیمات Firebase توسط کاربر (SHA-1 + فعال‌سازی Google)
+- بررسی Web Client ID
 
 ---
 
-## Blocked
-- Real Google Sign-In button logic
-  Reason: oauth_client is empty in google-services.json
-  User must:
-  1. Enable Google Sign-in method in Firebase Authentication
-  2. Add SHA-1 fingerprint of the debug keystore
-  3. Re-download google-services.json if needed
+## Blocked / Attention Needed
+- `default_web_client_id` in strings.xml is still a placeholder.
+  If Google Sign-In fails with "10:" or invalid token errors:
+  1. Go to Firebase Console → Project Settings
+  2. Re-download google-services.json after enabling Google provider
+  3. Find the client_id with client_type: 3 (Web client)
+  4. Put that value into `app/src/main/res/values/strings.xml` → default_web_client_id
 
-## مسدود شده
-- منطق واقعی دکمه ورود با گوگل
-  دلیل: oauth_client در فایل خالی است
-  کاربر باید:
-  ۱. روش ورود Google را در Firebase Authentication فعال کند
-  ۲. اثر انگشت SHA-1 را اضافه کند
-  ۳. در صورت نیاز فایل را دوباره دانلود کند
-
----
-
-## Not Done
-- Bind ViewModel to screens
-- Actual Google Sign-In implementation code
-- DataStore persistence
-- Phase 3 Astrology Engine
-
-## انجام نشده
-- اتصال ViewModel به صفحات
-- پیاده‌سازی واقعی Google Sign-In
-- ذخیره با DataStore
-- فاز ۳ موتور آسترولوژی
+## نیاز به توجه
+- مقدار default_web_client_id هنوز placeholder است.
+  اگر ورود خطا داد، فایل google-services.json را دوباره دانلود کنید و Web Client ID را در strings.xml بگذارید.
 
 ---
 
 ## Next Step
-User action required:
-1. Firebase Console → Authentication → Sign-in method → Enable Google
-2. Project Settings → Add SHA-1 (I can give the Termux command)
-3. Tell me when done so I can implement the Sign-In code
+1. Test Google Sign-In on device
+2. If it fails → fix Web Client ID
+3. Then bind OnboardingViewModel to screens OR start Phase 3
 
 ## مرحله بعد
-اقدام لازم از سمت کاربر:
-۱. فعال کردن Google در Authentication
-۲. اضافه کردن SHA-1
-۳. خبر دادن تا کد ورود را بنویسم
+۱. تست ورود با گوگل روی گوشی
+۲. در صورت خطا → اصلاح Web Client ID
+۳. سپس اتصال ViewModel آنبوردینگ یا شروع فاز ۳
 
 ---
 
