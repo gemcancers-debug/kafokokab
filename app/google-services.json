@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "226667812430",
+    "project_id": "kafokokab",
+    "storage_bucket": "kafokokab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226667812430:android:27be99cd45f8d0073d551f",
+        "android_client_info": {
+          "package_name": "Com.company.kafokokab"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRvIB2wYmsM5IJRg6jS9jYtFYCfDPk_mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:226667812430:android:8e7ebf3dcbb6bc8d3d551f",
+        "android_client_info": {
+          "package_name": "com.kafokokab.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRvIB2wYmsM5IJRg6jS9jYtFYCfDPk_mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

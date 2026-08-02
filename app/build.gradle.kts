@@ -3,6 +3,7 @@
 وظیفه: پیکربندی ماژول اصلی اپلیکیشن
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
+آخرین تغییر: 2026-08-02 - اضافه شدن Firebase Auth و Google Sign-In
 */
 
 plugins {
@@ -11,6 +12,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -74,6 +76,12 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.analytics)
+    implementation(libs.play.services.auth)
 
     // Debug
     debugImplementation(libs.androidx.ui.tooling)
