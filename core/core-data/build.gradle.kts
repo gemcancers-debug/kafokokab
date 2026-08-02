@@ -3,6 +3,7 @@
 وظیفه: لایه Data (Room, DataStore, Repository Implementation)
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
+آخرین تغییر: 2026-08-02 - اضافه شدن Firebase Auth برای AuthRepositoryImpl
 */
 
 plugins {
@@ -43,4 +44,8 @@ dependencies {
 
     // DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Firebase Auth (برای AuthRepositoryImpl)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }
