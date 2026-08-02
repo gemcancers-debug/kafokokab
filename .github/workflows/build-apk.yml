@@ -52,6 +52,8 @@ jobs:
         with:
           name: kafokokab-debug-apk
           path: app/build/outputs/apk/debug/*.apk
+- name: Generate SHA Report
+  run: ./gradlew signingReport
           retention-days: 7
           if-no-files-found: warn
 
