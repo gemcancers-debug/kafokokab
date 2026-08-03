@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Fixing core-ui compilation (Modifier import)
+Phase 2 - Fixing Modifier import across entire app module
 
 ## مرحله فعلی
-فاز ۲ - رفع خطای کامپایل core-ui (import اشتباه Modifier)
+فاز ۲ - رفع import اشتباه Modifier در کل ماژول app
 
 ---
 
@@ -16,7 +16,8 @@ Phase 2 - Fixing core-ui compilation (Modifier import)
 - AuthViewModel
 - GoogleSignInHelper
 - LoginScreen connected to real Google Sign-In flow
-- GlassCard + PremiumBlurBox components (with correct import)
+- GlassCard + PremiumBlurBox (correct import)
+- core-ui Compose deps as api
 
 ## انجام شده
 - UI کامل + داشبورد
@@ -24,17 +25,18 @@ Phase 2 - Fixing core-ui compilation (Modifier import)
 - پایه Firebase
 - لایه احراز هویت کامل
 - اتصال دکمه ورود با گوگل به منطق واقعی
-- کامپوننت‌های GlassCard و PremiumBlurBox (با import صحیح)
+- کامپوننت‌های GlassCard و PremiumBlurBox
+- وابستگی‌های Compose در core-ui به صورت api
 
 ---
 
 ## In Progress
-- Verifying build after correct Modifier import fix
-- Verifying Web Client ID (default_web_client_id in strings.xml)
+- Fixed wrong import `androidx.compose.ui.Modifier.modifier` → `androidx.compose.ui.Modifier` in all 8 app module files
+- Waiting for GitHub Actions build after this push
 
 ## در حال انجام
-- بررسی بیلد بعد از اصلاح import صحیح Modifier
-- بررسی Web Client ID
+- اصلاح import اشتباه Modifier در ۸ فایل ماژول app
+- منتظر بیلد GitHub Actions بعد از این push
 
 ---
 
@@ -51,15 +53,28 @@ Phase 2 - Fixing core-ui compilation (Modifier import)
 
 ---
 
+## Root Cause of Build Failures
+Previous commits incorrectly used:
+`import androidx.compose.ui.Modifier.modifier`
+Correct is:
+`import androidx.compose.ui.Modifier`
+
+This affected MainActivity, AppNavHost, LoginScreen, HomeScreen, and all Onboarding screens.
+
+## علت اصلی شکست بیلدها
+import اشتباه در فایل‌های UI
+
+---
+
 ## Next Step
-1. Wait for new GitHub Actions build after this push
+1. Wait for new GitHub Actions build
 2. If green → download APK and test on device
 3. Then bind OnboardingViewModel or start Phase 3 (Astrology Core)
 
 ## مرحله بعد
-۱. منتظر بیلد جدید GitHub Actions بعد از این push
-۲. اگر سبز شد → دانلود APK و تست روی گوشی
-۳. سپس اتصال ViewModel آنبوردینگ یا شروع فاز ۳
+۱. منتظر بیلد جدید
+۲. اگر سبز شد → دانلود APK و تست
+۳. سپس اتصال ViewModel یا شروع فاز ۳
 
 ---
 
