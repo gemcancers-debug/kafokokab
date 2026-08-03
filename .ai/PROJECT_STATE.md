@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Google Sign-In implemented (needs Web Client ID check)
+Phase 2 - Fixing core-ui compilation + Google Sign-In ready
 
 ## مرحله فعلی
-فاز ۲ - ورود با گوگل پیاده‌سازی شد (نیاز به بررسی Web Client ID)
+فاز ۲ - رفع خطای کامپایل core-ui + ورود با گوگل آماده
 
 ---
 
@@ -16,6 +16,7 @@ Phase 2 - Google Sign-In implemented (needs Web Client ID check)
 - AuthViewModel
 - GoogleSignInHelper
 - LoginScreen connected to real Google Sign-In flow
+- GlassCard + PremiumBlurBox components
 
 ## انجام شده
 - UI کامل + داشبورد
@@ -23,18 +24,23 @@ Phase 2 - Google Sign-In implemented (needs Web Client ID check)
 - پایه Firebase
 - لایه احراز هویت کامل
 - اتصال دکمه ورود با گوگل به منطق واقعی
+- کامپوننت‌های GlassCard و PremiumBlurBox
 
 ---
 
 ## In Progress
+- Fixing Unresolved reference 'Modifier' in core-ui module
 - Verifying Web Client ID (default_web_client_id in strings.xml)
 
 ## در حال انجام
+- رفع خطای Unresolved reference 'Modifier' در ماژول core-ui
 - بررسی Web Client ID
 
 ---
 
 ## Blocked / Attention Needed
+- Build currently fails on core-ui:compileDebugKotlin because of Modifier import
+- Attempted fix: changed Compose dependencies from implementation to api + forced clean rewrite of the two component files
 - `default_web_client_id` in strings.xml is still a placeholder.
   If Google Sign-In fails with "10:" or invalid token errors:
   1. Go to Firebase Console → Project Settings
@@ -43,22 +49,25 @@ Phase 2 - Google Sign-In implemented (needs Web Client ID check)
   4. Put that value into `app/src/main/res/values/strings.xml` → default_web_client_id
 
 ## نیاز به توجه
+- بیلد فعلی روی core-ui:compileDebugKotlin به خاطر Modifier شکست می‌خورد
+- تلاش برای رفع: تغییر dependencyهای Compose به api + بازنویسی تمیز فایل‌ها
 - مقدار default_web_client_id هنوز placeholder است.
-  اگر ورود خطا داد، فایل google-services.json را دوباره دانلود کنید و Web Client ID را در strings.xml بگذارید.
 
 ---
 
 ## Next Step
-1. Test Google Sign-In on device
-2. If it fails → fix Web Client ID
-3. Then bind OnboardingViewModel to screens OR start Phase 3
+1. Wait for new GitHub Actions build after this push
+2. If still fails → dig deeper into Compose setup for library modules
+3. Then test Google Sign-In on device
+4. Bind OnboardingViewModel or start Phase 3
 
 ## مرحله بعد
-۱. تست ورود با گوگل روی گوشی
-۲. در صورت خطا → اصلاح Web Client ID
-۳. سپس اتصال ViewModel آنبوردینگ یا شروع فاز ۳
+۱. منتظر بیلد جدید GitHub Actions بعد از این push
+۲. اگر هنوز شکست خورد → بررسی عمیق‌تر تنظیمات Compose برای ماژول library
+۳. سپس تست ورود با گوگل روی گوشی
+۴. اتصال ViewModel آنبوردینگ یا شروع فاز ۳
 
 ---
 
-**Last Updated:** 2026-08-02  
+**Last Updated:** 2026-08-03  
 **Updated By:** AI Principal Engineer (Grok)

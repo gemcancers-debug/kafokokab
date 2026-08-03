@@ -2,7 +2,7 @@
 نام فایل: core/core-ui/build.gradle.kts
 وظیفه: Design System، Theme، کامپوننت‌های مشترک UI (GlassCard, PremiumBlurBox)
 نویسنده: AI Principal Engineer
-تاریخ: 2026-07-31
+تاریخ: 2026-08-03
 */
 
 plugins {
@@ -36,13 +36,16 @@ android {
 dependencies {
     implementation(project(":core:core-common"))
 
+    // Core Android
     implementation(libs.androidx.core.ktx)
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.extended)
 
+    // Compose BOM + UI (api تا در ماژول‌های دیگر هم در دسترس باشد)
+    api(platform(libs.androidx.compose.bom))
+    api(libs.androidx.ui)
+    api(libs.androidx.ui.graphics)
+    api(libs.androidx.material3)
+    api(libs.androidx.material.icons.extended)
+
+    implementation(libs.androidx.ui.tooling.preview)
     debugImplementation(libs.androidx.ui.tooling)
 }

@@ -2,7 +2,7 @@
 نام فایل: GlassCard.kt
 وظیفه: کارت گلاسمورفیسم (شیشه‌ای مات) برای استفاده در سراسر اپلیکیشن
 نویسنده: AI Principal Engineer
-تاریخ: 2026-07-31
+تاریخ: 2026-08-03
 */
 
 package com.kafokokab.core.ui.components
