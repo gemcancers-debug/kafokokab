@@ -1,10 +1,3 @@
-/*
-نام فایل: GlassCard.kt
-وظیفه: کارت گلاسمورفیسم (شیشه‌ای مات) برای استفاده در سراسر اپلیکیشن
-نویسنده: AI Principal Engineer
-تاریخ: 2026-08-03
-*/
-
 package com.kafokokab.core.ui.components
 
 import androidx.compose.foundation.background
@@ -24,14 +17,6 @@ import com.kafokokab.core.ui.theme.GlassBorder
 import com.kafokokab.core.ui.theme.GlassWhite
 import com.kafokokab.core.ui.theme.MysticPurple
 
-/**
- * کارت شیشه‌ای مات (Glassmorphism)
- * برای نمایش محتوا با ظاهر لوکس و مدرن استفاده می‌شود.
- *
- * @param modifier Modifier خارجی
- * @param cornerRadius شعاع گوشه‌ها
- * @param content محتوای داخل کارت
- */
 @Composable
 fun GlassCard(
     modifier: Modifier = Modifier,
