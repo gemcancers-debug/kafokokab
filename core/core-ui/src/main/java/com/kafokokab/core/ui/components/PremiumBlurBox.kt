@@ -1,12 +1,3 @@
-/*
-نام فایل: PremiumBlurBox.kt
-وظیفه: کامپوننت حیاتی برای قفل کردن محتوای Premium با افکت بلور + قفل طلایی
-نویسنده: AI Principal Engineer
-تاریخ: 2026-08-03
-
-این کامپوننت باید در تمام قابلیت‌های پولی استفاده شود.
-*/
-
 package com.kafokokab.core.ui.components
 
 import androidx.compose.foundation.background
@@ -36,14 +27,6 @@ import androidx.compose.ui.unit.dp
 import com.kafokokab.core.ui.theme.Gold
 import com.kafokokab.core.ui.theme.SoftWhite
 
-/**
- * جعبه قفل Premium.
- * محتوای داخل آن تار (blur) می‌شود و یک قفل طلایی + متن دعوت به ارتقا نمایش داده می‌شود.
- *
- * @param isPremium آیا کاربر اشتراک دارد؟ اگر true باشد محتوا بدون قفل نمایش داده می‌شود.
- * @param onUnlockClick کلیک روی قفل (معمولاً باز کردن صفحه خرید اشتراک)
- * @param content محتوای اصلی که در صورت نداشتن اشتراک تار می‌شود
- */
 @Composable
 fun PremiumBlurBox(
     isPremium: Boolean,
