@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Fixing core-ui compilation + Google Sign-In ready
+Phase 2 - Fixing core-ui compilation (Modifier import)
 
 ## مرحله فعلی
-فاز ۲ - رفع خطای کامپایل core-ui + ورود با گوگل آماده
+فاز ۲ - رفع خطای کامپایل core-ui (import اشتباه Modifier)
 
 ---
 
@@ -16,7 +16,7 @@ Phase 2 - Fixing core-ui compilation + Google Sign-In ready
 - AuthViewModel
 - GoogleSignInHelper
 - LoginScreen connected to real Google Sign-In flow
-- GlassCard + PremiumBlurBox components
+- GlassCard + PremiumBlurBox components (with correct import)
 
 ## انجام شده
 - UI کامل + داشبورد
@@ -24,23 +24,21 @@ Phase 2 - Fixing core-ui compilation + Google Sign-In ready
 - پایه Firebase
 - لایه احراز هویت کامل
 - اتصال دکمه ورود با گوگل به منطق واقعی
-- کامپوننت‌های GlassCard و PremiumBlurBox
+- کامپوننت‌های GlassCard و PremiumBlurBox (با import صحیح)
 
 ---
 
 ## In Progress
-- Fixing Unresolved reference 'Modifier' in core-ui module
+- Verifying build after correct Modifier import fix
 - Verifying Web Client ID (default_web_client_id in strings.xml)
 
 ## در حال انجام
-- رفع خطای Unresolved reference 'Modifier' در ماژول core-ui
+- بررسی بیلد بعد از اصلاح import صحیح Modifier
 - بررسی Web Client ID
 
 ---
 
 ## Blocked / Attention Needed
-- Build currently fails on core-ui:compileDebugKotlin because of Modifier import
-- Attempted fix: changed Compose dependencies from implementation to api + forced clean rewrite of the two component files
 - `default_web_client_id` in strings.xml is still a placeholder.
   If Google Sign-In fails with "10:" or invalid token errors:
   1. Go to Firebase Console → Project Settings
@@ -49,23 +47,19 @@ Phase 2 - Fixing core-ui compilation + Google Sign-In ready
   4. Put that value into `app/src/main/res/values/strings.xml` → default_web_client_id
 
 ## نیاز به توجه
-- بیلد فعلی روی core-ui:compileDebugKotlin به خاطر Modifier شکست می‌خورد
-- تلاش برای رفع: تغییر dependencyهای Compose به api + بازنویسی تمیز فایل‌ها
 - مقدار default_web_client_id هنوز placeholder است.
 
 ---
 
 ## Next Step
 1. Wait for new GitHub Actions build after this push
-2. If still fails → dig deeper into Compose setup for library modules
-3. Then test Google Sign-In on device
-4. Bind OnboardingViewModel or start Phase 3
+2. If green → download APK and test on device
+3. Then bind OnboardingViewModel or start Phase 3 (Astrology Core)
 
 ## مرحله بعد
 ۱. منتظر بیلد جدید GitHub Actions بعد از این push
-۲. اگر هنوز شکست خورد → بررسی عمیق‌تر تنظیمات Compose برای ماژول library
-۳. سپس تست ورود با گوگل روی گوشی
-۴. اتصال ViewModel آنبوردینگ یا شروع فاز ۳
+۲. اگر سبز شد → دانلود APK و تست روی گوشی
+۳. سپس اتصال ViewModel آنبوردینگ یا شروع فاز ۳
 
 ---
 
