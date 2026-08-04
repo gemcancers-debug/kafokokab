@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - COMPLETED ✅
+Phase 2 - COMPLETED ✅ (Auth UX polish in progress)
 
 ## مرحله فعلی
-فاز ۲ - تکمیل شد ✅
+فاز ۲ - تکمیل شد ✅ (بهبود تجربه ورود در حال انجام)
 
 ---
 
@@ -21,6 +21,10 @@ Phase 2 - COMPLETED ✅
 - **All remaining screens fixed**: HomeScreen, BirthInfoScreen, PersonalInfoScreen, ExtraInfoScreen, ReviewScreen
   - Correct import: `import androidx.compose.ui.Modifier`
 - **Successful CI Build** at SHA `1e68e7f` (Build Debug APK - conclusion: success)
+- **Auth UX improvements (2026-08-04)**:
+  - Clear Persian error messages for Google Sign-In failures
+  - Surface ApiException status codes (especially 10 = DEVELOPER_ERROR)
+  - Phone login button shows "coming soon" toast
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد خانه
@@ -32,53 +36,57 @@ Phase 2 - COMPLETED ✅
 - وابستگی‌های Compose در core-ui به صورت api
 - **همه صفحات باقی‌مانده اصلاح شدند**
 - **بیلد موفق CI** در SHA `1e68e7f`
+- **بهبود UX ورود (۲۰۲۶-۰۸-۰۴)**:
+  - پیام خطای واضح فارسی برای شکست Google Sign-In
+  - نمایش کد وضعیت ApiException (به‌خصوص ۱۰)
+  - دکمه شماره تلفن پیام «به‌زودی» نشان می‌دهد
 
 ---
 
 ## In Progress
-- None (Phase 2 finished)
+- Waiting for user to configure real Web Client ID in Firebase
 
 ## در حال انجام
-- هیچ (فاز ۲ تمام شد)
+- منتظر تنظیم Web Client ID واقعی در Firebase توسط کاربر
 
 ---
 
 ## Blocked / Attention Needed
 - `default_web_client_id` in strings.xml is still a placeholder.
-  If Google Sign-In fails with "10:" or invalid token errors:
-  1. Go to Firebase Console → Project Settings
-  2. Re-download google-services.json after enabling Google provider
-  3. Find the client_id with client_type: 3 (Web client)
-  4. Put that value into `app/src/main/res/values/strings.xml` → default_web_client_id
+- `google-services.json` has empty `oauth_client: []`.
+  **Required steps for Google Sign-In to work:**
+  1. Firebase Console → Authentication → Sign-in method → Enable **Google**
+  2. Project Settings → download fresh `google-services.json`
+  3. Replace `app/google-services.json`
+  4. Copy the `client_id` with `client_type: 3` (Web client)
+  5. Put it into `app/src/main/res/values/strings.xml` → `default_web_client_id`
+  6. Rebuild & reinstall APK
 
 ## نیاز به توجه
 - مقدار default_web_client_id هنوز placeholder است.
+- فایل google-services.json بخش oauth_client خالی است.
 
 ---
 
-## Root Cause of Previous Build Failures (Resolved)
-Wrong import used in multiple files:
-`import androidx.compose.ui.Modifier.modifier`
-
-Correct import is:
-`import androidx.compose.ui.Modifier`
-
-All instances have been corrected. Build is now green.
+## Notes on current behavior
+- **Google Sign-In**: Account picker works; after selection fails silently until Web Client ID is fixed. Now shows clear Toast with error code.
+- **Phone login**: No real OTP yet. Navigates to onboarding for testing; shows "coming soon" message.
+- **Face camera in ExtraInfo**: UI-only toggle (no real camera) by privacy design.
+- **Mole selection chips**: Local state only; should be tappable.
 
 ---
 
 ## Next Step (Recommended)
-1. Download the successful APK from GitHub Actions artifacts and test on device
-2. Connect OnboardingViewModel fully to the UI screens (if not already fully bound)
-3. Or start Phase 3: Astrology Core Engine (planet data, birth chart calculation foundation)
+1. User configures Firebase Google provider + Web Client ID
+2. Rebuild APK and retest Google Sign-In
+3. Then: fully bind OnboardingViewModel OR start Phase 3 (Astrology Core)
 
 ## مرحله بعد (پیشنهادی)
-۱. دانلود APK موفق از Artifacts گیت‌هاب و تست روی دستگاه
-۲. اتصال کامل OnboardingViewModel به صفحات UI
-۳. یا شروع فاز ۳: موتور اصلی نجوم (داده سیارات، پایه محاسبه چارت تولد)
+۱. کاربر Google provider و Web Client ID را در Firebase تنظیم کند
+۲. بیلد مجدد و تست ورود با جیمیل
+۳. سپس: اتصال کامل OnboardingViewModel یا شروع فاز ۳
 
 ---
 
 **Last Updated:** 2026-08-04  
-**Updated By:** AI Principal Engineer (Grok)  
-**Latest Successful SHA:** 1e68e7f218aa9c707a671395d93ac73e251aeaa2
+**Updated By:** AI Principal Engineer (Grok)

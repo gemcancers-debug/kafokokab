@@ -3,7 +3,7 @@
 وظیفه: صفحه ورود اصلی + اتصال واقعی به Google Sign-In
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-آخرین تغییر: 2026-08-02 - اضافه شدن منطق واقعی ورود با گوگل
+آخرین تغییر: 2026-08-04 - پیام خطای واضح‌تر + UX ورود با شماره
 */
 
 package com.kafokokab.app.ui.auth
@@ -57,7 +57,7 @@ import com.kafokokab.core.ui.theme.SoftWhite
  * صفحه ورود اصلی.
  *
  * @param onLoginSuccess بعد از ورود موفق صدا زده می‌شود
- * @param onPhoneClick کلیک روی ورود با شماره تلفن (فعلاً فقط UI)
+ * @param onPhoneClick کلیک روی ورود با شماره تلفن (فعلاً مسیر تست آنبوردینگ)
  */
 @Composable
 fun LoginScreen(
@@ -73,12 +73,26 @@ fun LoginScreen(
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val idToken = googleSignInHelper.extractIdToken(result.data)
-            if (idToken != null) {
-                viewModel.signInWithGoogle(idToken)
-            } else {
-                Toast.makeText(context, "ورود با گوگل ناموفق بود", Toast.LENGTH_SHORT).show()
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                when (val signInResult = googleSignInHelper.processSignInResult(result.data)) {
+                    is GoogleSignInResult.Success -> {
+                        viewModel.signInWithGoogle(signInResult.idToken)
+                    }
+                    is GoogleSignInResult.Failure -> {
+                        Toast.makeText(context, signInResult.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            Activity.RESULT_CANCELED -> {
+                Toast.makeText(context, "ورود لغو شد", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                Toast.makeText(
+                    context,
+                    "نتیجه ورود نامعتبر (کد ${result.resultCode})",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -168,7 +182,7 @@ fun LoginScreen(
                     }
                 )
 
-                // دکمه ورود با شماره تلفن (فعلاً فقط UI)
+                // دکمه ورود با شماره تلفن (فعلاً مسیر تست + پیام به‌زودی)
                 LoginButton(
                     text = "ورود با شماره تلفن",
                     enabled = uiState !is AuthUiState.Loading,
@@ -180,7 +194,14 @@ fun LoginScreen(
                             modifier = Modifier.size(22.dp)
                         )
                     },
-                    onClick = onPhoneClick
+                    onClick = {
+                        Toast.makeText(
+                            context,
+                            "ورود با شماره تلفن به‌زودی فعال می‌شود — فعلاً مسیر تست باز می‌شود",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        onPhoneClick()
+                    }
                 )
             }
         }
