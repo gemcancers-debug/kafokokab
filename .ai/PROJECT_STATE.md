@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Fixing Modifier import across entire app module
+Phase 2 - Waiting for successful build after final Modifier import fixes
 
 ## مرحله فعلی
-فاز ۲ - رفع import اشتباه Modifier در کل ماژول app
+فاز ۲ - منتظر بیلد موفق بعد از اصلاح نهایی import Modifier
 
 ---
 
@@ -18,6 +18,8 @@ Phase 2 - Fixing Modifier import across entire app module
 - LoginScreen connected to real Google Sign-In flow
 - GlassCard + PremiumBlurBox (correct import)
 - core-ui Compose deps as api
+- **All remaining screens fixed**: HomeScreen, BirthInfoScreen, PersonalInfoScreen, ExtraInfoScreen, ReviewScreen
+  - Correct import: `import androidx.compose.ui.Modifier`
 
 ## انجام شده
 - UI کامل + داشبورد
@@ -27,16 +29,15 @@ Phase 2 - Fixing Modifier import across entire app module
 - اتصال دکمه ورود با گوگل به منطق واقعی
 - کامپوننت‌های GlassCard و PremiumBlurBox
 - وابستگی‌های Compose در core-ui به صورت api
+- **همه صفحات باقی‌مانده اصلاح شدند**
 
 ---
 
 ## In Progress
-- Fixed wrong import `androidx.compose.ui.Modifier.modifier` → `androidx.compose.ui.Modifier` in all 8 app module files
-- Waiting for GitHub Actions build after this push
+- Waiting for GitHub Actions build after the latest pushes (SHA e4229419...)
 
 ## در حال انجام
-- اصلاح import اشتباه Modifier در ۸ فایل ماژول app
-- منتظر بیلد GitHub Actions بعد از این push
+- منتظر بیلد GitHub Actions بعد از آخرین pushها
 
 ---
 
@@ -53,16 +54,14 @@ Phase 2 - Fixing Modifier import across entire app module
 
 ---
 
-## Root Cause of Build Failures
-Previous commits incorrectly used:
+## Root Cause of Previous Build Failures
+Wrong import used in multiple files:
 `import androidx.compose.ui.Modifier.modifier`
-Correct is:
+
+Correct import is:
 `import androidx.compose.ui.Modifier`
 
-This affected MainActivity, AppNavHost, LoginScreen, HomeScreen, and all Onboarding screens.
-
-## علت اصلی شکست بیلدها
-import اشتباه در فایل‌های UI
+All instances have now been corrected.
 
 ---
 
@@ -78,5 +77,5 @@ import اشتباه در فایل‌های UI
 
 ---
 
-**Last Updated:** 2026-08-03  
+**Last Updated:** 2026-08-04  
 **Updated By:** AI Principal Engineer (Grok)
