@@ -4,11 +4,7 @@
 طراحی: بر اساس UI آپلود شده توسط کاربر
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته برای ویرایش بعدی:
-- فیلدهای نام به راحتی قابل گسترش هستند
-- جای عکس کف دست فعلاً placeholder است (منطق دوربین بعداً اضافه می‌شود)
-- از کامپوننت‌های مشترک OnboardingHeader و ContinueButton استفاده می‌کند
+آخرین تغییر: 2026-08-05 - اتصال به OnboardingViewModel
 */
 
 package com.kafokokab.app.ui.onboarding
@@ -40,51 +36,32 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
-import com.kafokokab.core.ui.theme.MysticPurple
 import com.kafokokab.core.ui.theme.NeonPink
 import com.kafokokab.core.ui.theme.SoftWhite
 
 /**
  * صفحه اطلاعات شخصی (مرحله ۲ از ۴).
- *
- * شامل:
- * - نام، نام خانوادگی، نام مادر
- * - جای عکس کف دست چپ و راست
- * - یادآوری Premium برای تحلیل کامل کف دست
- *
- * @param onBack بازگشت به مرحله قبل
- * @param onContinue رفتن به مرحله بعد
- * @param onSkipPalm رد کردن موقت عکس کف دست
  */
 @Composable
 fun PersonalInfoScreen(
+    viewModel: OnboardingViewModel,
     onBack: () -> Unit = {},
     onContinue: () -> Unit = {},
     onSkipPalm: () -> Unit = {}
 ) {
-    // وضعیت فیلدهای متنی (بعداً به ViewModel منتقل می‌شود)
-    var firstName by remember { mutableStateOf("") }
-    var lastName by remember { mutableStateOf("") }
-    var motherName by remember { mutableStateOf("") }
-
-    // وضعیت عکس کف دست (فعلاً فقط UI)
-    var hasLeftPalm by remember { mutableStateOf(false) }
-    var hasRightPalm by remember { mutableStateOf(false) }
+    val profile by viewModel.profile.collectAsState()
 
     Box(
         modifier = Modifier
@@ -105,7 +82,6 @@ fun PersonalInfoScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
         ) {
-            // هدر مشترک آنبوردینگ
             OnboardingHeader(
                 currentStep = 2,
                 totalSteps = 4,
@@ -115,35 +91,37 @@ fun PersonalInfoScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // بخش نام‌ها
             SectionCard(
                 title = "اطلاعات فردی",
                 icon = Icons.Default.Person
             ) {
-                // نام
                 OnboardingTextField(
-                    value = firstName,
-                    onValueChange = { firstName = it },
+                    value = profile.firstName,
+                    onValueChange = {
+                        viewModel.updatePersonalInfo(it, profile.lastName, profile.motherName)
+                    },
                     label = "نام",
                     placeholder = "نام خود را وارد کنید"
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // نام خانوادگی
                 OnboardingTextField(
-                    value = lastName,
-                    onValueChange = { lastName = it },
+                    value = profile.lastName,
+                    onValueChange = {
+                        viewModel.updatePersonalInfo(profile.firstName, it, profile.motherName)
+                    },
                     label = "نام خانوادگی",
                     placeholder = "نام خانوادگی خود را وارد کنید"
                 )
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // نام مادر (برای محاسبات ابجد و طالع‌بینی سنتی)
                 OnboardingTextField(
-                    value = motherName,
-                    onValueChange = { motherName = it },
+                    value = profile.motherName,
+                    onValueChange = {
+                        viewModel.updatePersonalInfo(profile.firstName, profile.lastName, it)
+                    },
                     label = "نام مادر",
                     placeholder = "نام مادر خود را وارد کنید"
                 )
@@ -151,7 +129,6 @@ fun PersonalInfoScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // بخش عکس کف دست
             SectionCard(
                 title = "تصویر کف دست",
                 icon = Icons.Default.CameraAlt
@@ -167,32 +144,33 @@ fun PersonalInfoScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    // کف دست چپ
                     PalmPhotoBox(
                         label = "کف دست چپ",
-                        hasPhoto = hasLeftPalm,
+                        hasPhoto = profile.hasLeftPalmPhoto,
                         modifier = Modifier.weight(1f),
                         onClick = {
-                            // فعلاً فقط وضعیت را تغییر می‌دهیم
-                            // منطق واقعی دوربین بعداً اضافه می‌شود
-                            hasLeftPalm = !hasLeftPalm
+                            viewModel.updatePalmPhotos(
+                                !profile.hasLeftPalmPhoto,
+                                profile.hasRightPalmPhoto
+                            )
                         }
                     )
 
-                    // کف دست راست
                     PalmPhotoBox(
                         label = "کف دست راست",
-                        hasPhoto = hasRightPalm,
+                        hasPhoto = profile.hasRightPalmPhoto,
                         modifier = Modifier.weight(1f),
                         onClick = {
-                            hasRightPalm = !hasRightPalm
+                            viewModel.updatePalmPhotos(
+                                profile.hasLeftPalmPhoto,
+                                !profile.hasRightPalmPhoto
+                            )
                         }
                     )
                 }
 
                 Spacer(modifier = Modifier.height(14.dp))
 
-                // یادآوری Premium
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
@@ -217,7 +195,6 @@ fun PersonalInfoScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // گزینه رد کردن موقت
                 Text(
                     text = "بعداً وارد می‌کنم",
                     style = MaterialTheme.typography.bodyMedium,
@@ -232,7 +209,6 @@ fun PersonalInfoScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // دکمه ادامه
             ContinueButton(
                 text = "ادامه",
                 onClick = onContinue
@@ -243,10 +219,6 @@ fun PersonalInfoScreen(
     }
 }
 
-/**
- * فیلد متنی استاندارد برای صفحات آنبوردینگ.
- * ظاهر آن با تم کهکشانی هماهنگ است.
- */
 @Composable
 fun OnboardingTextField(
     value: String,
@@ -286,11 +258,6 @@ fun OnboardingTextField(
     }
 }
 
-/**
- * جعبه انتخاب عکس کف دست.
- * فعلاً فقط UI است و با کلیک وضعیت را تغییر می‌دهد.
- * بعداً به دوربین یا گالری متصل می‌شود.
- */
 @Composable
 fun PalmPhotoBox(
     label: String,
@@ -319,14 +286,8 @@ fun PalmPhotoBox(
                 .clickable(onClick = onClick),
             contentAlignment = Alignment.Center
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                // نماد ساده دست
-                Text(
-                    text = "✋",
-                    fontSize = 36.sp
-                )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(text = "✋", fontSize = 36.sp)
                 Spacer(modifier = Modifier.height(8.dp))
                 Icon(
                     imageVector = Icons.Default.CameraAlt,

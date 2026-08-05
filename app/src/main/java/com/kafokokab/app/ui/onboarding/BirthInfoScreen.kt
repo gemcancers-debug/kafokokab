@@ -4,11 +4,7 @@
 طراحی: بر اساس UI آپلود شده توسط کاربر
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته برای ویرایش بعدی:
-- همه بخش‌ها به کامپوننت‌های کوچک جدا شده‌اند
-- لیست ماه‌های شمسی و استان‌ها به راحتی قابل تغییر هستند
-- رنگ‌ها و فاصله‌ها از Theme می‌آیند
+آخرین تغییر: 2026-08-05 - اتصال به OnboardingViewModel
 */
 
 package com.kafokokab.app.ui.onboarding
@@ -43,10 +39,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -64,26 +58,26 @@ import com.kafokokab.core.ui.theme.SoftWhite
 
 /**
  * صفحه اطلاعات تولد (مرحله ۱ از ۴).
- *
- * @param onBack کلیک روی دکمه بازگشت
- * @param onContinue کلیک روی دکمه ادامه (با داده‌های وارد شده)
  */
 @Composable
 fun BirthInfoScreen(
+    viewModel: OnboardingViewModel,
     onBack: () -> Unit = {},
     onContinue: () -> Unit = {}
 ) {
-    // وضعیت‌های فرم (بعداً به ViewModel منتقل می‌شوند)
-    var selectedDay by remember { mutableStateOf("۱۵") }
-    var selectedMonth by remember { mutableStateOf("اردیبهشت") }
-    var selectedYear by remember { mutableStateOf("۱۳۷۰") }
-    var selectedGender by remember { mutableStateOf("مرد") } // مرد یا زن
-    var birthHour by remember { mutableStateOf("۱۴") }
-    var birthMinute by remember { mutableStateOf("۳۰") }
-    var unknownTime by remember { mutableStateOf(false) }
-    var selectedCountry by remember { mutableStateOf("ایران") }
-    var selectedProvince by remember { mutableStateOf("تهران") }
-    var selectedCity by remember { mutableStateOf("تهران") }
+    val profile by viewModel.profile.collectAsState()
+
+    // مقادیر پیش‌فرض اگر خالی باشند
+    val selectedDay = profile.birthDay.ifBlank { "۱۵" }
+    val selectedMonth = profile.birthMonth.ifBlank { "اردیبهشت" }
+    val selectedYear = profile.birthYear.ifBlank { "۱۳۷۰" }
+    val selectedGender = profile.gender.ifBlank { "مرد" }
+    val birthHour = profile.birthHour.ifBlank { "۱۴" }
+    val birthMinute = profile.birthMinute.ifBlank { "۳۰" }
+    val unknownTime = profile.isBirthTimeUnknown
+    val selectedCountry = profile.birthCountry.ifBlank { "ایران" }
+    val selectedProvince = profile.birthProvince.ifBlank { "تهران" }
+    val selectedCity = profile.birthCity.ifBlank { "تهران" }
 
     Box(
         modifier = Modifier
@@ -104,7 +98,6 @@ fun BirthInfoScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp)
         ) {
-            // هدر با دکمه بازگشت و نوار پیشرفت
             OnboardingHeader(
                 currentStep = 1,
                 totalSteps = 4,
@@ -114,7 +107,6 @@ fun BirthInfoScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // بخش تاریخ تولد
             SectionCard(
                 title = "تاریخ تولد",
                 icon = Icons.Default.CalendarMonth
@@ -123,33 +115,29 @@ fun BirthInfoScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    // روز
                     SelectorBox(
                         label = "روز",
                         value = selectedDay,
                         modifier = Modifier.weight(1f),
-                        onClick = { /* بعداً DatePicker */ }
+                        onClick = { /* DatePicker بعداً */ }
                     )
-                    // ماه شمسی
                     SelectorBox(
                         label = "ماه",
                         value = selectedMonth,
                         modifier = Modifier.weight(1.3f),
-                        onClick = { /* بعداً لیست ماه‌ها */ }
+                        onClick = { }
                     )
-                    // سال
                     SelectorBox(
                         label = "سال",
                         value = selectedYear,
                         modifier = Modifier.weight(1.2f),
-                        onClick = { /* بعداً سال‌ها */ }
+                        onClick = { }
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // بخش جنسیت
             SectionCard(
                 title = "جنسیت",
                 icon = Icons.Default.Person
@@ -162,34 +150,36 @@ fun BirthInfoScreen(
                         text = "زن",
                         selected = selectedGender == "زن",
                         modifier = Modifier.weight(1f),
-                        onClick = { selectedGender = "زن" }
+                        onClick = { viewModel.updateGender("زن") }
                     )
                     GenderChip(
                         text = "مرد",
                         selected = selectedGender == "مرد",
                         modifier = Modifier.weight(1f),
-                        onClick = { selectedGender = "مرد" }
+                        onClick = { viewModel.updateGender("مرد") }
                     )
                 }
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // بخش زمان تولد
             SectionCard(
                 title = "زمان تولد",
                 icon = Icons.Default.Schedule
             ) {
-                // چک‌باکس «ساعت تولدم را نمی‌دانم»
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { unknownTime = !unknownTime }
+                        .clickable {
+                            viewModel.updateBirthTime(birthHour, birthMinute, !unknownTime)
+                        }
                 ) {
                     Checkbox(
                         checked = unknownTime,
-                        onCheckedChange = { unknownTime = it },
+                        onCheckedChange = {
+                            viewModel.updateBirthTime(birthHour, birthMinute, it)
+                        },
                         colors = CheckboxDefaults.colors(
                             checkedColor = NeonPink,
                             uncheckedColor = SoftWhite.copy(alpha = 0.5f)
@@ -222,7 +212,6 @@ fun BirthInfoScreen(
                         )
                     }
                 } else {
-                    // پیشنهاد تخمین ساعت (Premium)
                     Spacer(modifier = Modifier.height(10.dp))
                     Text(
                         text = "می‌توانید بعداً با روش‌های پیشرفته ساعت تقریبی را تخمین بزنید (ویژه)",
@@ -234,7 +223,6 @@ fun BirthInfoScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // بخش مکان تولد
             SectionCard(
                 title = "مکان تولد",
                 icon = Icons.Default.LocationOn
@@ -266,10 +254,16 @@ fun BirthInfoScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // دکمه ادامه
             ContinueButton(
                 text = "ادامه",
-                onClick = onContinue
+                onClick = {
+                    // ذخیره مقادیر فعلی در ViewModel قبل از رفتن به مرحله بعد
+                    viewModel.updateBirthDate(selectedDay, selectedMonth, selectedYear)
+                    viewModel.updateBirthTime(birthHour, birthMinute, unknownTime)
+                    viewModel.updateGender(selectedGender)
+                    viewModel.updateBirthLocation(selectedCountry, selectedProvince, selectedCity)
+                    onContinue()
+                }
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -279,12 +273,8 @@ fun BirthInfoScreen(
 
 // ============================================================
 // کامپوننت‌های قابل استفاده مجدد برای آنبوردینگ
-// این کامپوننت‌ها را می‌توانید در صفحات بعدی هم استفاده کنید
 // ============================================================
 
-/**
- * هدر مشترک صفحات آنبوردینگ (عنوان + نوار پیشرفت + بازگشت)
- */
 @Composable
 fun OnboardingHeader(
     currentStep: Int,
@@ -297,7 +287,6 @@ fun OnboardingHeader(
             .fillMaxWidth()
             .padding(top = 16.dp)
     ) {
-        // ردیف بازگشت و نوار پیشرفت
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -310,7 +299,6 @@ fun OnboardingHeader(
                 )
             }
 
-            // نوار پیشرفت دایره‌ای
             Row(
                 modifier = Modifier.weight(1f),
                 horizontalArrangement = Arrangement.Center,
@@ -351,7 +339,6 @@ fun OnboardingHeader(
                 }
             }
 
-            // فضای خالی برای تعادل با دکمه بازگشت
             Spacer(modifier = Modifier.width(48.dp))
         }
 
@@ -369,9 +356,6 @@ fun OnboardingHeader(
     }
 }
 
-/**
- * کارت بخش با عنوان و آیکون (گلاسمورفیسم ساده)
- */
 @Composable
 fun SectionCard(
     title: String,
@@ -411,9 +395,6 @@ fun SectionCard(
     }
 }
 
-/**
- * جعبه انتخاب (برای روز، ماه، سال، شهر و ...)
- */
 @Composable
 fun SelectorBox(
     label: String,
@@ -451,9 +432,6 @@ fun SelectorBox(
     }
 }
 
-/**
- * چیپ انتخاب جنسیت
- */
 @Composable
 fun GenderChip(
     text: String,
@@ -486,9 +464,6 @@ fun GenderChip(
     }
 }
 
-/**
- * دکمه ادامه پایین صفحه
- */
 @Composable
 fun ContinueButton(
     text: String,
