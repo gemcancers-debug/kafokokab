@@ -4,12 +4,12 @@
 طراحی: بر اساس UI آپلود شده + تصمیم حریم خصوصی کاربر
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
+آخرین تغییر: 2026-08-05 - اتصال به OnboardingViewModel
 
 نکته بسیار مهم:
 - هیچ عکسی از بدن برای خال‌شناسی گرفته نمی‌شود
 - فقط انتخاب موقعیت خال از منوی شیشه‌ای
-- قسمت‌های حساس (نشیمنگاه، آلت جنسی و ...) حذف شده‌اند
-- لحن «قفسه سینه» خنثی و مردانه‌تر است
+- قسمت‌های حساس حذف شده‌اند
 */
 
 package com.kafokokab.app.ui.onboarding
@@ -22,14 +22,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -41,10 +39,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -53,101 +49,45 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
-import com.kafokokab.core.ui.theme.MysticPurple
 import com.kafokokab.core.ui.theme.NeonPink
 import com.kafokokab.core.ui.theme.SoftWhite
 
-/**
- * لیست موقعیت‌های بدن برای خال‌شناسی.
- * این لیست را می‌توانید بعداً به راحتی ویرایش یا گسترش دهید.
- * هیچ قسمت حساسی در آن وجود ندارد.
- */
 object MoleBodyParts {
     val face = listOf(
-        "پیشانی",
-        "ابروی چپ",
-        "ابروی راست",
-        "گونه چپ",
-        "گونه راست",
-        "بینی",
-        "لب",
-        "چانه",
-        "شقیقه چپ",
-        "شقیقه راست"
+        "پیشانی", "ابروی چپ", "ابروی راست", "گونه چپ", "گونه راست",
+        "بینی", "لب", "چانه", "شقیقه چپ", "شقیقه راست"
     )
-
-    val neck = listOf(
-        "جلوی گردن",
-        "پشت گردن",
-        "سمت چپ گردن",
-        "سمت راست گردن"
-    )
-
+    val neck = listOf("جلوی گردن", "پشت گردن", "سمت چپ گردن", "سمت راست گردن")
     val upperBody = listOf(
-        "شانه چپ",
-        "شانه راست",
-        "قفسه سینه",           // لحن خنثی و مردانه‌تر
-        "پشت (بالا)",
-        "پشت (وسط)",
-        "پهلوی چپ",
-        "پهلوی راست"
+        "شانه چپ", "شانه راست", "قفسه سینه",
+        "پشت (بالا)", "پشت (وسط)", "پهلوی چپ", "پهلوی راست"
     )
-
     val arms = listOf(
-        "بازو چپ",
-        "بازو راست",
-        "ساعد چپ",
-        "ساعد راست",
-        "مچ دست چپ",
-        "مچ دست راست"
+        "بازو چپ", "بازو راست", "ساعد چپ", "ساعد راست",
+        "مچ دست چپ", "مچ دست راست"
     )
-
     val lowerBody = listOf(
-        "شکم",
-        "کمر",
-        "ران چپ",
-        "ران راست",
-        "زانوی چپ",
-        "زانوی راست",
-        "ساق پای چپ",
-        "ساق پای راست",
-        "قوزک پای چپ",
-        "قوزک پای راست",
-        "روی پای چپ",
-        "روی پای راست",
-        "پاشنه پای چپ",
-        "پاشنه پای راست",
-        "کف پای چپ",
-        "کف پای راست"
+        "شکم", "کمر", "ران چپ", "ران راست", "زانوی چپ", "زانوی راست",
+        "ساق پای چپ", "ساق پای راست", "قوزک پای چپ", "قوزک پای راست",
+        "روی پای چپ", "روی پای راست", "پاشنه پای چپ", "پاشنه پای راست",
+        "کف پای چپ", "کف پای راست"
     )
-
-    /** همه موقعیت‌ها به صورت یک لیست تخت */
     val all: List<String> = face + neck + upperBody + arms + lowerBody
 }
 
-/**
- * صفحه اطلاعات تکمیلی (مرحله ۳ از ۴).
- *
- * شامل:
- * - جای اسکن چهره (اختیاری)
- * - منوی شیشه‌ای انتخاب موقعیت خال‌ها (بدون هیچ عکسی)
- * - موارد اختیاری دیگر
- */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ExtraInfoScreen(
+    viewModel: OnboardingViewModel,
     onBack: () -> Unit = {},
     onContinue: () -> Unit = {},
     onSkip: () -> Unit = {}
 ) {
-    // وضعیت انتخاب‌شده‌های خال
-    var selectedMoles by remember { mutableStateOf(setOf<String>()) }
-
-    // وضعیت اسکن چهره (فعلاً فقط UI)
-    var hasFaceScan by remember { mutableStateOf(false) }
+    val profile by viewModel.profile.collectAsState()
+    val selectedMoles = profile.selectedMolePositions
+    val hasFaceScan = profile.hasFacePhoto
 
     Box(
         modifier = Modifier
@@ -177,7 +117,6 @@ fun ExtraInfoScreen(
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------- بخش چهره‌شناسی ----------
             SectionCard(
                 title = "چهره‌شناسی",
                 icon = Icons.Default.Face
@@ -189,7 +128,6 @@ fun ExtraInfoScreen(
                     modifier = Modifier.padding(bottom = 12.dp)
                 )
 
-                // جای عکس چهره
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -204,7 +142,7 @@ fun ExtraInfoScreen(
                             color = if (hasFaceScan) NeonPink else SoftWhite.copy(alpha = 0.2f),
                             shape = RoundedCornerShape(16.dp)
                         )
-                        .clickable { hasFaceScan = !hasFaceScan },
+                        .clickable { viewModel.updateFacePhoto(!hasFaceScan) },
                     contentAlignment = Alignment.Center
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -244,12 +182,10 @@ fun ExtraInfoScreen(
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            // ---------- بخش خال‌شناسی (بدون عکس) ----------
             SectionCard(
                 title = "خال‌شناسی",
                 icon = Icons.Default.Lock
             ) {
-                // توضیح کوتاه و شفاف
                 Text(
                     text = "موقعیت خال‌های بدن خود را انتخاب کنید. نیازی به گرفتن عکس نیست.",
                     style = MaterialTheme.typography.bodySmall,
@@ -263,66 +199,41 @@ fun ExtraInfoScreen(
                     modifier = Modifier.padding(bottom = 14.dp)
                 )
 
-                // منوی موقعیت‌ها به صورت دسته‌بندی شده
                 MoleCategorySection(
                     title = "صورت و سر",
                     items = MoleBodyParts.face,
                     selected = selectedMoles,
-                    onToggle = { part ->
-                        selectedMoles = if (part in selectedMoles) selectedMoles - part
-                        else selectedMoles + part
-                    }
+                    onToggle = { viewModel.toggleMolePosition(it) }
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 MoleCategorySection(
                     title = "گردن",
                     items = MoleBodyParts.neck,
                     selected = selectedMoles,
-                    onToggle = { part ->
-                        selectedMoles = if (part in selectedMoles) selectedMoles - part
-                        else selectedMoles + part
-                    }
+                    onToggle = { viewModel.toggleMolePosition(it) }
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 MoleCategorySection(
                     title = "بالاتنه",
                     items = MoleBodyParts.upperBody,
                     selected = selectedMoles,
-                    onToggle = { part ->
-                        selectedMoles = if (part in selectedMoles) selectedMoles - part
-                        else selectedMoles + part
-                    }
+                    onToggle = { viewModel.toggleMolePosition(it) }
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 MoleCategorySection(
                     title = "دست‌ها",
                     items = MoleBodyParts.arms,
                     selected = selectedMoles,
-                    onToggle = { part ->
-                        selectedMoles = if (part in selectedMoles) selectedMoles - part
-                        else selectedMoles + part
-                    }
+                    onToggle = { viewModel.toggleMolePosition(it) }
                 )
-
                 Spacer(modifier = Modifier.height(12.dp))
-
                 MoleCategorySection(
                     title = "پایین تنه و پاها",
                     items = MoleBodyParts.lowerBody,
                     selected = selectedMoles,
-                    onToggle = { part ->
-                        selectedMoles = if (part in selectedMoles) selectedMoles - part
-                        else selectedMoles + part
-                    }
+                    onToggle = { viewModel.toggleMolePosition(it) }
                 )
 
-                // نمایش تعداد انتخاب‌شده
                 if (selectedMoles.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
@@ -337,20 +248,13 @@ fun ExtraInfoScreen(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            ContinueButton(
-                text = "ادامه",
-                onClick = onContinue
-            )
+            ContinueButton(text = "ادامه", onClick = onContinue)
 
             Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
 
-/**
- * یک دسته از موقعیت‌های بدن با عنوان و چیپ‌های قابل انتخاب.
- * ظاهر شیشه‌ای و هماهنگ با تم پروژه.
- */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MoleCategorySection(

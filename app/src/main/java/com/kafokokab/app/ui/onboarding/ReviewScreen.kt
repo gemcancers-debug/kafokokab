@@ -4,11 +4,7 @@
 طراحی: بر اساس UI آپلود شده توسط کاربر
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته برای ویرایش بعدی:
-- داده‌ها فعلاً به صورت نمونه (hardcoded) نمایش داده می‌شوند
-- بعداً از ViewModel و State واقعی خوانده می‌شوند
-- دکمه «تغییر» هر بخش را به صفحه مربوطه برمی‌گرداند
+آخرین تغییر: 2026-08-05 - نمایش داده واقعی از OnboardingViewModel
 */
 
 package com.kafokokab.app.ui.onboarding
@@ -41,6 +37,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,24 +50,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
-import com.kafokokab.core.ui.theme.MysticPurple
 import com.kafokokab.core.ui.theme.NeonPink
 import com.kafokokab.core.ui.theme.SoftWhite
 
-/**
- * صفحه بررسی نهایی (مرحله ۴ از ۴).
- *
- * کاربر تمام اطلاعات وارد شده را می‌بیند و می‌تواند قبل از ورود نهایی آن‌ها را ویرایش کند.
- *
- * @param onBack بازگشت
- * @param onConfirm تأیید نهایی و ورود به برنامه
- * @param onEditBirth ویرایش اطلاعات تولد
- * @param onEditPersonal ویرایش اطلاعات فردی
- * @param onEditPhotos ویرایش تصاویر و تحلیل‌ها
- * @param onEditOptional ویرایش موارد اختیاری
- */
 @Composable
 fun ReviewScreen(
+    viewModel: OnboardingViewModel,
     onBack: () -> Unit = {},
     onConfirm: () -> Unit = {},
     onEditBirth: () -> Unit = {},
@@ -77,14 +63,37 @@ fun ReviewScreen(
     onEditPhotos: () -> Unit = {},
     onEditOptional: () -> Unit = {}
 ) {
-    // داده‌های نمونه – بعداً از ViewModel می‌آیند
-    val sampleBirthDate = "۱۵ اردیبهشت ۱۳۷۰"
-    val sampleBirthTime = "۱۴:۳۰"
-    val sampleLocation = "تهران، ایران"
-    val sampleGender = "مرد"
-    val sampleFirstName = "محمدرضا"
-    val sampleLastName = "احمدی"
-    val sampleMotherName = "فاطمه"
+    val profile by viewModel.profile.collectAsState()
+
+    val birthDateText = listOf(profile.birthDay, profile.birthMonth, profile.birthYear)
+        .filter { it.isNotBlank() }
+        .joinToString(" ")
+        .ifBlank { "—" }
+
+    val birthTimeText = when {
+        profile.isBirthTimeUnknown -> "نامشخص"
+        profile.birthHour.isNotBlank() || profile.birthMinute.isNotBlank() ->
+            "${profile.birthHour.ifBlank { "--" }}:${profile.birthMinute.ifBlank { "--" }}"
+        else -> "—"
+    }
+
+    val locationText = listOf(profile.birthCity, profile.birthProvince, profile.birthCountry)
+        .filter { it.isNotBlank() }
+        .joinToString("، ")
+        .ifBlank { "—" }
+
+    val palmStatus = when {
+        profile.hasLeftPalmPhoto && profile.hasRightPalmPhoto -> "ثبت شده (هر دو دست)"
+        profile.hasLeftPalmPhoto || profile.hasRightPalmPhoto -> "ثبت شده (یک دست)"
+        else -> "ثبت نشده"
+    }
+
+    val faceStatus = if (profile.hasFacePhoto) "ثبت شده" else "ثبت نشده"
+    val moleStatus = if (profile.selectedMolePositions.isNotEmpty()) {
+        "ثبت شده (${profile.selectedMolePositions.size} موقعیت)"
+    } else {
+        "ثبت نشده"
+    }
 
     Box(
         modifier = Modifier
@@ -132,61 +141,59 @@ fun ReviewScreen(
                     .padding(top = 6.dp, bottom = 20.dp)
             )
 
-            // ---------- بخش اطلاعات تولد ----------
             ReviewSection(
                 title = "اطلاعات تولد",
                 icon = Icons.Default.CalendarMonth,
                 onEdit = onEditBirth
             ) {
-                ReviewItem(label = "تاریخ تولد", value = sampleBirthDate)
-                ReviewItem(label = "ساعت تولد", value = sampleBirthTime)
-                ReviewItem(label = "محل تولد", value = sampleLocation)
-                ReviewItem(label = "جنسیت", value = sampleGender)
+                ReviewItem(label = "تاریخ تولد", value = birthDateText)
+                ReviewItem(label = "ساعت تولد", value = birthTimeText)
+                ReviewItem(label = "محل تولد", value = locationText)
+                ReviewItem(label = "جنسیت", value = profile.gender.ifBlank { "—" })
             }
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // ---------- بخش اطلاعات فردی ----------
             ReviewSection(
                 title = "اطلاعات فردی",
                 icon = Icons.Default.Person,
                 onEdit = onEditPersonal
             ) {
-                ReviewItem(label = "نام", value = sampleFirstName)
-                ReviewItem(label = "نام خانوادگی", value = sampleLastName)
-                ReviewItem(label = "نام مادر", value = sampleMotherName)
+                ReviewItem(label = "نام", value = profile.firstName.ifBlank { "—" })
+                ReviewItem(label = "نام خانوادگی", value = profile.lastName.ifBlank { "—" })
+                ReviewItem(label = "نام مادر", value = profile.motherName.ifBlank { "—" })
             }
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // ---------- بخش تصاویر و تحلیل‌ها ----------
             ReviewSection(
                 title = "تصاویر و تحلیل‌ها",
                 icon = Icons.Default.CameraAlt,
                 onEdit = onEditPhotos
             ) {
-                ReviewStatusItem(label = "کف دست", status = "ثبت نشده")
-                ReviewStatusItem(label = "چهره‌شناسی", status = "ثبت نشده")
-                ReviewStatusItem(label = "خال‌شناسی", status = "ثبت شده")
+                ReviewStatusItem(label = "کف دست", status = palmStatus)
+                ReviewStatusItem(label = "چهره‌شناسی", status = faceStatus)
+                ReviewStatusItem(label = "خال‌شناسی", status = moleStatus)
             }
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // ---------- بخش موارد اختیاری ----------
             ReviewSection(
                 title = "موارد تکمیلی (اختیاری)",
                 icon = Icons.Default.Star,
                 onEdit = onEditOptional
             ) {
-                ReviewItem(label = "رنگ مو", value = "مشکی")
-                ReviewItem(label = "گروه خونی", value = "O+")
-                ReviewItem(label = "رنگ چشم", value = "قهوه‌ای")
-                ReviewItem(label = "قد", value = "۱۷۵ سانتی‌متر")
+                ReviewItem(label = "رنگ مو", value = profile.hairColor.ifBlank { "—" })
+                ReviewItem(label = "گروه خونی", value = profile.bloodType.ifBlank { "—" })
+                ReviewItem(label = "رنگ چشم", value = profile.eyeColor.ifBlank { "—" })
+                ReviewItem(
+                    label = "قد",
+                    value = if (profile.heightCm.isNotBlank()) "${profile.heightCm} سانتی‌متر" else "—"
+                )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // یادداشت حریم خصوصی
             Row(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier
@@ -211,7 +218,6 @@ fun ReviewScreen(
 
             Spacer(modifier = Modifier.height(28.dp))
 
-            // دکمه تأیید نهایی
             ContinueButton(
                 text = "تأیید نهایی و ورود به برنامه",
                 onClick = onConfirm
@@ -222,9 +228,6 @@ fun ReviewScreen(
     }
 }
 
-/**
- * بخش قابل ویرایش در صفحه بررسی نهایی.
- */
 @Composable
 fun ReviewSection(
     title: String,
@@ -244,7 +247,6 @@ fun ReviewSection(
             )
             .padding(16.dp)
     ) {
-        // هدر بخش با دکمه تغییر
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
@@ -266,7 +268,6 @@ fun ReviewSection(
                 )
             }
 
-            // دکمه تغییر
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -290,19 +291,12 @@ fun ReviewSection(
         }
 
         Spacer(modifier = Modifier.height(12.dp))
-
         content()
     }
 }
 
-/**
- * یک ردیف اطلاعات ساده (برچسب + مقدار)
- */
 @Composable
-fun ReviewItem(
-    label: String,
-    value: String
-) {
+fun ReviewItem(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -323,14 +317,8 @@ fun ReviewItem(
     }
 }
 
-/**
- * ردیف وضعیت (مثلاً ثبت شده / ثبت نشده)
- */
 @Composable
-fun ReviewStatusItem(
-    label: String,
-    status: String
-) {
+fun ReviewStatusItem(label: String, status: String) {
     val isDone = status.contains("ثبت شده")
     Row(
         modifier = Modifier
