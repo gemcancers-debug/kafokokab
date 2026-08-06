@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core Engine (Foundation)
+Phase 2 - Google Sign-In configuration completed + Phase 3 foundation
 
 ## مرحله فعلی
-فاز ۳ - موتور اصلی نجوم (پایه و مدل‌های دامنه)
+فاز ۲ - تنظیم Google Sign-In کامل شد + پایه فاز ۳
 
 ---
 
@@ -15,52 +15,45 @@ Phase 3 - Astrology Core Engine (Foundation)
 - LoginScreen with improved error handling
 - GlassCard + PremiumBlurBox
 - All Modifier import fixes + successful CI builds
-- **Domain models for Astrology (2026-08-06)**
-  - Planet (enum + فارسی)
-  - ZodiacSign + Element + Modality
-  - PlanetPosition
-  - BirthChart + ChartSystem
+- Astrology domain models (Planet, ZodiacSign, PlanetPosition, BirthChart)
+- **Real default_web_client_id set from Firebase (2026-08-06)**
+- google-services.json updated with oauth_client
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
-- مدل و ViewModel آنبوردینگ (اتصال کامل)
+- مدل و ViewModel آنبوردینگ
 - پایه Firebase و احراز هویت
-- **مدل‌های دامنه نجوم (سیاره، برج، موقعیت، چارت)**
+- مدل‌های دامنه نجوم
+- **Web Client ID واقعی تنظیم شد**
 
 ---
 
 ## In Progress
-- Waiting for user to finish Firebase Google Sign-In setup (Web Client ID)
-- Preparing calculation engine structure
+- Waiting for new APK build & user test of Google Sign-In
 
 ## در حال انجام
-- منتظر اتمام تنظیم Firebase توسط کاربر
-- آماده‌سازی ساختار موتور محاسبه
+- منتظر بیلد جدید و تست ورود با جیمیل توسط کاربر
 
 ---
 
 ## Blocked / Attention Needed
-- `default_web_client_id` still placeholder
-- User must:
-  1. Enable Google Sign-In in Firebase Authentication
-  2. Re-download google-services.json
-  3. Put client_type:3 client_id into strings.xml
-  4. Rebuild & test login
+- User should download latest APK from GitHub Actions Artifacts and test login
+- If still fails, check SHA-1 fingerprint in Firebase for package `com.kafokokab.app`
 
 ## نیاز به توجه
-- Web Client ID هنوز placeholder است (کاربر در حال تنظیم)
+- کاربر باید APK جدید را دانلود و تست کند
 
 ---
 
 ## Next Step
-1. User finishes Firebase setup → full login test
-2. Create AstrologyCalculator interface + simple stub implementation
-3. Later: real ephemeris data or Swiss Ephemeris integration (offline)
+1. User tests Google Sign-In on device
+2. If successful → continue Phase 3 (AstrologyCalculator)
+3. If fails → send error message from app
 
 ## مرحله بعد
-۱. اتمام تنظیم Firebase و تست ورود
-۲. ایجاد رابط AstrologyCalculator + پیاده‌سازی اولیه
-۳. بعداً: داده اپیمر یا Swiss Ephemeris آفلاین
+۱. تست ورود با جیمیل روی دستگاه
+۲. در صورت موفقیت → ادامه فاز ۳
+۳. در صورت خطا → ارسال پیام خطا
 
 ---
 
