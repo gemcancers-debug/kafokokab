@@ -1,70 +1,68 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - COMPLETED ✅ + OnboardingViewModel fully bound
+Phase 3 - Astrology Core Engine (Foundation)
 
 ## مرحله فعلی
-فاز ۲ - تکمیل شد ✅ + اتصال کامل ViewModel آنبوردینگ
+فاز ۳ - موتور اصلی نجوم (پایه و مدل‌های دامنه)
 
 ---
 
 ## Completed
 - Full Onboarding UI + Home Dashboard
-- UserProfile + OnboardingViewModel
-- Firebase foundation (google-services.json)
-- AuthRepository + AuthRepositoryImpl
-- AuthViewModel + GoogleSignInHelper
-- LoginScreen + improved error feedback
+- UserProfile + OnboardingViewModel (fully bound)
+- Firebase foundation + Auth layer
+- LoginScreen with improved error handling
 - GlassCard + PremiumBlurBox
-- All Modifier import fixes + successful CI build
-- **OnboardingViewModel bound to all 4 screens** (2026-08-05)
-  - Nested `onboarding` Nav graph for shared ViewModel scope
-  - BirthInfo / PersonalInfo / ExtraInfo / Review read & write `UserProfile`
-  - Review shows live data (no more hardcoded samples)
-  - `completeOnboarding()` on final confirm
+- All Modifier import fixes + successful CI builds
+- **Domain models for Astrology (2026-08-06)**
+  - Planet (enum + فارسی)
+  - ZodiacSign + Element + Modality
+  - PlanetPosition
+  - BirthChart + ChartSystem
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
-- مدل و ViewModel آنبوردینگ
+- مدل و ViewModel آنبوردینگ (اتصال کامل)
 - پایه Firebase و احراز هویت
-- بهبود پیام خطای Google Sign-In
-- **اتصال کامل OnboardingViewModel به هر ۴ صفحه**
+- **مدل‌های دامنه نجوم (سیاره، برج، موقعیت، چارت)**
 
 ---
 
 ## In Progress
-- Waiting for user to configure Firebase Web Client ID
+- Waiting for user to finish Firebase Google Sign-In setup (Web Client ID)
+- Preparing calculation engine structure
 
 ## در حال انجام
-- منتظر تنظیم Web Client ID توسط کاربر در Firebase
+- منتظر اتمام تنظیم Firebase توسط کاربر
+- آماده‌سازی ساختار موتور محاسبه
 
 ---
 
 ## Blocked / Attention Needed
 - `default_web_client_id` still placeholder
-- `google-services.json` has empty `oauth_client: []`
-  Steps:
-  1. Enable Google in Firebase Authentication
+- User must:
+  1. Enable Google Sign-In in Firebase Authentication
   2. Re-download google-services.json
-  3. Copy client_type:3 client_id into strings.xml
-  4. Rebuild APK
+  3. Put client_type:3 client_id into strings.xml
+  4. Rebuild & test login
 
 ## نیاز به توجه
-- Web Client ID هنوز placeholder است (کاربر در حال تنظیم Firebase)
+- Web Client ID هنوز placeholder است (کاربر در حال تنظیم)
 
 ---
 
 ## Next Step
-1. User finishes Firebase Google Sign-In setup
-2. Rebuild & test full flow (login → onboarding → home)
-3. Then Phase 3: Astrology Core Engine
+1. User finishes Firebase setup → full login test
+2. Create AstrologyCalculator interface + simple stub implementation
+3. Later: real ephemeris data or Swiss Ephemeris integration (offline)
 
 ## مرحله بعد
-۱. اتمام تنظیم Firebase توسط کاربر
-۲. بیلد و تست جریان کامل
-۳. شروع فاز ۳: موتور نجوم
+۱. اتمام تنظیم Firebase و تست ورود
+۲. ایجاد رابط AstrologyCalculator + پیاده‌سازی اولیه
+۳. بعداً: داده اپیمر یا Swiss Ephemeris آفلاین
 
 ---
 
-**Last Updated:** 2026-08-05  
+**Last Updated:** 2026-08-06  
 **Updated By:** AI Principal Engineer (Grok)
