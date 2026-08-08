@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 2 - Google Sign-In configuration completed + Phase 3 foundation
+Phase 3 - Astrology Core Engine (Calculator Interface + Stub)
 
 ## مرحله فعلی
-فاز ۲ - تنظیم Google Sign-In کامل شد + پایه فاز ۳
+فاز ۳ - موتور نجوم (رابط محاسبه + پیاده‌سازی موقت)
 
 ---
 
@@ -14,48 +14,53 @@ Phase 2 - Google Sign-In configuration completed + Phase 3 foundation
 - Firebase foundation + Auth layer
 - LoginScreen with improved error handling
 - GlassCard + PremiumBlurBox
-- All Modifier import fixes + successful CI builds
 - Astrology domain models (Planet, ZodiacSign, PlanetPosition, BirthChart)
-- **Real default_web_client_id set from Firebase (2026-08-06)**
-- google-services.json updated with oauth_client
+- Real default_web_client_id set
+- **AstrologyCalculator interface**
+- **CalculateBirthChartUseCase**
+- **StubAstrologyCalculator** (temporary implementation for UI development)
+- **AstrologyModule** (Hilt binding)
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
 - مدل و ViewModel آنبوردینگ
 - پایه Firebase و احراز هویت
 - مدل‌های دامنه نجوم
-- **Web Client ID واقعی تنظیم شد**
+- **رابط و پیاده‌سازی موقت موتور محاسبه چارت**
 
 ---
 
 ## In Progress
-- Waiting for new APK build & user test of Google Sign-In
+- Google Sign-In still needs correct SHA-1 (user will handle later)
+- Preparing to connect calculator to Home / Chart screen
 
 ## در حال انجام
-- منتظر بیلد جدید و تست ورود با جیمیل توسط کاربر
+- SHA-1 هنوز نیاز به تنظیم دارد (کاربر بعداً انجام می‌دهد)
+- آماده‌سازی اتصال محاسبه به صفحه چارت
 
 ---
 
 ## Blocked / Attention Needed
-- User should download latest APK from GitHub Actions Artifacts and test login
-- If still fails, check SHA-1 fingerprint in Firebase for package `com.kafokokab.app`
+- Google Sign-In: SHA-1 fingerprint for package `com.kafokokab.app` still missing
+- Real ephemeris data not yet integrated (currently using Stub)
 
 ## نیاز به توجه
-- کاربر باید APK جدید را دانلود و تست کند
+- SHA-1 برای ورود با گوگل هنوز تنظیم نشده
+- محاسبات واقعی نجومی هنوز Stub است
 
 ---
 
 ## Next Step
-1. User tests Google Sign-In on device
-2. If successful → continue Phase 3 (AstrologyCalculator)
-3. If fails → send error message from app
+1. Create a simple BirthChartViewModel + basic Chart screen UI
+2. Or improve HomeScreen to show sun/moon sign from calculator
+3. Later: replace Stub with real offline calculation
 
 ## مرحله بعد
-۱. تست ورود با جیمیل روی دستگاه
-۲. در صورت موفقیت → ادامه فاز ۳
-۳. در صورت خطا → ارسال پیام خطا
+۱. ساخت ViewModel و صفحه ساده نمایش چارت
+۲. یا نمایش برج خورشید/ماه در صفحه اصلی
+۳. بعداً: جایگزینی Stub با محاسبه واقعی آفلاین
 
 ---
 
-**Last Updated:** 2026-08-06  
+**Last Updated:** 2026-08-08  
 **Updated By:** AI Principal Engineer (Grok)
