@@ -3,11 +3,7 @@
 وظیفه: صفحه اصلی (داشبورد) اپلیکیشن – مطابق طراحی آپلود شده
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته برای ویرایش بعدی:
-- تمام بخش‌ها به کامپوننت‌های کوچک جدا شده‌اند
-- دکمه‌ها و کارت‌ها به راحتی قابل تغییر هستند
-- داده‌ها فعلاً نمونه هستند و بعداً از ViewModel می‌آیند
+آخرین تغییر: 2026-08-08 - اتصال دکمه چارت به صفحه BirthChartScreen
 */
 
 package com.kafokokab.app.ui.home
@@ -67,7 +63,9 @@ import com.kafokokab.core.ui.theme.SoftWhite
  * ساختار کلی مطابق طراحی آپلود شده کاربر است.
  */
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onNavigateToChart: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -85,9 +83,8 @@ fun HomeScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(bottom = 80.dp) // فضا برای Bottom Navigation
+                .padding(bottom = 80.dp)
         ) {
-            // ---------- هدر خوش‌آمدگویی ----------
             HomeHeader(
                 userName = "نگین جان",
                 onNotificationClick = {},
@@ -96,14 +93,12 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // ---------- کارت چارت تولد ----------
             BirthChartCard(
-                onGetChartClick = {}
+                onGetChartClick = onNavigateToChart
             )
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------- دسته‌بندی اصلی ----------
             SectionTitle(title = "دسته‌بندی اصلی")
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -118,25 +113,24 @@ fun HomeScreen() {
                     title = "هوروسکوپ غربی",
                     subtitle = "تروپیکال",
                     modifier = Modifier.weight(1f),
-                    onClick = {}
+                    onClick = onNavigateToChart
                 )
                 MainCategoryCard(
                     title = "هوروسکوپ شرقی",
                     subtitle = "سیدریال",
                     modifier = Modifier.weight(1f),
-                    onClick = {}
+                    onClick = onNavigateToChart
                 )
                 MainCategoryCard(
                     title = "هوروسکوپ ودیک",
                     subtitle = "جیوتیش",
                     modifier = Modifier.weight(1f),
-                    onClick = {}
+                    onClick = onNavigateToChart
                 )
             }
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------- ابزارهای تحلیل ----------
             SectionTitle(title = "تحلیل‌های ویژه")
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -172,7 +166,6 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------- ابزارهای پیشرفته ----------
             SectionTitle(title = "ابزارهای پیشرفته")
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -181,26 +174,17 @@ fun HomeScreen() {
 
             Spacer(modifier = Modifier.height(20.dp))
 
-            // ---------- بنر Premium ----------
             PremiumBanner(onClick = {})
 
             Spacer(modifier = Modifier.height(24.dp))
         }
 
-        // ---------- نوار پایین ----------
         BottomNavigationBar(
             modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
 
-// ============================================================
-// کامپوننت‌های صفحه اصلی
-// ============================================================
-
-/**
- * هدر صفحه اصلی با نام کاربر و دکمه‌های اعلان و تنظیمات
- */
 @Composable
 fun HomeHeader(
     userName: String,
@@ -215,7 +199,6 @@ fun HomeHeader(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            // آواتار ساده
             Box(
                 modifier = Modifier
                     .size(44.dp)
@@ -271,9 +254,6 @@ fun HomeHeader(
     }
 }
 
-/**
- * کارت اصلی چارت تولد
- */
 @Composable
 fun BirthChartCard(
     onGetChartClick: () -> Unit
@@ -330,9 +310,6 @@ fun BirthChartCard(
     }
 }
 
-/**
- * عنوان بخش
- */
 @Composable
 fun SectionTitle(title: String) {
     Text(
@@ -344,9 +321,6 @@ fun SectionTitle(title: String) {
     )
 }
 
-/**
- * کارت دسته‌بندی اصلی (غربی / شرقی / ودیک)
- */
 @Composable
 fun MainCategoryCard(
     title: String,
@@ -400,9 +374,6 @@ fun MainCategoryCard(
     }
 }
 
-/**
- * کارت ابزار تحلیل (کف‌بینی، چهره، خال) با قفل Premium
- */
 @Composable
 fun AnalysisToolCard(
     title: String,
@@ -459,9 +430,6 @@ fun AnalysisToolCard(
     }
 }
 
-/**
- * شبکه ابزارهای پیشرفته
- */
 @Composable
 fun AdvancedToolsGrid() {
     val tools = listOf(
@@ -512,7 +480,6 @@ fun AdvancedToolsGrid() {
                         )
                     }
                 }
-                // پر کردن فضای خالی اگر ردیف کامل نباشد
                 repeat(5 - rowItems.size) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -521,9 +488,6 @@ fun AdvancedToolsGrid() {
     }
 }
 
-/**
- * بنر دعوت به نسخه Premium
- */
 @Composable
 fun PremiumBanner(onClick: () -> Unit) {
     Box(
@@ -577,9 +541,6 @@ fun PremiumBanner(onClick: () -> Unit) {
     }
 }
 
-/**
- * نوار پایین صفحه (Bottom Navigation)
- */
 @Composable
 fun BottomNavigationBar(modifier: Modifier = Modifier) {
     Row(

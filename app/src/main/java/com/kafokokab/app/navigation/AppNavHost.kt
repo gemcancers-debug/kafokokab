@@ -1,7 +1,7 @@
 /*
 نام فایل: AppNavHost.kt
 وظیفه: میزبان اصلی Navigation
-آخرین تغییر: 2026-08-05 - گراف آنبوردینگ + Shared OnboardingViewModel
+آخرین تغییر: 2026-08-08 - اضافه شدن صفحه چارت تولد
 */
 
 package com.kafokokab.app.navigation
@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.kafokokab.app.ui.auth.LoginScreen
+import com.kafokokab.app.ui.chart.BirthChartScreen
 import com.kafokokab.app.ui.home.HomeScreen
 import com.kafokokab.app.ui.onboarding.BirthInfoScreen
 import com.kafokokab.app.ui.onboarding.ExtraInfoScreen
@@ -123,7 +124,17 @@ fun AppNavHost(
         }
 
         composable(AppRoute.Home.route) {
-            HomeScreen()
+            HomeScreen(
+                onNavigateToChart = {
+                    navController.navigate(AppRoute.BirthChart.route)
+                }
+            )
+        }
+
+        composable(AppRoute.BirthChart.route) {
+            BirthChartScreen(
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }

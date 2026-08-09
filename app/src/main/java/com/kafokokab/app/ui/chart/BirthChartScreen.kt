@@ -84,7 +84,6 @@ fun BirthChartScreen(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            // ---------- هدر ----------
             ChartHeader(
                 onBack = onBack,
                 onRefresh = { viewModel.loadSampleChart() }
@@ -92,7 +91,6 @@ fun BirthChartScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // ---------- انتخاب سیستم ----------
             SystemSelector(
                 selected = uiState.selectedSystem,
                 onSelect = { viewModel.changeSystem(it) }
@@ -124,7 +122,6 @@ fun BirthChartScreen(
                 uiState.chart != null -> {
                     val chart = uiState.chart!!
 
-                    // کارت خلاصه (خورشید / ماه / طلوع)
                     SummaryCards(
                         sun = chart.sun,
                         moon = chart.moon,
@@ -133,7 +130,6 @@ fun BirthChartScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // عنوان لیست
                     Text(
                         text = "موقعیت سیارات",
                         style = MaterialTheme.typography.titleMedium,
@@ -144,7 +140,6 @@ fun BirthChartScreen(
 
                     Spacer(modifier = Modifier.height(12.dp))
 
-                    // لیست سیارات
                     chart.positions.forEach { position ->
                         PlanetRow(position = position)
                         Spacer(modifier = Modifier.height(8.dp))
@@ -152,7 +147,6 @@ fun BirthChartScreen(
 
                     Spacer(modifier = Modifier.height(32.dp))
 
-                    // یادداشت موقت
                     Text(
                         text = "⚠ این چارت با موتور موقت (Stub) محاسبه شده است.\nمحاسبات واقعی نجومی در نسخه‌های بعدی اضافه می‌شود.",
                         style = MaterialTheme.typography.bodySmall,
@@ -169,10 +163,6 @@ fun BirthChartScreen(
         }
     }
 }
-
-// ============================================================
-// کامپوننت‌های صفحه
-// ============================================================
 
 @Composable
 private fun ChartHeader(
@@ -350,7 +340,6 @@ private fun PlanetRow(position: PlanetPosition) {
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // نماد
         Box(
             modifier = Modifier
                 .size(40.dp)
