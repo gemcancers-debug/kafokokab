@@ -1,14 +1,10 @@
 /*
 نام فایل: OnboardingViewModel.kt
 مسیر: app/.../ui/onboarding/
-وظیفه: مدیریت وضعیت و داده‌های آنبوردینگ با StateFlow
+وظیفه: مدیریت وضعیت و داده‌های آنبوردینگ با StateFlow + ذخیره نهایی
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-
-نکته برای ویرایش بعدی:
-- همه تغییرات از طریق متدهای این ViewModel انجام شود
-- بعداً می‌توان Repository و DataStore را به آن تزریق کرد
-- از Hilt برای تزریق استفاده شده است
+آخرین تغییر: 2026-08-09 - ذخیره پروفایل در DataStore هنگام اتمام آنبوردینگ
 */
 
 package com.kafokokab.app.ui.onboarding
@@ -16,6 +12,7 @@ package com.kafokokab.app.ui.onboarding
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kafokokab.core.domain.model.UserProfile
+import com.kafokokab.core.domain.repository.ProfileRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,17 +21,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * ViewModel مسئول نگهداری و به‌روزرسانی اطلاعات کاربر در طول آنبوردینگ.
- *
- * استفاده:
- * - در هر صفحه آنبوردینگ این ViewModel را inject کنید
- * - تغییرات را فقط از طریق متدهای update... انجام دهید
- */
 @HiltViewModel
-class OnboardingViewModel @Inject constructor() : ViewModel() {
+class OnboardingViewModel @Inject constructor(
+    private val profileRepository: ProfileRepository
+) : ViewModel() {
 
-    // وضعیت فعلی پروفایل کاربر
     private val _profile = MutableStateFlow(UserProfile())
     val profile: StateFlow<UserProfile> = _profile.asStateFlow()
 
@@ -130,17 +121,21 @@ class OnboardingViewModel @Inject constructor() : ViewModel() {
 
     /**
      * وقتی کاربر در صفحه Review تأیید نهایی را زد، این متد را صدا بزنید.
-     * بعداً اینجا ذخیره در DataStore/Room هم اضافه می‌شود.
+     * پروفایل را در DataStore ذخیره می‌کند.
      */
     fun completeOnboarding() {
         viewModelScope.launch {
-            _profile.update { it.copy(isOnboardingCompleted = true) }
-            // TODO: ذخیره در DataStore یا Room
+            val completed = _profile.value.copy(isOnboardingCompleted = true)
+            _profile.value = completed
+            profileRepository.saveProfile(completed)
         }
     }
 
     /** بازنشانی کامل (برای تست یا خروج از حساب) */
     fun resetProfile() {
-        _profile.value = UserProfile()
+        viewModelScope.launch {
+            _profile.value = UserProfile()
+            profileRepository.clearProfile()
+        }
     }
 }
