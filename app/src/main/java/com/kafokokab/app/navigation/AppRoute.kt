@@ -3,7 +3,7 @@
 وظیفه: تعریف مسیرهای type-safe ناوبری اپلیکیشن
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-05 - مسیر گراف آنبوردینگ برای Shared ViewModel
+آخرین تغییر: 2026-08-08 - اضافه شدن مسیر چارت تولد
 */
 
 package com.kafokokab.app.navigation
@@ -18,6 +18,9 @@ sealed class AppRoute(val route: String) {
 
     /** صفحه اصلی بعد از ورود کامل */
     data object Home : AppRoute("home")
+
+    /** صفحه نمایش چارت تولد */
+    data object BirthChart : AppRoute("birth_chart")
 
     /** گراف والد آنبوردینگ (برای Shared ViewModel) */
     data object OnboardingGraph : AppRoute("onboarding")
