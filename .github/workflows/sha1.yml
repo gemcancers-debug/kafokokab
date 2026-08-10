@@ -7,13 +7,14 @@ jobs:
   sha1:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
+
+      - name: Create .android directory
+        run: mkdir -p ~/.android
 
       - name: Generate debug keystore
         run: |
@@ -25,4 +26,4 @@ jobs:
       - name: Print SHA1
         run: |
           keytool -list -v -keystore ~/.android/debug.keystore \
-            -alias androiddebugkey -storepass android -keypass android
+            -alias androiddebugkey -storepass android -keypass android | grep SHA1
