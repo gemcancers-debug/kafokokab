@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core Engine + Profile Persistence + Home personalization
+Phase 3 - Astrology Core + Profile Persistence + Google Sign-In fix
 
 ## مرحله فعلی
-فاز ۳ - موتور نجوم + ذخیره پروفایل + شخصی‌سازی صفحه اصلی
+فاز ۳ - موتور نجوم + ذخیره پروفایل + رفع ورود با گوگل
 
 ---
 
@@ -14,45 +14,42 @@ Phase 3 - Astrology Core Engine + Profile Persistence + Home personalization
 - Firebase foundation + Auth layer
 - Astrology domain models + Calculator + Stub
 - BirthChartViewModel + BirthChartScreen
-- **HomeViewModel** (reads real user name from ProfileRepository)
-- HomeScreen now shows real user name and birth summary when available
+- HomeViewModel (real user name)
+- **google-services.json updated with correct package `com.kafokokab.app` + SHA-1**
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
 - ذخیره پایدار پروفایل
-- صفحه چارت
-- **نمایش نام واقعی کاربر در صفحه اصلی**
-- نمایش خلاصه تاریخ تولد در کارت چارت (اگر موجود باشد)
+- صفحه چارت + نام واقعی کاربر
+- **فایل google-services.json با پکیج صحیح و SHA-1 به‌روز شد**
 
 ---
 
 ## In Progress
-- Google Sign-In SHA-1 (user will handle later)
+- Waiting for user to rebuild APK and test Google Sign-In
 
 ## در حال انجام
-- SHA-1 هنوز نیاز به تنظیم دارد
+- منتظر بیلد جدید و تست ورود با جیمیل توسط کاربر
 
 ---
 
 ## Blocked / Attention Needed
-- Google Sign-In: SHA-1 missing
-- Real ephemeris not yet integrated (Stub)
-- City → coordinates mapping not implemented
+- None for Google Sign-In configuration (should work now)
+- Real ephemeris still Stub
 
 ## نیاز به توجه
-- SHA-1 برای ورود با گوگل
 - محاسبات واقعی نجومی هنوز Stub است
 
 ---
 
 ## Next Step
-1. Improve BirthChartScreen to clearly show sample vs real data
-2. Add simple daily horoscope placeholder
+1. User rebuilds APK from GitHub Actions and tests Google Sign-In
+2. If login works → continue with daily horoscope or improve chart UI
 3. Later: real offline ephemeris
 
 ## مرحله بعد
-۱. بهبود صفحه چارت برای تمایز داده نمونه و واقعی
-۲. اضافه کردن فال روزانه ساده
+۱. کاربر APK جدید بسازد و ورود با جیمیل را تست کند
+۲. در صورت موفقیت → ادامه توسعه
 ۳. بعداً: محاسبه واقعی آفلاین
 
 ---

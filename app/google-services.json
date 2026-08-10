@@ -7,49 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:226667812430:android:27be99cd45f8d0073d551f",
-        "android_client_info": {
-          "package_name": "Com.company.kafokokab"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "226667812430-ek8m3iift8b7bvphbp3llc23232rj7fd.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "Com.company.kafokokab",
-            "certificate_hash": "ab596f310f93274073d691bc9a313026ad9011d1"
-          }
-        },
-        {
-          "client_id": "226667812430-bp8pfiene5g3mcmqtla1542ithm6qco2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBRvIB2wYmsM5IJRg6jS9jYtFYCfDPk_mc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "226667812430-bp8pfiene5g3mcmqtla1542ithm6qco2.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:226667812430:android:8e7ebf3dcbb6bc8d3d551f",
         "android_client_info": {
           "package_name": "com.kafokokab.app"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "226667812430-4igl6901tqqope8drhc88pmfqak87fs4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kafokokab.app",
+            "certificate_hash": "e791a6424e07a50f1f7ab1f4138ddf54e0389811"
+          }
+        },
         {
           "client_id": "226667812430-bp8pfiene5g3mcmqtla1542ithm6qco2.apps.googleusercontent.com",
           "client_type": 3
