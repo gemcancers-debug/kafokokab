@@ -3,7 +3,7 @@
 وظیفه: صفحه اصلی (داشبورد) اپلیکیشن – مطابق طراحی آپلود شده
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-آخرین تغییر: 2026-08-08 - اتصال دکمه چارت به صفحه BirthChartScreen
+آخرین تغییر: 2026-08-10 - نمایش نام واقعی کاربر از ProfileRepository
 */
 
 package com.kafokokab.app.ui.home
@@ -42,6 +42,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -52,6 +54,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
 import com.kafokokab.core.ui.theme.MysticPurple
@@ -60,12 +63,15 @@ import com.kafokokab.core.ui.theme.SoftWhite
 
 /**
  * صفحه اصلی داشبورد.
- * ساختار کلی مطابق طراحی آپلود شده کاربر است.
+ * نام کاربر از ProfileRepository خوانده می‌شود.
  */
 @Composable
 fun HomeScreen(
-    onNavigateToChart: () -> Unit = {}
+    onNavigateToChart: () -> Unit = {},
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,7 +92,7 @@ fun HomeScreen(
                 .padding(bottom = 80.dp)
         ) {
             HomeHeader(
-                userName = "نگین جان",
+                userName = uiState.userName,
                 onNotificationClick = {},
                 onSettingsClick = {}
             )
@@ -94,7 +100,9 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             BirthChartCard(
-                onGetChartClick = onNavigateToChart
+                onGetChartClick = onNavigateToChart,
+                hasBirthInfo = uiState.hasBirthInfo,
+                birthSummary = uiState.birthSummary
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -256,7 +264,9 @@ fun HomeHeader(
 
 @Composable
 fun BirthChartCard(
-    onGetChartClick: () -> Unit
+    onGetChartClick: () -> Unit,
+    hasBirthInfo: Boolean = false,
+    birthSummary: String = ""
 ) {
     Box(
         modifier = Modifier
@@ -286,12 +296,23 @@ fun BirthChartCard(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(6.dp))
-            Text(
-                text = "در یک نگاه از سرنوشت خود آگاه شوید",
-                style = MaterialTheme.typography.bodyMedium,
-                color = SoftWhite.copy(alpha = 0.75f)
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+
+            if (hasBirthInfo && birthSummary.isNotBlank()) {
+                Text(
+                    text = birthSummary,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Gold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+            } else {
+                Text(
+                    text = "در یک نگاه از سرنوشت خود آگاه شوید",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = SoftWhite.copy(alpha = 0.75f)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(12.dp))
@@ -300,7 +321,7 @@ fun BirthChartCard(
                     .padding(horizontal = 20.dp, vertical = 10.dp)
             ) {
                 Text(
-                    text = "به‌دست آوردن هوروسکوپ",
+                    text = if (hasBirthInfo) "مشاهده چارت" else "به‌دست آوردن هوروسکوپ",
                     style = MaterialTheme.typography.labelLarge,
                     color = SoftWhite,
                     fontWeight = FontWeight.Bold
