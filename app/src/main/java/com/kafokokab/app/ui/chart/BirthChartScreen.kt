@@ -4,6 +4,7 @@
 وظیفه: نمایش ساده و زیبای چارت تولد (موقعیت سیارات)
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-08
+آخرین تغییر: 2026-08-11 - اصلاح import Modifier و فراخوانی loadChart
 
 طراحی:
 - تم Dark Galaxy + Glassmorphism
@@ -43,7 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.modifier.modifier
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -86,7 +87,7 @@ fun BirthChartScreen(
         ) {
             ChartHeader(
                 onBack = onBack,
-                onRefresh = { viewModel.loadSampleChart() }
+                onRefresh = { viewModel.loadChart() }
             )
 
             Spacer(modifier = Modifier.height(12.dp))
