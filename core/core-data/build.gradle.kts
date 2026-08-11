@@ -3,13 +3,14 @@
 وظیفه: لایه Data (Room, DataStore, Repository Implementation)
 نویسنده: AI Principal Engineer
 تاریخ: 2026-07-31
-آخرین تغییر: 2026-08-02 - اضافه شدن Firebase Auth برای AuthRepositoryImpl
+آخرین تغییر: 2026-08-11 - اضافه شدن Hilt برای حل خطای Unresolved reference dagger در ماژول‌های DI
 */
 
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)   // لازم برای @Module, @Binds, @Provides, @Inject
 }
 
 android {
@@ -48,4 +49,8 @@ dependencies {
     // Firebase Auth (برای AuthRepositoryImpl)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
+
+    // Hilt – ضروری برای DI در این ماژول
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.compiler)
 }
