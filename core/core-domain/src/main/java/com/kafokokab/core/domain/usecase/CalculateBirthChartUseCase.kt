@@ -4,8 +4,10 @@
 وظیفه: Use Case محاسبه چارت تولد
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-08
+آخرین تغییر: 2026-08-10 - حذف @Inject برای حفظ خلوص لایه Domain
 
 این Use Case منطق کسب‌وکار را از ViewModel جدا می‌کند.
+تزریق آن از طریق Hilt Module در لایه Data انجام می‌شود.
 */
 
 package com.kafokokab.core.domain.usecase
@@ -13,13 +15,12 @@ package com.kafokokab.core.domain.usecase
 import com.kafokokab.core.domain.model.astrology.BirthChart
 import com.kafokokab.core.domain.model.astrology.ChartSystem
 import com.kafokokab.core.domain.repository.AstrologyCalculator
-import javax.inject.Inject
 
 /**
  * Use Case برای محاسبه چارت تولد.
  * ViewModel فقط این کلاس را صدا می‌زند.
  */
-class CalculateBirthChartUseCase @Inject constructor(
+class CalculateBirthChartUseCase(
     private val calculator: AstrologyCalculator
 ) {
     suspend operator fun invoke(

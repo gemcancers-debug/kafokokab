@@ -1,40 +1,42 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core + Profile Persistence + Google Sign-In fix
+Phase 3 - Astrology Core + Profile Persistence + Build fix
 
 ## مرحله فعلی
-فاز ۳ - موتور نجوم + ذخیره پروفایل + رفع ورود با گوگل
+فاز ۳ - موتور نجوم + ذخیره پروفایل + رفع خطای بیلد
 
 ---
 
 ## Completed
 - Full Onboarding UI + Home Dashboard
 - UserProfile + OnboardingViewModel + DataStore persistence
-- Firebase foundation + Auth layer
+- Firebase foundation + Auth layer + correct google-services.json
 - Astrology domain models + Calculator + Stub
 - BirthChartViewModel + BirthChartScreen
 - HomeViewModel (real user name)
-- **google-services.json updated with correct package `com.kafokokab.app` + SHA-1**
+- **Fixed: Removed @Inject from domain UseCase (Clean Architecture)**
+- **Added @Provides for CalculateBirthChartUseCase in AstrologyModule**
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
 - ذخیره پایدار پروفایل
 - صفحه چارت + نام واقعی کاربر
-- **فایل google-services.json با پکیج صحیح و SHA-1 به‌روز شد**
+- google-services.json صحیح
+- **رفع خطای کامپایل UseCase در لایه Domain**
 
 ---
 
 ## In Progress
-- Waiting for user to rebuild APK and test Google Sign-In
+- Waiting for successful build + user test of Google Sign-In
 
 ## در حال انجام
-- منتظر بیلد جدید و تست ورود با جیمیل توسط کاربر
+- منتظر بیلد موفق و تست ورود با جیمیل
 
 ---
 
 ## Blocked / Attention Needed
-- None for Google Sign-In configuration (should work now)
+- None currently for build
 - Real ephemeris still Stub
 
 ## نیاز به توجه
@@ -43,14 +45,14 @@ Phase 3 - Astrology Core + Profile Persistence + Google Sign-In fix
 ---
 
 ## Next Step
-1. User rebuilds APK from GitHub Actions and tests Google Sign-In
-2. If login works → continue with daily horoscope or improve chart UI
-3. Later: real offline ephemeris
+1. Wait for green build + APK artifact
+2. User tests Google Sign-In
+3. Continue feature development
 
 ## مرحله بعد
-۱. کاربر APK جدید بسازد و ورود با جیمیل را تست کند
-۲. در صورت موفقیت → ادامه توسعه
-۳. بعداً: محاسبه واقعی آفلاین
+۱. بیلد سبز و دانلود APK
+۲. تست ورود با جیمیل توسط کاربر
+۳. ادامه توسعه
 
 ---
 
