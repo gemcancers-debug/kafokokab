@@ -129,7 +129,7 @@ fun getOpportunityColor(score: Int): Color {
 }
 
 // ═════════════════════════════════════════════════════════════════════════
-// ═══ LOGIN SCREEN — اصلاح‌شده طبق درخواست ═══
+// ═══ LOGIN SCREEN — دقیقاً مثل عکسی که کاربر فرستاد ═══
 // ═════════════════════════════════════════════════════════════════════════
 private const val H2_APP_PASSWORD = "H2signals29466468"
 
@@ -200,16 +200,47 @@ fun LoginScreen(onSuccess: () -> Unit) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // [حذف شد: متن‌های H2 SIGNALS که روی عکس می‌افتادند و تداخل ایجاد می‌کردند]
-            // تنها عکس پس‌زمینه و باکس ورود باقی می‌مانند.
+            Spacer(modifier = Modifier.height(60.dp))
 
-            Spacer(modifier = Modifier.height(40.dp)) // فاصله از بالا
+            // ─── لوگو H2 SIGNALS ───
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                // H2 بزرگ سفید/نقره‌ای با افکت درخشش
+                Text(
+                    text = "H2",
+                    fontSize = 80.sp,
+                    fontWeight = FontWeight.Black,
+                    color = Color.White,
+                    style = androidx.compose.ui.text.TextStyle(
+                        shadow = androidx.compose.ui.graphics.Shadow(
+                            color = NeonGreen.copy(alpha = 0.5f),
+                            offset = androidx.compose.ui.geometry.Offset(0f, 4f),
+                            blurRadius = 24f
+                        )
+                    )
+                )
+                // SIGNALS سبز نئونی
+                Text(
+                    text = "SIGNALS",
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = NeonGreen,
+                    letterSpacing = 8.sp,
+                    style = androidx.compose.ui.text.TextStyle(
+                        shadow = androidx.compose.ui.graphics.Shadow(
+                            color = NeonGreen.copy(alpha = 0.8f),
+                            offset = androidx.compose.ui.geometry.Offset(0f, 0f),
+                            blurRadius = 20f
+                        )
+                    )
+                )
+            }
+
+            Spacer(modifier = Modifier.height(80.dp))
 
             // ─── باکس شیشه‌ای ورود ───
             Box(
                 modifier = Modifier
-                    .fillMaxWidth(0.9f) // عرض باکس بزرگ‌تر شد
-                    .padding(top = 50.dp) // باکس کمی بالاتر آمد
+                    .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
                     .background(
                         Brush.verticalGradient(
@@ -229,7 +260,7 @@ fun LoginScreen(onSuccess: () -> Unit) {
                         ),
                         shape = RoundedCornerShape(24.dp)
                     )
-                    .padding(28.dp) // فضای داخلی باکس بزرگ‌تر شد
+                    .padding(24.dp)
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     // عنوان WELCOME BACK
@@ -247,7 +278,7 @@ fun LoginScreen(onSuccess: () -> Unit) {
                         color = MutedSteel
                     )
 
-                    Spacer(modifier = Modifier.height(28.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
                     // ─── فیلد پسورد ───
                     val fieldBorderColor = if (errorMessage != null) NeonRed else NeonGreen.copy(alpha = 0.5f)
@@ -325,13 +356,13 @@ fun LoginScreen(onSuccess: () -> Unit) {
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     // ─── دکمه LOGIN سبز نئونی ───
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(54.dp) // دکمه بزرگ‌تر شد
+                            .height(52.dp)
                             .clip(RoundedCornerShape(16.dp))
                             .background(
                                 brush = Brush.horizontalGradient(
@@ -351,7 +382,7 @@ fun LoginScreen(onSuccess: () -> Unit) {
                     ) {
                         Text(
                             text = "LOGIN",
-                            fontSize = 18.sp, // فونت دکمه بزرگ‌تر
+                            fontSize = 16.sp,
                             fontWeight = FontWeight.Black,
                             color = Color.Black,
                             letterSpacing = 3.sp
@@ -461,7 +492,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
 @Composable
 fun DashboardScreen(
     viewModel: H2signalsViewModel,
@@ -1871,7 +1901,7 @@ fun GoldenAssetCard(
     onExecuteTrade: (String) -> Unit = {}
 ) {
     var showBuyDialog by remember { mutableStateOf(false) }
-    // بازطراحی «شیشه‌ای» (Glassmorphism) طبق درخواست کاربر: به‌جای کارت مربعی,
+    // بازطراحی «شیشه‌ای» (Glassmorphism) طبق درخواست کاربر: به‌جای کارت مربعی،
     // هر دارایی یک دایره‌ی بزرگ (حداقل ۸۰dp) با پس‌زمینه‌ی نیمه‌شفاف است. حلقه‌ی
     // دور دایره رنگ وضعیت سیگنال را نشان می‌دهد: سبز نئون برای BUY، خاکستری/نقره‌ای
     // برای WAIT، قرمز برای SELL. چون minSdk این پروژه ۲۶ است و افکت Blur واقعی
