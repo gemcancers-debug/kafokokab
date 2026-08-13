@@ -3,7 +3,7 @@
 وظیفه: صفحه اصلی (داشبورد) اپلیکیشن – مطابق طراحی آپلود شده
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-01
-آخرین تغییر: 2026-08-10 - نمایش نام واقعی کاربر از ProfileRepository
+آخرین تغییر: 2026-08-13 - اضافه شدن کارت طالع نمادین امروز (DailyInsightCard)
 */
 
 package com.kafokokab.app.ui.home
@@ -105,6 +105,13 @@ fun HomeScreen(
                 birthSummary = uiState.birthSummary
             )
 
+            Spacer(modifier = Modifier.height(16.dp))
+
+            DailyInsightCard(
+                title = uiState.dailyInsightTitle,
+                message = uiState.dailyInsight
+            )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             SectionTitle(title = "دسته‌بندی اصلی")
@@ -202,62 +209,54 @@ fun HomeHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(horizontal = 20.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Column {
+            Text(
+                text = "سلام، $userName",
+                style = MaterialTheme.typography.titleLarge,
+                color = SoftWhite,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "آسمان امروز چه می‌گوید؟",
+                style = MaterialTheme.typography.bodyMedium,
+                color = SoftWhite.copy(alpha = 0.7f)
+            )
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(40.dp)
                     .clip(CircleShape)
-                    .background(MysticPurple.copy(alpha = 0.4f))
-                    .border(1.dp, SoftWhite.copy(alpha = 0.2f), CircleShape),
+                    .background(SoftWhite.copy(alpha = 0.1f))
+                    .clickable(onClick = onNotificationClick),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Person,
+                    imageVector = Icons.Default.Notifications,
                     contentDescription = null,
                     tint = SoftWhite,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(22.dp)
                 )
             }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Column {
-                Text(
-                    text = "سلام، $userName",
-                    style = MaterialTheme.typography.titleMedium,
-                    color = SoftWhite,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "به دنیای خوش آمدی ✨",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = SoftWhite.copy(alpha = 0.6f)
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(SoftWhite.copy(alpha = 0.1f))
+                    .clickable(onClick = onSettingsClick),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = null,
+                    tint = SoftWhite,
+                    modifier = Modifier.size(22.dp)
                 )
             }
-        }
-
-        Row {
-            Icon(
-                imageVector = Icons.Default.Notifications,
-                contentDescription = "اعلان‌ها",
-                tint = SoftWhite.copy(alpha = 0.8f),
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable(onClick = onNotificationClick)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "تنظیمات",
-                tint = SoftWhite.copy(alpha = 0.8f),
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable(onClick = onSettingsClick)
-            )
         }
     }
 }
@@ -331,6 +330,67 @@ fun BirthChartCard(
     }
 }
 
+/**
+ * کارت طالع نمادین امروز.
+ * پیام‌ها جنبه آموزشی و خودشناسی دارند و ادعای پیش‌بینی قطعی آینده ندارند.
+ */
+@Composable
+fun DailyInsightCard(
+    title: String,
+    message: String
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFF2A1458).copy(alpha = 0.7f),
+                        MysticPurple.copy(alpha = 0.35f)
+                    )
+                )
+            )
+            .border(
+                width = 1.dp,
+                color = Gold.copy(alpha = 0.35f),
+                shape = RoundedCornerShape(20.dp)
+            )
+            .padding(20.dp)
+    ) {
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "☽",
+                    fontSize = 22.sp,
+                    color = Gold
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Gold,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyLarge,
+                color = SoftWhite.copy(alpha = 0.9f),
+                lineHeight = 26.sp
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = "برای سرگرمی و خودشناسی • قطعی نیست",
+                style = MaterialTheme.typography.labelSmall,
+                color = SoftWhite.copy(alpha = 0.45f)
+            )
+        }
+    }
+}
+
 @Composable
 fun SectionTitle(title: String) {
     Text(
@@ -358,39 +418,19 @@ fun MainCategoryCard(
             .padding(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .clip(CircleShape)
-                .background(MysticPurple.copy(alpha = 0.3f)),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = Icons.Default.WbTwilight,
-                contentDescription = null,
-                tint = Gold,
-                modifier = Modifier.size(24.dp)
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = title,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelLarge,
             color = SoftWhite,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Medium
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = subtitle,
             style = MaterialTheme.typography.labelSmall,
-            color = SoftWhite.copy(alpha = 0.5f),
+            color = SoftWhite.copy(alpha = 0.6f),
             textAlign = TextAlign.Center
-        )
-        Spacer(modifier = Modifier.height(6.dp))
-        Text(
-            text = "ورود",
-            style = MaterialTheme.typography.labelSmall,
-            color = NeonPink
         )
     }
 }
@@ -411,24 +451,21 @@ fun AnalysisToolCard(
             .clickable(onClick = onClick)
             .padding(12.dp)
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Box {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = SoftWhite,
+                    tint = if (isPremium) Gold else SoftWhite,
                     modifier = Modifier.size(28.dp)
                 )
                 if (isPremium) {
                     Icon(
                         imageVector = Icons.Default.Lock,
-                        contentDescription = "ویژه",
-                        tint = Gold,
+                        contentDescription = null,
+                        tint = NeonPink,
                         modifier = Modifier
-                            .size(14.dp)
+                            .size(12.dp)
                             .align(Alignment.TopEnd)
                     )
                 }
@@ -438,13 +475,15 @@ fun AnalysisToolCard(
                 text = title,
                 style = MaterialTheme.typography.labelMedium,
                 color = SoftWhite,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium
             )
             if (isPremium) {
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "Premium",
                     style = MaterialTheme.typography.labelSmall,
-                    color = Gold
+                    color = Gold.copy(alpha = 0.8f)
                 )
             }
         }
@@ -454,54 +493,48 @@ fun AnalysisToolCard(
 @Composable
 fun AdvancedToolsGrid() {
     val tools = listOf(
-        "فال روزانه" to Icons.Default.AutoAwesome,
         "طالع بینی ماهانه" to Icons.Default.CalendarMonth,
-        "سازگاری زوجین" to Icons.Default.Favorite,
-        "بازگشت مشتری" to Icons.Default.WbTwilight,
-        "انتخاب زمان مناسب" to Icons.Default.Star,
-        "اعداد و ابجد" to Icons.Default.Star,
-        "سنگ‌شناسی" to Icons.Default.Star,
-        "رنگ‌شناسی" to Icons.Default.Star,
-        "شخصیت‌شناسی" to Icons.Default.Person,
-        "مدیتیشن و انرژی" to Icons.Default.AutoAwesome
+        "سازگاری زوج" to Icons.Default.Favorite,
+        "تحلیل خواب" to Icons.Default.WbTwilight,
+        "فال حافظ" to Icons.Default.AutoAwesome
     )
-
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        tools.chunked(5).forEach { rowItems ->
+        tools.chunked(2).forEach { row ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                rowItems.forEach { (title, icon) ->
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                row.forEach { (title, icon) ->
+                    Row(
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(12.dp))
-                            .background(SoftWhite.copy(alpha = 0.06f))
+                            .clip(RoundedCornerShape(14.dp))
+                            .background(SoftWhite.copy(alpha = 0.07f))
+                            .border(1.dp, SoftWhite.copy(alpha = 0.1f), RoundedCornerShape(14.dp))
                             .clickable { }
-                            .padding(vertical = 10.dp, horizontal = 4.dp)
+                            .padding(14.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             imageVector = icon,
                             contentDescription = null,
-                            tint = SoftWhite.copy(alpha = 0.85f),
+                            tint = Gold,
                             modifier = Modifier.size(22.dp)
                         )
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(modifier = Modifier.width(10.dp))
                         Text(
                             text = title,
-                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp),
-                            color = SoftWhite.copy(alpha = 0.75f),
-                            textAlign = TextAlign.Center,
-                            maxLines = 2
+                            style = MaterialTheme.typography.labelLarge,
+                            color = SoftWhite
                         )
                     }
                 }
-                repeat(5 - rowItems.size) {
+                if (row.size == 1) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
@@ -515,49 +548,44 @@ fun PremiumBanner(onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(18.dp))
             .background(
                 brush = Brush.horizontalGradient(
                     colors = listOf(
                         Gold.copy(alpha = 0.25f),
-                        MysticPurple.copy(alpha = 0.3f)
+                        NeonPink.copy(alpha = 0.2f)
                     )
                 )
             )
-            .border(1.dp, Gold.copy(alpha = 0.4f), RoundedCornerShape(16.dp))
+            .border(1.dp, Gold.copy(alpha = 0.4f), RoundedCornerShape(18.dp))
             .clickable(onClick = onClick)
-            .padding(16.dp)
+            .padding(18.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "نسخه پریمیوم",
+                    text = "کف و کوکب Premium",
                     style = MaterialTheme.typography.titleMedium,
-                    color = SoftWhite,
+                    color = Gold,
                     fontWeight = FontWeight.Bold
                 )
+                Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "دسترسی به تمام تحلیل‌های پیشرفته بدون محدودیت",
+                    text = "تحلیل عمیق، گزارش کامل و تاریخچه",
                     style = MaterialTheme.typography.bodySmall,
-                    color = SoftWhite.copy(alpha = 0.75f)
+                    color = SoftWhite.copy(alpha = 0.8f)
                 )
             }
-            Box(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Gold)
-                    .padding(horizontal = 14.dp, vertical = 8.dp)
-            ) {
-                Text(
-                    text = "مشاهده و خرید",
-                    style = MaterialTheme.typography.labelMedium,
-                    color = DarkGalaxy,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.Star,
+                contentDescription = null,
+                tint = Gold,
+                modifier = Modifier.size(32.dp)
+            )
         }
     }
 }
@@ -567,38 +595,33 @@ fun BottomNavigationBar(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(DarkGalaxy.copy(alpha = 0.95f))
-            .border(
-                width = 1.dp,
-                color = SoftWhite.copy(alpha = 0.08f)
-            )
-            .padding(vertical = 10.dp),
+            .background(Color(0xFF12001F).copy(alpha = 0.95f))
+            .padding(vertical = 10.dp, horizontal = 8.dp),
         horizontalArrangement = Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        BottomNavItem(icon = Icons.Default.Settings, label = "تنظیمات", selected = false)
-        BottomNavItem(icon = Icons.Default.Favorite, label = "علاقه‌مندی‌ها", selected = false)
         BottomNavItem(icon = Icons.Default.Home, label = "خانه", selected = true)
-        BottomNavItem(icon = Icons.Default.Star, label = "گزارش‌ها", selected = false)
+        BottomNavItem(icon = Icons.Default.AutoAwesome, label = "چارت", selected = false)
+        BottomNavItem(icon = Icons.Default.Star, label = "ابزار", selected = false)
         BottomNavItem(icon = Icons.Default.Person, label = "پروفایل", selected = false)
     }
 }
 
 @Composable
-fun BottomNavItem(
+private fun BottomNavItem(
     icon: ImageVector,
     label: String,
     selected: Boolean
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { }
+        modifier = Modifier.padding(horizontal = 8.dp)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = label,
             tint = if (selected) NeonPink else SoftWhite.copy(alpha = 0.5f),
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
