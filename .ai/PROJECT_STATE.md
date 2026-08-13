@@ -1,69 +1,64 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core + Chart Interpretations
+Phase 3 - Real offline astrology engine (no mock)
 
 ## مرحله فعلی
-فاز ۳ - موتور نجوم + تفسیر کوتاه چارت
+فاز ۳ - موتور نجوم واقعی آفلاین (بدون Mock)
 
 ---
 
 ## Completed
-- Full Onboarding UI + Home Dashboard
-- UserProfile + OnboardingViewModel + DataStore persistence
-- Firebase foundation + Auth layer
-- Astrology domain models + Calculator + Stub
-- BirthChartViewModel + BirthChartScreen
-- HomeViewModel (real user name) + DailyInsightCard
-- Clean Architecture Hilt fixes
-- MainActivity restored
-- **SignInterpretation** (domain) – short educational texts for Sun / Moon / Rising
-- **Interpretation cards** on BirthChartScreen
+- Full Onboarding UI + Home Dashboard + Daily Insight
+- UserProfile + DataStore persistence
+- Firebase Auth foundation (Google Sign-In deferred – no keystore for now)
+- BirthChart UI + interpretation cards
+- **FormulaAstrologyCalculator** – real offline planetary formulas (Meeus-style)
+- **PersianDateConverter** – Jalali → Gregorian for Iranian birth dates
+- **IranCities** – real lat/lon for major Iranian cities
+- **Removed StubAstrologyCalculator and sample birth data**
+- BirthChartViewModel uses only real profile data
 
 ## انجام شده
-- UI کامل آنبوردینگ + داشبورد + طالع امروز
-- ذخیره پایدار پروفایل
-- صفحه چارت
-- **تفسیر نمادین کوتاه خورشید / ماه / طلوع روی چارت**
+- UI آنبوردینگ + داشبورد + طالع امروز + تفسیر چارت
+- **موتور محاسبه واقعی آفلاین جایگزین Stub شد**
+- **تبدیل تاریخ شمسی و مختصات واقعی شهرها**
+- **حذف کامل داده نمونه / Mock از چارت**
 
 ---
 
 ## In Progress
-- Waiting for green build after chart interpretation push
-- User test of interpretation cards
+- Green build after real engine push
+- User test with real birth date from onboarding
 
 ## در حال انجام
-- منتظر بیلد سبز پس از تفسیر چارت
-- تست کارت‌های تفسیر توسط کاربر
+- بیلد و تست با تاریخ تولد واقعی کاربر
 
 ---
 
 ## Blocked / Attention Needed
-- Real ephemeris still Stub
-- Gradle Wrapper (gradlew) is missing
-- Google Sign-In SHA-1 still fragile on CI builds
+- Google Sign-In / keystore deferred by user request
+- Gradle Wrapper still missing
+- Formula accuracy is educational, not Swiss Ephemeris grade
 
 ## نیاز به توجه
-- محاسبات واقعی نجومی هنوز Stub است
-- فایل gradlew وجود ندارد
-- ورود با گوگل روی بیلدهای CI هنوز شکننده است
+- ورود گوگل فعلاً کنار گذاشته شده
+- دقت موتور آموزشی است
 
 ---
 
 ## Next Step
-1. Green build + APK
-2. User tests chart interpretations
-3. Next options:
-   - Stable debug keystore for Google Sign-In
-   - Premium blur polish
-   - Simple planet-by-planet short notes
+1. Build APK and test chart with real onboarding birth data
+2. Optional: improve city list / house cusps
+3. Later: stable keystore when ready
 
 ## مرحله بعد
-۱. بیلد سبز و دانلود APK
-۲. تست تفسیرهای چارت
-۳. گزینه‌های بعدی: keystore ثابت / پالیش Premium / توضیح سیارات
+۱. بیلد و تست چارت با تاریخ واقعی
+۲. بهبود لیست شهرها در صورت نیاز
+۳. بعداً keystore وقتی آماده بود
 
 ---
 
 **Last Updated:** 2026-08-13  
-**Updated By:** AI Principal Engineer (Grok) – KafoKokab Skill active
+**Updated By:** AI Principal Engineer (Grok)  
+**Note:** Keystore deferred; no mock planetary data.
