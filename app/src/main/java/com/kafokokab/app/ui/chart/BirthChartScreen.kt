@@ -4,13 +4,14 @@
 وظیفه: نمایش ساده و زیبای چارت تولد (موقعیت سیارات)
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-08
-آخرین تغییر: 2026-08-11 - اصلاح import Modifier و فراخوانی loadChart
+آخرین تغییر: 2026-08-13 - اضافه شدن تفسیر کوتاه خورشید/ماه/طلوع
 
 طراحی:
 - تم Dark Galaxy + Glassmorphism
 - نمایش برج خورشید، ماه و طلوع در بالای صفحه
 - لیست موقعیت تمام سیارات با نام فارسی
 - امکان تعویض سیستم غربی / ودیک
+- تفسیر نمادین کوتاه برای خودشناسی
 */
 
 package com.kafokokab.app.ui.chart
@@ -52,8 +53,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kafokokab.core.domain.model.astrology.ChartPointInterpretation
 import com.kafokokab.core.domain.model.astrology.ChartSystem
 import com.kafokokab.core.domain.model.astrology.PlanetPosition
+import com.kafokokab.core.domain.model.astrology.SignInterpretation
 import com.kafokokab.core.ui.theme.DarkGalaxy
 import com.kafokokab.core.ui.theme.Gold
 import com.kafokokab.core.ui.theme.MysticPurple
@@ -130,6 +133,31 @@ fun BirthChartScreen(
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))
+
+                    // تفسیرهای کوتاه نمادین (آموزشی)
+                    val interpretations = SignInterpretation.forChart(chart)
+                    if (interpretations.isNotEmpty()) {
+                        Text(
+                            text = "تفسیر نمادین",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = SoftWhite,
+                            fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.padding(horizontal = 20.dp)
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Text(
+                            text = "برای خودشناسی و سرگرمی • قطعی نیست",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = SoftWhite.copy(alpha = 0.45f),
+                            modifier = Modifier.padding(horizontal = 20.dp)
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                        interpretations.forEach { item ->
+                            InterpretationCard(item = item)
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
 
                     Text(
                         text = "موقعیت سیارات",
@@ -326,6 +354,63 @@ private fun SummaryItem(
             color = SoftWhite,
             fontWeight = FontWeight.Bold
         )
+    }
+}
+
+/**
+ * کارت تفسیر کوتاه برای یک نقطه چارت (خورشید / ماه / طلوع).
+ */
+@Composable
+private fun InterpretationCard(item: ChartPointInterpretation) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MysticPurple.copy(alpha = 0.28f),
+                        Color(0xFF1A0533).copy(alpha = 0.5f)
+                    )
+                )
+            )
+            .border(
+                width = 1.dp,
+                color = Gold.copy(alpha = 0.25f),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(16.dp)
+    ) {
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = item.symbol,
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Gold
+                )
+                Spacer(modifier = Modifier.width(10.dp))
+                Column {
+                    Text(
+                        text = item.title,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = SoftWhite,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = item.elementHint,
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Gold.copy(alpha = 0.7f)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = item.body,
+                style = MaterialTheme.typography.bodyMedium,
+                color = SoftWhite.copy(alpha = 0.88f)
+            )
+        }
     }
 }
 
