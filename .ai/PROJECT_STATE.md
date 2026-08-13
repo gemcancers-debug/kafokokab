@@ -1,63 +1,69 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core + Profile Persistence + Build fix
+Phase 3 - Astrology Core + Daily Insight on Home
 
 ## مرحله فعلی
-فاز ۳ - موتور نجوم + ذخیره پروفایل + رفع خطای بیلد
+فاز ۳ - موتور نجوم + طالع نمادین روزانه روی Home
 
 ---
 
 ## Completed
 - Full Onboarding UI + Home Dashboard
 - UserProfile + OnboardingViewModel + DataStore persistence
-- Firebase foundation + Auth layer + correct google-services.json
+- Firebase foundation + Auth layer
 - Astrology domain models + Calculator + Stub
 - BirthChartViewModel + BirthChartScreen
 - HomeViewModel (real user name)
-- **Fixed: Removed @Inject from domain UseCase (Clean Architecture)**
-- **Added @Provides for CalculateBirthChartUseCase in AstrologyModule**
-- **Fixed: Added Hilt plugin + dependencies to core-data module (Unresolved reference 'dagger')**
+- Clean Architecture Hilt fixes
+- **MainActivity restored** (was corrupted by wrong project code)
+- **DailyInsightCard on Home** – symbolic daily message (educational tone, no hard predictions)
 
 ## انجام شده
 - UI کامل آنبوردینگ + داشبورد
 - ذخیره پایدار پروفایل
-- صفحه چارت + نام واقعی کاربر
-- google-services.json صحیح
-- **رفع خطای کامپایل UseCase در لایه Domain**
-- **رفع خطای Unresolved reference dagger با اضافه کردن Hilt به core-data**
+- صفحه چارت
+- MainActivity بازگردانی شد
+- **کارت طالع امروز روی صفحه اصلی اضافه شد**
 
 ---
 
 ## In Progress
-- Waiting for successful build + APK artifact + user test of Google Sign-In
+- Waiting for green build after Daily Insight push
+- User test of Home + Daily Insight card
 
 ## در حال انجام
-- منتظر بیلد موفق، دانلود APK و تست ورود با جیمیل
+- منتظر بیلد سبز پس از push طالع امروز
+- تست کارت طالع امروز توسط کاربر
 
 ---
 
 ## Blocked / Attention Needed
 - Real ephemeris still Stub
-- Gradle Wrapper (gradlew) is missing in repo (workflow falls back to system Gradle – works but not ideal)
+- Gradle Wrapper (gradlew) is missing in repo
+- Google Sign-In SHA-1 still fragile on CI builds (needs stable debug keystore)
 
 ## نیاز به توجه
 - محاسبات واقعی نجومی هنوز Stub است
-- فایل gradlew در ریپازیتوری وجود ندارد (فعلاً با system Gradle کار می‌کند)
+- فایل gradlew وجود ندارد
+- ورود با گوگل روی بیلدهای CI هنوز شکننده است
 
 ---
 
 ## Next Step
-1. Wait for green build + APK artifact from GitHub Actions
-2. User tests Google Sign-In with the new SHA-1
-3. If green → continue feature development (or polish Home / Chart)
+1. Green build + APK from this commit
+2. User tests Daily Insight card on Home
+3. Next feature options:
+   - Short interpretation texts on BirthChart (Sun/Moon/Rising)
+   - Stable debug keystore for Google Sign-In
+   - Premium blur polish on locked tools
 
 ## مرحله بعد
 ۱. بیلد سبز و دانلود APK
-۲. تست ورود با جیمیل توسط کاربر
-۳. ادامه توسعه
+۲. تست کارت طالع امروز
+۳. گزینه‌های بعدی: تفسیر کوتاه چارت / keystore ثابت / پالیش Premium
 
 ---
 
-**Last Updated:** 2026-08-11  
-**Updated By:** AI Principal Engineer (Grok)
+**Last Updated:** 2026-08-13  
+**Updated By:** AI Principal Engineer (Grok) – KafoKokab Skill active
