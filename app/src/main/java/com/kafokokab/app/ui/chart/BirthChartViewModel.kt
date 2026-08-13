@@ -4,13 +4,19 @@
 وظیفه: مدیریت وضعیت صفحه چارت تولد و فراخوانی UseCase محاسبه
 نویسنده: AI Principal Engineer
 تاریخ: 2026-08-08
-آخرین تغییر: 2026-08-09 - اولویت با داده واقعی پروفایل کاربر
+آخرین تغییر: 2026-08-13 - حذف کامل داده Mock؛ فقط تاریخ واقعی پروفایل + مختصات شهر
+
+قوانین:
+- هیچ تاریخ نمونه‌ای استفاده نمی‌شود
+- اگر تاریخ تولد نباشد، پیام راهنما نمایش داده می‌شود
+- تاریخ شمسی توسط موتور به میلادی تبدیل می‌شود
 */
 
 package com.kafokokab.app.ui.chart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kafokokab.core.domain.geo.IranCities
 import com.kafokokab.core.domain.model.astrology.BirthChart
 import com.kafokokab.core.domain.model.astrology.ChartSystem
 import com.kafokokab.core.domain.repository.ProfileRepository
@@ -28,7 +34,8 @@ data class BirthChartUiState(
     val chart: BirthChart? = null,
     val errorMessage: String? = null,
     val selectedSystem: ChartSystem = ChartSystem.WESTERN,
-    val usingSampleData: Boolean = true
+    /** true فقط وقتی تاریخ تولد در پروفایل نیست */
+    val needsBirthInfo: Boolean = false
 )
 
 @HiltViewModel
@@ -45,13 +52,14 @@ class BirthChartViewModel @Inject constructor(
     }
 
     /**
-     * بارگذاری چارت.
-     * اگر پروفایل کاربر تاریخ تولد معتبر داشته باشد از آن استفاده می‌کند،
-     * در غیر این صورت از داده نمونه استفاده می‌شود.
+     * بارگذاری چارت فقط از داده واقعی پروفایل.
+     * داده Mock / نمونه استفاده نمی‌شود.
      */
     fun loadChart() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            _uiState.update {
+                it.copy(isLoading = true, errorMessage = null, needsBirthInfo = false)
+            }
             try {
                 val profile = profileRepository.getProfile()
 
@@ -59,41 +67,45 @@ class BirthChartViewModel @Inject constructor(
                 val month = profile.birthMonth.toIntOrNull()
                 val day = profile.birthDay.toIntOrNull()
 
-                val hasRealData = year != null && month != null && day != null && year > 1900
+                // سال شمسی (مثلاً ۱۳۶۸) یا میلادی (مثلاً ۱۹۹۰) هر دو معتبرند
+                val hasRealData = year != null && month != null && day != null &&
+                    year in 1200..2100 && month in 1..12 && day in 1..31
 
-                val chart = if (hasRealData) {
-                    val hour = profile.birthHour.toIntOrNull() ?: 12
-                    val minute = profile.birthMinute.toIntOrNull() ?: 0
-
-                    calculateBirthChart(
-                        year = year!!,
-                        month = month!!,
-                        day = day!!,
-                        hour = hour,
-                        minute = minute,
-                        latitude = 35.6892,   // فعلاً تهران – بعداً از شهر واقعی
-                        longitude = 51.3890,
-                        system = _uiState.value.selectedSystem
-                    )
-                } else {
-                    // داده نمونه
-                    calculateBirthChart(
-                        year = 1995,
-                        month = 7,
-                        day = 15,
-                        hour = 14,
-                        minute = 30,
-                        latitude = 35.6892,
-                        longitude = 51.3890,
-                        system = _uiState.value.selectedSystem
-                    )
+                if (!hasRealData) {
+                    _uiState.update {
+                        it.copy(
+                            isLoading = false,
+                            chart = null,
+                            needsBirthInfo = true,
+                            errorMessage = "برای محاسبه چارت، تاریخ تولد را در پروفایل کامل کنید."
+                        )
+                    }
+                    return@launch
                 }
+
+                val hour = profile.birthHour.toIntOrNull() ?: 12
+                val minute = profile.birthMinute.toIntOrNull() ?: 0
+
+                // مختصات واقعی شهر تولد (در صورت نبود → تهران)
+                val location = IranCities.resolve(profile.birthCity, profile.birthProvince)
+
+                val chart = calculateBirthChart(
+                    year = year!!,
+                    month = month!!,
+                    day = day!!,
+                    hour = hour,
+                    minute = minute,
+                    latitude = location.latitude,
+                    longitude = location.longitude,
+                    system = _uiState.value.selectedSystem
+                )
 
                 _uiState.update {
                     it.copy(
                         isLoading = false,
                         chart = chart,
-                        usingSampleData = !hasRealData
+                        needsBirthInfo = false,
+                        errorMessage = null
                     )
                 }
             } catch (e: Exception) {
