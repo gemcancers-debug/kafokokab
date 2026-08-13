@@ -1,10 +1,10 @@
 # PROJECT_STATE.md
 
 ## Current Phase
-Phase 3 - Astrology Core + Daily Insight on Home
+Phase 3 - Astrology Core + Chart Interpretations
 
 ## مرحله فعلی
-فاز ۳ - موتور نجوم + طالع نمادین روزانه روی Home
+فاز ۳ - موتور نجوم + تفسیر کوتاه چارت
 
 ---
 
@@ -14,34 +14,34 @@ Phase 3 - Astrology Core + Daily Insight on Home
 - Firebase foundation + Auth layer
 - Astrology domain models + Calculator + Stub
 - BirthChartViewModel + BirthChartScreen
-- HomeViewModel (real user name)
+- HomeViewModel (real user name) + DailyInsightCard
 - Clean Architecture Hilt fixes
-- **MainActivity restored** (was corrupted by wrong project code)
-- **DailyInsightCard on Home** – symbolic daily message (educational tone, no hard predictions)
+- MainActivity restored
+- **SignInterpretation** (domain) – short educational texts for Sun / Moon / Rising
+- **Interpretation cards** on BirthChartScreen
 
 ## انجام شده
-- UI کامل آنبوردینگ + داشبورد
+- UI کامل آنبوردینگ + داشبورد + طالع امروز
 - ذخیره پایدار پروفایل
 - صفحه چارت
-- MainActivity بازگردانی شد
-- **کارت طالع امروز روی صفحه اصلی اضافه شد**
+- **تفسیر نمادین کوتاه خورشید / ماه / طلوع روی چارت**
 
 ---
 
 ## In Progress
-- Waiting for green build after Daily Insight push
-- User test of Home + Daily Insight card
+- Waiting for green build after chart interpretation push
+- User test of interpretation cards
 
 ## در حال انجام
-- منتظر بیلد سبز پس از push طالع امروز
-- تست کارت طالع امروز توسط کاربر
+- منتظر بیلد سبز پس از تفسیر چارت
+- تست کارت‌های تفسیر توسط کاربر
 
 ---
 
 ## Blocked / Attention Needed
 - Real ephemeris still Stub
-- Gradle Wrapper (gradlew) is missing in repo
-- Google Sign-In SHA-1 still fragile on CI builds (needs stable debug keystore)
+- Gradle Wrapper (gradlew) is missing
+- Google Sign-In SHA-1 still fragile on CI builds
 
 ## نیاز به توجه
 - محاسبات واقعی نجومی هنوز Stub است
@@ -51,17 +51,17 @@ Phase 3 - Astrology Core + Daily Insight on Home
 ---
 
 ## Next Step
-1. Green build + APK from this commit
-2. User tests Daily Insight card on Home
-3. Next feature options:
-   - Short interpretation texts on BirthChart (Sun/Moon/Rising)
+1. Green build + APK
+2. User tests chart interpretations
+3. Next options:
    - Stable debug keystore for Google Sign-In
-   - Premium blur polish on locked tools
+   - Premium blur polish
+   - Simple planet-by-planet short notes
 
 ## مرحله بعد
 ۱. بیلد سبز و دانلود APK
-۲. تست کارت طالع امروز
-۳. گزینه‌های بعدی: تفسیر کوتاه چارت / keystore ثابت / پالیش Premium
+۲. تست تفسیرهای چارت
+۳. گزینه‌های بعدی: keystore ثابت / پالیش Premium / توضیح سیارات
 
 ---
 
