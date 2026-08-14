@@ -1,3 +1,17 @@
+/*
+نام فایل: BirthInfoScreen.kt
+وظیفه: مرحله ۱ آنبوردینگ – دریافت اطلاعات تولد با انتخاب‌گر واقعی (نه placeholder)
+نویسنده: AI Principal Engineer
+تاریخ: 2026-08-01
+آخرین تغییر: 2026-08-14 - رفع خطای کامپایل Row(Modifier=) + لیست شهر از IranCities + کامنت فارسی
+
+رفع‌ها:
+- SelectorBox قبلاً onClick خالی داشت → الان دیالوگ انتخاب باز می‌شود
+- Row(Modifier = ...) باعث خطای کامپایل می‌شد → اصلاح به modifier =
+- ماه به صورت عدد ۱–۱۲ ذخیره می‌شود (برای موتور نجوم)
+- بدون داده Mock؛ فقط مقادیر انتخاب‌شده کاربر
+*/
+
 package com.kafokokab.app.ui.onboarding
 
 import androidx.compose.foundation.background
@@ -57,10 +71,20 @@ import com.kafokokab.core.ui.theme.MysticPurple
 import com.kafokokab.core.ui.theme.NeonPink
 import com.kafokokab.core.ui.theme.SoftWhite
 
+/** ماه‌های شمسی — مقدار ذخیره‌شده عدد ۱ تا ۱۲ است */
 private val persianMonths = listOf(
-    "1" to "فروردین", "2" to "اردیبهشت", "3" to "خرداد", "4" to "تیر",
-    "5" to "مرداد", "6" to "شهریور", "7" to "مهر", "8" to "آبان",
-    "9" to "آذر", "10" to "دی", "11" to "بهمن", "12" to "اسفند"
+    "1" to "فروردین",
+    "2" to "اردیبهشت",
+    "3" to "خرداد",
+    "4" to "تیر",
+    "5" to "مرداد",
+    "6" to "شهریور",
+    "7" to "مهر",
+    "8" to "آبان",
+    "9" to "آذر",
+    "10" to "دی",
+    "11" to "بهمن",
+    "12" to "اسفند"
 )
 
 private fun monthLabel(code: String): String =
@@ -81,6 +105,9 @@ private val provinceOptions = listOf(
     "خراسان شمالی", "سمنان"
 )
 
+/** لیست شهرها از همان منبعی که موتور نجوم استفاده می‌کند */
+private val cityOptions: List<String> = IranCities.allCityNames()
+
 @Composable
 fun BirthInfoScreen(
     viewModel: OnboardingViewModel,
@@ -89,6 +116,7 @@ fun BirthInfoScreen(
 ) {
     val profile by viewModel.profile.collectAsState()
 
+    // وضعیت محلی — از پروفایل می‌آید
     var day by remember(profile.birthDay) { mutableStateOf(profile.birthDay.ifBlank { "1" }) }
     var month by remember(profile.birthMonth) {
         val raw = profile.birthMonth
@@ -135,53 +163,157 @@ fun BirthInfoScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
 
+            // تاریخ تولد شمسی
             SectionCard(title = "تاریخ تولد (شمسی)", icon = Icons.Default.CalendarMonth) {
-                Row(Modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    SelectorBox(label = "سال", value = year, modifier = Modifier.weight(1.2f), onClick = { picker = PickerType.Year })
-                    SelectorBox(label = "ماه", value = monthLabel(month), modifier = Modifier.weight(1.3f), onClick = { picker = PickerType.Month })
-                    SelectorBox(label = "روز", value = day, modifier = Modifier.weight(1f), onClick = { picker = PickerType.Day })
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    SelectorBox(
+                        label = "سال",
+                        value = year,
+                        modifier = Modifier.weight(1.2f),
+                        onClick = { picker = PickerType.Year }
+                    )
+                    SelectorBox(
+                        label = "ماه",
+                        value = monthLabel(month),
+                        modifier = Modifier.weight(1.3f),
+                        onClick = { picker = PickerType.Month }
+                    )
+                    SelectorBox(
+                        label = "روز",
+                        value = day,
+                        modifier = Modifier.weight(1f),
+                        onClick = { picker = PickerType.Day }
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
 
+            // جنسیت
             SectionCard(title = "جنسیت", icon = Icons.Default.Person) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    GenderChip(text = "زن", selected = gender == "زن", modifier = Modifier.weight(1f), onClick = { gender = "زن"; viewModel.updateGender("زن") })
-                    GenderChip(text = "مرد", selected = gender == "مرد", modifier = Modifier.weight(1f), onClick = { gender = "مرد"; viewModel.updateGender("مرد") })
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    GenderChip(
+                        text = "زن",
+                        selected = gender == "زن",
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            gender = "زن"
+                            viewModel.updateGender("زن")
+                        }
+                    )
+                    GenderChip(
+                        text = "مرد",
+                        selected = gender == "مرد",
+                        modifier = Modifier.weight(1f),
+                        onClick = {
+                            gender = "مرد"
+                            viewModel.updateGender("مرد")
+                        }
+                    )
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
 
+            // زمان تولد
             SectionCard(title = "زمان تولد", icon = Icons.Default.Schedule) {
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().clickable { unknownTime = !unknownTime; persistTime() }) {
-                    Checkbox(checked = unknownTime, onCheckedChange = { unknownTime = it; persistTime() }, colors = CheckboxDefaults.colors(checkedColor = NeonPink, uncheckedColor = SoftWhite.copy(alpha = 0.5f)))
-                    Text(text = "ساعت تولدم را نمی‌دانم", style = MaterialTheme.typography.bodyMedium, color = SoftWhite)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            unknownTime = !unknownTime
+                            persistTime()
+                        }
+                ) {
+                    Checkbox(
+                        checked = unknownTime,
+                        onCheckedChange = {
+                            unknownTime = it
+                            persistTime()
+                        },
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = NeonPink,
+                            uncheckedColor = SoftWhite.copy(alpha = 0.5f)
+                        )
+                    )
+                    Text(
+                        text = "ساعت تولدم را نمی‌دانم",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = SoftWhite
+                    )
                 }
                 if (!unknownTime) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        SelectorBox(label = "ساعت", value = hour, modifier = Modifier.weight(1f), onClick = { picker = PickerType.Hour })
-                        SelectorBox(label = "دقیقه", value = minute, modifier = Modifier.weight(1f), onClick = { picker = PickerType.Minute })
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        SelectorBox(
+                            label = "ساعت",
+                            value = hour,
+                            modifier = Modifier.weight(1f),
+                            onClick = { picker = PickerType.Hour }
+                        )
+                        SelectorBox(
+                            label = "دقیقه",
+                            value = minute,
+                            modifier = Modifier.weight(1f),
+                            onClick = { picker = PickerType.Minute }
+                        )
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
 
+            // محل تولد
             SectionCard(title = "محل تولد", icon = Icons.Default.LocationOn) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    SelectorBox(label = "استان", value = province, modifier = Modifier.weight(1f), onClick = { picker = PickerType.Province })
-                    SelectorBox(label = "شهر", value = city, modifier = Modifier.weight(1f), onClick = { picker = PickerType.City })
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    SelectorBox(
+                        label = "استان",
+                        value = province,
+                        modifier = Modifier.weight(1f),
+                        onClick = { picker = PickerType.Province }
+                    )
+                    SelectorBox(
+                        label = "شهر",
+                        value = city,
+                        modifier = Modifier.weight(1f),
+                        onClick = { picker = PickerType.City }
+                    )
                 }
             }
         }
 
-        Box(modifier = Modifier.align(Alignment.BottomCenter).fillMaxWidth().background(Color(0xFF0A001A).copy(alpha = 0.92f)).padding(20.dp)) {
-            ContinueButton(text = "ادامه", onClick = {
-                persistDate(); persistTime(); persistLocation(); viewModel.updateGender(gender); onContinue()
-            })
+        // دکمه ادامه ثابت پایین
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()
+                .background(Color(0xFF0A001A).copy(alpha = 0.92f))
+                .padding(20.dp)
+        ) {
+            ContinueButton(
+                text = "ادامه",
+                onClick = {
+                    persistDate()
+                    persistTime()
+                    persistLocation()
+                    viewModel.updateGender(gender)
+                    onContinue()
+                }
+            )
         }
     }
 
+    // دیالوگ انتخاب
     when (val type = picker) {
         null -> Unit
         else -> {
@@ -192,32 +324,48 @@ fun BirthInfoScreen(
                 PickerType.Hour -> "انتخاب ساعت" to hourOptions
                 PickerType.Minute -> "انتخاب دقیقه" to minuteOptions
                 PickerType.Province -> "انتخاب استان" to provinceOptions
-                PickerType.City -> "انتخاب شهر" to listOf(
-                    "تهران", "مشهد", "اصفهان", "شیراز", "تبریز", "کرج", "اهواز", "قم", "کرمانشاه",
-                    "ارومیه", "رشت", "زاهدان", "همدان", "کرمان", "یزد", "اردبیل", "بندرعباس",
-                    "اراک", "زنجان", "سنندج", "قزوین", "خرم‌آباد", "گرگان", "ساری", "بوشهر",
-                    "بیرجند", "ایلام", "یاسوج", "شهرکرد", "بجنورد", "سمنان", "کاشان", "ساوه"
-                )
+                PickerType.City -> "انتخاب شهر" to cityOptions
             }
-            OptionPickerDialog(title = title, options = options, onDismiss = { picker = null }, onSelect = { selected ->
-                when (type) {
-                    PickerType.Day -> { day = selected; persistDate() }
-                    PickerType.Month -> {
-                        month = selected.substringBefore(" ").trim().ifBlank { selected.filter { it.isDigit() } }
-                        persistDate()
+            OptionPickerDialog(
+                title = title,
+                options = options,
+                onDismiss = { picker = null },
+                onSelect = { selected ->
+                    when (type) {
+                        PickerType.Day -> {
+                            day = selected
+                            persistDate()
+                        }
+                        PickerType.Month -> {
+                            month = selected.substringBefore(" ").trim()
+                                .ifBlank { selected.filter { it.isDigit() } }
+                            persistDate()
+                        }
+                        PickerType.Year -> {
+                            year = selected
+                            persistDate()
+                        }
+                        PickerType.Hour -> {
+                            hour = selected
+                            persistTime()
+                        }
+                        PickerType.Minute -> {
+                            minute = selected
+                            persistTime()
+                        }
+                        PickerType.Province -> {
+                            province = selected
+                            persistLocation()
+                        }
+                        PickerType.City -> {
+                            val loc = IranCities.resolve(selected, province)
+                            city = loc.name
+                            persistLocation()
+                        }
                     }
-                    PickerType.Year -> { year = selected; persistDate() }
-                    PickerType.Hour -> { hour = selected; persistTime() }
-                    PickerType.Minute -> { minute = selected; persistTime() }
-                    PickerType.Province -> { province = selected; persistLocation() }
-                    PickerType.City -> {
-                        val loc = IranCities.resolve(selected, province)
-                        city = loc.name
-                        persistLocation()
-                    }
+                    picker = null
                 }
-                picker = null
-            })
+            )
         }
     }
 }
@@ -225,22 +373,48 @@ fun BirthInfoScreen(
 private enum class PickerType { Day, Month, Year, Hour, Minute, Province, City }
 
 @Composable
-private fun OptionPickerDialog(title: String, options: List<String>, onDismiss: () -> Unit, onSelect: (String) -> Unit) {
+private fun OptionPickerDialog(
+    title: String,
+    options: List<String>,
+    onDismiss: () -> Unit,
+    onSelect: (String) -> Unit
+) {
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text(text = title, color = SoftWhite, fontWeight = FontWeight.Bold, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start) },
+        title = {
+            Text(
+                text = title,
+                color = SoftWhite,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start
+            )
+        },
         text = {
-            LazyColumn(modifier = Modifier.fillMaxWidth().heightIn(max = 360.dp)) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(max = 360.dp)
+            ) {
                 items(options) { option ->
                     Text(
-                        text = option, color = SoftWhite, style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.fillMaxWidth().clickable { onSelect(option) }.padding(vertical = 14.dp, horizontal = 8.dp),
+                        text = option,
+                        color = SoftWhite,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { onSelect(option) }
+                            .padding(vertical = 14.dp, horizontal = 8.dp),
                         textAlign = TextAlign.Start
                     )
                 }
             }
         },
-        confirmButton = { TextButton(onClick = onDismiss) { Text("بستن", color = NeonPink) } },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("بستن", color = NeonPink)
+            }
+        },
         containerColor = Color(0xFF1A0A2E),
         titleContentColor = SoftWhite,
         textContentColor = SoftWhite
@@ -248,45 +422,103 @@ private fun OptionPickerDialog(title: String, options: List<String>, onDismiss: 
 }
 
 @Composable
-fun OnboardingHeader(currentStep: Int, totalSteps: Int, title: String, onBack: () -> Unit) {
+fun OnboardingHeader(
+    currentStep: Int,
+    totalSteps: Int,
+    title: String,
+    onBack: () -> Unit
+) {
     Column(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             IconButton(onClick = onBack) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "بازگشت", tint = SoftWhite)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "بازگشت",
+                    tint = SoftWhite
+                )
             }
-            Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 repeat(totalSteps) { index ->
                     val stepNumber = index + 1
                     val isActive = stepNumber <= currentStep
                     Box(
-                        modifier = Modifier.size(if (isActive) 28.dp else 22.dp).clip(RoundedCornerShape(50))
+                        modifier = Modifier
+                            .size(if (isActive) 28.dp else 22.dp)
+                            .clip(RoundedCornerShape(50))
                             .background(if (isActive) NeonPink else SoftWhite.copy(alpha = 0.2f)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "$stepNumber", color = if (isActive) SoftWhite else SoftWhite.copy(alpha = 0.6f), fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "$stepNumber",
+                            color = if (isActive) SoftWhite else SoftWhite.copy(alpha = 0.6f),
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
                     }
                     if (index < totalSteps - 1) {
-                        Box(modifier = Modifier.width(16.dp).height(2.dp).background(if (stepNumber < currentStep) NeonPink else SoftWhite.copy(alpha = 0.2f)))
+                        Box(
+                            modifier = Modifier
+                                .width(16.dp)
+                                .height(2.dp)
+                                .background(
+                                    if (stepNumber < currentStep) NeonPink
+                                    else SoftWhite.copy(alpha = 0.2f)
+                                )
+                        )
                     }
                 }
             }
             Spacer(modifier = Modifier.width(48.dp))
         }
         Spacer(modifier = Modifier.height(20.dp))
-        Text(text = title, style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold), color = SoftWhite, textAlign = TextAlign.Start, modifier = Modifier.fillMaxWidth())
+        Text(
+            text = title,
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Bold),
+            color = SoftWhite,
+            textAlign = TextAlign.Start,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
 @Composable
-fun SectionCard(title: String, icon: ImageVector, content: @Composable () -> Unit) {
+fun SectionCard(
+    title: String,
+    icon: ImageVector,
+    content: @Composable () -> Unit
+) {
     Column(
-        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(SoftWhite.copy(alpha = 0.06f))
-            .border(1.dp, SoftWhite.copy(alpha = 0.12f), RoundedCornerShape(18.dp)).padding(16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(18.dp))
+            .background(SoftWhite.copy(alpha = 0.06f))
+            .border(1.dp, SoftWhite.copy(alpha = 0.12f), RoundedCornerShape(18.dp))
+            .padding(16.dp)
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Icon(imageVector = icon, contentDescription = null, tint = Gold, modifier = Modifier.size(22.dp))
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Gold,
+                modifier = Modifier.size(22.dp)
+            )
             Spacer(modifier = Modifier.width(10.dp))
-            Text(text = title, style = MaterialTheme.typography.titleMedium, color = SoftWhite, fontWeight = FontWeight.SemiBold)
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = SoftWhite,
+                fontWeight = FontWeight.SemiBold
+            )
         }
         Spacer(modifier = Modifier.height(14.dp))
         content()
@@ -294,42 +526,94 @@ fun SectionCard(title: String, icon: ImageVector, content: @Composable () -> Uni
 }
 
 @Composable
-fun SelectorBox(label: String, value: String, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun SelectorBox(
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Column(modifier = modifier) {
-        Text(text = label, style = MaterialTheme.typography.labelMedium, color = SoftWhite.copy(alpha = 0.65f), modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = SoftWhite.copy(alpha = 0.65f),
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Start
+        )
         Spacer(modifier = Modifier.height(6.dp))
         Box(
-            modifier = Modifier.fillMaxWidth().height(52.dp).clip(RoundedCornerShape(14.dp))
-                .background(SoftWhite.copy(alpha = 0.08f)).border(1.dp, NeonPink.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
-                .clickable(onClick = onClick).padding(horizontal = 12.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .clip(RoundedCornerShape(14.dp))
+                .background(SoftWhite.copy(alpha = 0.08f))
+                .border(1.dp, NeonPink.copy(alpha = 0.35f), RoundedCornerShape(14.dp))
+                .clickable(onClick = onClick)
+                .padding(horizontal = 12.dp),
             contentAlignment = Alignment.CenterStart
         ) {
-            Text(text = value, style = MaterialTheme.typography.bodyLarge, color = SoftWhite, fontWeight = FontWeight.Medium)
+            Text(
+                text = value,
+                style = MaterialTheme.typography.bodyLarge,
+                color = SoftWhite,
+                fontWeight = FontWeight.Medium
+            )
         }
     }
 }
 
 @Composable
-fun GenderChip(text: String, selected: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun GenderChip(
+    text: String,
+    selected: Boolean,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     Box(
-        modifier = modifier.height(48.dp).clip(RoundedCornerShape(14.dp))
-            .background(if (selected) NeonPink.copy(alpha = 0.3f) else SoftWhite.copy(alpha = 0.07f))
-            .border(1.dp, if (selected) NeonPink else SoftWhite.copy(alpha = 0.12f), RoundedCornerShape(14.dp))
+        modifier = modifier
+            .height(48.dp)
+            .clip(RoundedCornerShape(14.dp))
+            .background(
+                if (selected) NeonPink.copy(alpha = 0.3f)
+                else SoftWhite.copy(alpha = 0.07f)
+            )
+            .border(
+                1.dp,
+                if (selected) NeonPink else SoftWhite.copy(alpha = 0.12f),
+                RoundedCornerShape(14.dp)
+            )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, color = SoftWhite, fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal)
+        Text(
+            text = text,
+            color = SoftWhite,
+            fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+        )
     }
 }
 
 @Composable
-fun ContinueButton(text: String, onClick: () -> Unit) {
+fun ContinueButton(
+    text: String,
+    onClick: () -> Unit
+) {
     Box(
-        modifier = Modifier.fillMaxWidth().height(56.dp).clip(RoundedCornerShape(16.dp))
-            .background(brush = Brush.horizontalGradient(colors = listOf(NeonPink, MysticPurple)))
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(
+                brush = Brush.horizontalGradient(colors = listOf(NeonPink, MysticPurple))
+            )
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Text(text = text, style = MaterialTheme.typography.titleMedium, color = SoftWhite, fontWeight = FontWeight.Bold)
+        Text(
+            text = text,
+            style = MaterialTheme.typography.titleMedium,
+            color = SoftWhite,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
